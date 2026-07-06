@@ -1,0 +1,51 @@
+#!/bin/bash
+# vTorrent pre-removal script
+# This script is executed before the package is removed
+
+set -e
+
+case "$1" in
+    remove|upgrade|deconfigure)
+        # Stop any running instances of vTorrent gracefully
+        echo "Stopping vTorrent instances..."
+        if command -v pkill >/dev/null 2>&1; then
+            pkill -TERM -x vTorrent 2>/dev/null || true
+            # Give it a moment to shut down gracefully
+            sleep 1
+        fi
+
+        # Remove protocol handler registration
+        if command -v xdg-mime >/dev/null 2>&1; then
+            # Check if vTorrent is currently the default handler before removing
+            current_handler=$(xdg-mime query default x-scheme-handler/magnet 2>/dev/null || echo "")
+            if [ "$current_handler" = "vTorrent.desktop" ]; then
+                echo "Note: vTorrent was the default handler for magnet links."
+                echo "You may want to set another application as the default handler."
+            fi
+
+            current_torrent_handler=$(xdg-mime query default application/x-bittorrent 2>/dev/null || echo "")
+            if [ "$current_torrent_handler" = "vTorrent.desktop" ]; then
+                echo "Note: vTorrent was the default handler for .torrent files."
+                echo "You may want to set another application as the default handler."
+            fi
+        fi
+
+        # Clean up any cached data in user directories (optional, commented out by default)
+        # This is typically left for the postrm purge stage
+        # find /home -maxdepth 2 -name ".vtorrent" -type d 2>/dev/null | while read dir; do
+        #     echo "User cache found at: $dir (will be removed on purge)"
+        # done
+        ;;
+
+    failed-upgrade)
+        ;;
+
+    *)
+        echo "prerm called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

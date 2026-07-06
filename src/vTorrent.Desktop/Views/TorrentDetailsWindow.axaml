@@ -1,0 +1,532 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:vTorrent.Desktop.ViewModels"
+        xmlns:views="using:vTorrent.Desktop.Views"
+        mc:Ignorable="d"
+        d:DesignWidth="900"
+        d:DesignHeight="650"
+        x:Class="vTorrent.Desktop.Views.TorrentDetailsWindow"
+        x:DataType="vm:TorrentDetailsViewModel"
+        Title="Torrent Details"
+        Width="900" Height="650"
+        MinWidth="700" MinHeight="500"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Section Header -->
+        <Style Selector="TextBlock.sectionHeader">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,14,0,8"/>
+        </Style>
+
+        <Style Selector="TextBlock.sectionHeaderFirst">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <!-- Stat Label -->
+        <Style Selector="TextBlock.statLabel">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <!-- Stat Value -->
+        <Style Selector="TextBlock.statValue">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Tab Button (horizontal variant of SettingsWindow .tabButton) -->
+        <Style Selector="Button.tabButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="14,10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,1"/>
+        </Style>
+
+        <Style Selector="Button.tabButton TextBlock">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover Label.tabIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Tab Icon -->
+        <Style Selector="Label.tabIcon">
+            <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected Label.tabIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- DataGrid styling -->
+        <Style Selector="DataGrid">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+        </Style>
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <ContentPresenter Grid.Column="0"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            <Path Grid.Column="1"
+                                  Name="SortIcon"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Margin="6,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  Stretch="Uniform"
+                                  Width="8"
+                                  Height="8"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        <Style Selector="DataGridColumnHeader:sortascending /template/ Path#SortIcon">
+            <Setter Property="Data" Value="M 0 4 L 4 0 L 8 4 Z"/>
+        </Style>
+        <Style Selector="DataGridColumnHeader:sortdescending /template/ Path#SortIcon">
+            <Setter Property="Data" Value="M 0 0 L 4 4 L 8 0 Z"/>
+        </Style>
+        <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="{DynamicResource CardBackground}"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Title Bar (matches SettingsWindow/TorrentOptionsDialog pattern) -->
+        <Border x:Name="TitleBar"
+                Grid.Row="0"
+                Background="{DynamicResource PrimaryBackground}"
+                Padding="16,10">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="18"
+                           Content="&#xE238;"
+                           Foreground="{DynamicResource AccentGold}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                    <TextBlock Text="Torrent Details"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimary}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button x:Name="CloseButton"
+                        Grid.Column="1"
+                        Classes="dialogCloseButton"
+                        Padding="6,4">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="14"
+                           Content="&#xE4F6;"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Main Content: Top Summary + Tab Bar + Tab Content -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,*">
+
+            <!-- Top Summary Section -->
+            <ScrollViewer Grid.Row="0" MaxHeight="380"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="20,12,20,8">
+                <StackPanel>
+
+                    <!-- Torrent Name -->
+                    <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimary}"
+                               TextWrapping="Wrap" Margin="0,0,0,14"/>
+
+                    <!-- Progress -->
+                    <Grid ColumnDefinitions="90,*, 60" Margin="0,0,0,4">
+                        <TextBlock Grid.Column="0" Classes="statLabel" Text="Progress:"
+                                   VerticalAlignment="Center"/>
+                        <ProgressBar Grid.Column="1" Value="{Binding Progress}"
+                                     Minimum="0" Maximum="1" Height="6"
+                                     Foreground="{Binding State, Converter={x:Static views:StateToProgressColorConverter.Instance}}"
+                                     Background="{DynamicResource CardBackground}"
+                                     CornerRadius="3" Margin="0,0,0,6"/>
+                        <TextBlock Grid.Column="2" Text="{Binding ProgressDisplay}"
+                                   Classes="statValue"
+                                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Availability Bar -->
+                    <Grid ColumnDefinitions="90,*,60" Margin="0,0,0,14">
+                        <TextBlock Grid.Column="0" Classes="statLabel" Text="Availability:"
+                                   VerticalAlignment="Center"/>
+                        <ProgressBar Grid.Column="1" Value="{Binding Availability}"
+                                     Minimum="0" Maximum="5" Height="6"
+                                     Foreground="{DynamicResource AccentGreen}"
+                                     Background="{DynamicResource CardBackground}"
+                                     CornerRadius="3"/>
+                        <TextBlock Grid.Column="2" Text="{Binding AvailabilityDisplay}"
+                                   Classes="statValue"
+                                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Transfer Section -->
+                    <TextBlock Classes="sectionHeaderFirst" Text="TRANSFER"/>
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                          Margin="0,0,0,14">
+                        <!-- Row 0 -->
+                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Time Active"/>
+                            <TextBlock Classes="statValue" Text="{Binding TimeActive}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="ETA"/>
+                            <TextBlock Classes="statValue" Text="{Binding Eta}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Connections"/>
+                            <TextBlock Classes="statValue" Text="{Binding Connections}"/>
+                        </StackPanel>
+                        <!-- Row 1 -->
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Downloaded"/>
+                            <TextBlock Classes="statValue" Text="{Binding Downloaded}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Uploaded"/>
+                            <TextBlock Classes="statValue" Text="{Binding Uploaded}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Seeds"/>
+                            <TextBlock Classes="statValue" Text="{Binding SeedsDisplay}"/>
+                        </StackPanel>
+                        <!-- Row 2 -->
+                        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="DL Speed"/>
+                            <TextBlock Classes="statValue" Text="{Binding DlSpeed}"
+                                       Foreground="{DynamicResource AccentCyan}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="UL Speed"/>
+                            <TextBlock Classes="statValue" Text="{Binding UlSpeed}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Peers"/>
+                            <TextBlock Classes="statValue" Text="{Binding PeersDisplay}"/>
+                        </StackPanel>
+                        <!-- Row 3 -->
+                        <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="DL Limit"/>
+                            <TextBlock Classes="statValue" Text="{Binding DlLimit}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="UL Limit"/>
+                            <TextBlock Classes="statValue" Text="{Binding UlLimit}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Wasted"/>
+                            <TextBlock Classes="statValue" Text="{Binding Wasted}"/>
+                        </StackPanel>
+                        <!-- Row 4 -->
+                        <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Share Ratio"/>
+                            <TextBlock Classes="statValue" Text="{Binding ShareRatio}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Reannounce In"/>
+                            <TextBlock Classes="statValue" Text="{Binding ReannounceIn}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Last Seen Complete"/>
+                            <TextBlock Classes="statValue" Text="{Binding LastComplete}"/>
+                        </StackPanel>
+                        <!-- Row 5 -->
+                        <StackPanel Grid.Row="5" Grid.Column="0" Margin="0,0,0,4">
+                            <TextBlock Classes="statLabel" Text="Popularity"/>
+                            <TextBlock Classes="statValue" Text="{Binding Popularity}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Information Section -->
+                    <TextBlock Classes="sectionHeader" Text="INFORMATION"/>
+                    <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Save Path"/>
+                            <TextBlock Classes="statValue" Text="{Binding SavePath}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Total Size"/>
+                            <TextBlock Classes="statValue" Text="{Binding TotalSize}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Pieces"/>
+                            <TextBlock Classes="statValue" Text="{Binding Pieces}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Created On"/>
+                            <TextBlock Classes="statValue" Text="{Binding CreatedOn}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Info Hash v1"/>
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextTertiary}"
+                                       Text="{Binding InfoHash}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="1" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Info Hash v2"/>
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextTertiary}"
+                                       Text="{Binding InfoHashV2}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="2" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Created By"/>
+                            <TextBlock Classes="statValue" Text="{Binding CreatedBy}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,8">
+                            <TextBlock Classes="statLabel" Text="Comment"/>
+                            <TextBlock Classes="statValue" Text="{Binding Comment}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Grid.Column="0" Margin="0,0,0,4">
+                            <TextBlock Classes="statLabel" Text="Private"/>
+                            <TextBlock Classes="statValue" Text="{Binding IsPrivate}"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Tab Bar (horizontal, matching .tabButton/.tabIcon pattern) -->
+            <Border Grid.Row="1"
+                    Background="{DynamicResource PrimaryBackground}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="0,1,0,0">
+                <StackPanel Orientation="Horizontal" Margin="12,0">
+                    <Button Classes="tabButton"
+                            Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=0}"
+                            Command="{Binding SelectTabCommand}" CommandParameter="0">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Classes="tabIcon"/>
+                            <TextBlock Text="Trackers" FontSize="13"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="tabButton"
+                            Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=1}"
+                            Command="{Binding SelectTabCommand}" CommandParameter="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Classes="tabIcon" Content="&#xE7EF;"/>
+                            <TextBlock Text="Peers" FontSize="13"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="tabButton"
+                            Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=2}"
+                            Command="{Binding SelectTabCommand}" CommandParameter="2">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Classes="tabIcon" Content="&#xE157;"/>
+                            <TextBlock Text="HTTP Sources" FontSize="13"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="tabButton"
+                            Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=3}"
+                            Command="{Binding SelectTabCommand}" CommandParameter="3">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Classes="tabIcon" Content="&#xE2C7;"/>
+                            <TextBlock Text="Content" FontSize="13"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Classes="tabButton"
+                            Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=4}"
+                            Command="{Binding SelectTabCommand}" CommandParameter="4">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Classes="tabIcon" Content="&#xE1B1;"/>
+                            <TextBlock Text="Speed Graph" FontSize="13"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Tab Content Area -->
+            <Grid Grid.Row="2">
+
+                <!-- Inactive Overlay -->
+                <StackPanel IsVisible="{Binding !IsEngineActive}"
+                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                            ZIndex="10">
+                    <Label FontFamily="{DynamicResource Phosphor}" FontSize="32"
+                           Content="&#xE564;" Foreground="{DynamicResource TextTertiary}"
+                           HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                    <TextBlock Text="Torrent is not active"
+                               Foreground="{DynamicResource TextSecondary}" FontSize="13"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Trackers Tab -->
+                <DataGrid IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=0}"
+                          ItemsSource="{Binding Trackers}"
+                          IsReadOnly="True" CanUserSortColumns="True"
+                          CanUserResizeColumns="True"
+                          GridLinesVisibility="Horizontal"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Margin="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tier" Binding="{Binding Tier}" Width="50" MinWidth="40"/>
+                        <DataGridTextColumn Header="URL" Binding="{Binding Url}" Width="*" MinWidth="120"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" MinWidth="80"/>
+                        <DataGridTextColumn Header="Peers" Binding="{Binding Peers}" Width="70" MinWidth="50"/>
+                        <DataGridTextColumn Header="Seeds" Binding="{Binding Seeds}" Width="70" MinWidth="50"/>
+                        <DataGridTextColumn Header="Leeches" Binding="{Binding Leeches}" Width="80" MinWidth="60"/>
+                        <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="200" MinWidth="80"/>
+                        <DataGridTextColumn Header="Response" Binding="{Binding ResponseTime}" Width="90" MinWidth="60"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Peers Tab -->
+                <DataGrid IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=1}"
+                          ItemsSource="{Binding Peers}"
+                          IsReadOnly="True" CanUserSortColumns="True"
+                          CanUserResizeColumns="True"
+                          GridLinesVisibility="Horizontal"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Margin="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="IP" Binding="{Binding Ip}" Width="130" MinWidth="80"/>
+                        <DataGridTextColumn Header="Port" Binding="{Binding Port}" Width="60" MinWidth="45"/>
+                        <DataGridTextColumn Header="Client" Binding="{Binding Client}" Width="*" MinWidth="80"/>
+                        <DataGridTextColumn Header="Progress" Binding="{Binding Progress, StringFormat={}{0:P0}}" Width="80" MinWidth="60"/>
+                        <DataGridTextColumn Header="DL Speed" Binding="{Binding DlSpeed}" Width="90" MinWidth="60"/>
+                        <DataGridTextColumn Header="UL Speed" Binding="{Binding UlSpeed}" Width="90" MinWidth="60"/>
+                        <DataGridTextColumn Header="Downloaded" Binding="{Binding Downloaded}" Width="100" MinWidth="70"/>
+                        <DataGridTextColumn Header="Uploaded" Binding="{Binding Uploaded}" Width="100" MinWidth="70"/>
+                        <DataGridTextColumn Header="Flags" Binding="{Binding Flags}" Width="80" MinWidth="50"/>
+                        <DataGridTextColumn Header="RTT" Binding="{Binding Rtt}" Width="70" MinWidth="45"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- HTTP Sources Tab -->
+                <DataGrid IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=2}"
+                          ItemsSource="{Binding WebSeeds}"
+                          IsReadOnly="True" CanUserSortColumns="True"
+                          CanUserResizeColumns="True"
+                          GridLinesVisibility="Horizontal"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Margin="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="URL" Binding="{Binding Url}" Width="*" MinWidth="120"/>
+                        <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="70" MinWidth="50"/>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="120" MinWidth="80"/>
+                        <DataGridTextColumn Header="DL Speed" Binding="{Binding DlSpeed}" Width="90" MinWidth="60"/>
+                        <DataGridTextColumn Header="Downloaded" Binding="{Binding Downloaded}" Width="100" MinWidth="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Content Tab -->
+                <DataGrid IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=3}"
+                          ItemsSource="{Binding Files}"
+                          IsReadOnly="True" CanUserSortColumns="True"
+                          CanUserResizeColumns="True"
+                          GridLinesVisibility="Horizontal"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Margin="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" MinWidth="120"/>
+                        <DataGridTextColumn Header="Size" Binding="{Binding Size}" Width="90" MinWidth="60"/>
+                        <DataGridTemplateColumn Header="Progress" Width="*" MinWidth="80"
+                                                SortMemberPath="Progress">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ProgressBar Value="{Binding Progress}" Minimum="0" Maximum="1"
+                                                 Height="6" CornerRadius="3" Margin="6,0"
+                                                 Foreground="{Binding $parent[Window].((vm:TorrentDetailsViewModel)DataContext).State, Converter={x:Static views:StateToProgressColorConverter.Instance}}"
+                                                 Background="{DynamicResource CardBackground}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="%" Binding="{Binding Progress, StringFormat={}{0:P1}}" Width="70" MinWidth="50"/>
+                        <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" Width="120" MinWidth="80"/>
+                        <DataGridTextColumn Header="Availability" Binding="{Binding Availability}" Width="90" MinWidth="60"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Speed Tab -->
+                <ScrollViewer IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=4}"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="20,12">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                            <CheckBox IsChecked="{Binding ShowDownloadSpeed}" Margin="0,0,16,0">
+                                <TextBlock Text="Download" Foreground="{DynamicResource AccentCyan}" FontSize="12"/>
+                            </CheckBox>
+                            <CheckBox IsChecked="{Binding ShowUploadSpeed}">
+                                <TextBlock Text="Upload" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                            </CheckBox>
+                        </StackPanel>
+                        <views:SpeedChartControl
+                            DownloadData="{Binding DownloadSpeedHistory}"
+                            UploadData="{Binding UploadSpeedHistory}"
+                            ShowDownload="{Binding ShowDownloadSpeed}"
+                            ShowUpload="{Binding ShowUploadSpeed}"
+                            IsDarkTheme="{Binding IsDarkTheme}"
+                            MinHeight="200"
+                            Height="250"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+            </Grid>
+        </Grid>
+    </Grid>
+    </Border>
+</Window>

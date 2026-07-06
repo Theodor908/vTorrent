@@ -1,0 +1,349 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:vTorrent.Desktop.ViewModels.Tools"
+             mc:Ignorable="d"
+             x:Class="vTorrent.Desktop.Views.TorrentCreatorView"
+             x:DataType="vm:TorrentCreatorViewModel">
+
+    <UserControl.Styles>
+        <!-- Section Header -->
+        <Style Selector="TextBlock.sectionHeader">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,12,0,12"/>
+        </Style>
+
+        <Style Selector="TextBlock.sectionHeaderFirst">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,2,0,0"/>
+        </Style>
+
+        <!-- Input TextBox -->
+        <Style Selector="TextBox.inputBox">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="SelectionBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style Selector="ComboBox.dropdown">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+
+        <!-- Primary Button -->
+        <Style Selector="Button.primaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Secondary Button -->
+        <Style Selector="Button.secondaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel Spacing="8" Margin="0,0,0,32">
+        <!-- Section: Content Selection -->
+        <TextBlock Text="Torrent Creator" Classes="sectionHeaderFirst"/>
+
+        <!-- Add File / Add Folder + Total Size -->
+        <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+            <Button Grid.Column="0"
+                    Classes="primaryButton"
+                    Command="{Binding AddFileCommand}"
+                    Margin="0,0,8,0">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="13"
+                           Content="&#xE236;"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"
+                           Padding="0"/>
+                    <TextBlock Text="Add File" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <Button Grid.Column="1"
+                    Classes="primaryButton"
+                    Command="{Binding AddFolderCommand}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="13"
+                           Content="&#xE25E;"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"
+                           Padding="0"/>
+                    <TextBlock Text="Add Folder" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Grid.Column="3"
+                       Text="{Binding TotalSizeFormatted}"
+                       FontSize="12"
+                       Foreground="{DynamicResource TextTertiary}"
+                       VerticalAlignment="Center"
+                       IsVisible="{Binding HasContent}"/>
+        </Grid>
+
+        <!-- Drag-and-Drop Zone -->
+        <Border x:Name="DropZone"
+                Background="{DynamicResource SecondaryBackground}"
+                BorderBrush="{DynamicResource BorderColor}"
+                BorderThickness="1"
+                MinHeight="60"
+                Padding="16"
+                Margin="0,4,0,0"
+                DragDrop.AllowDrop="True">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding SelectedPath}"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"
+                           HorizontalAlignment="Center"
+                           IsVisible="{Binding HasContent}"
+                           TextTrimming="CharacterEllipsis"
+                           MaxWidth="500"/>
+                <TextBlock Text="Drag and drop files or folders here"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextTertiary}"
+                           HorizontalAlignment="Center"
+                           IsVisible="{Binding !HasContent}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Section: Torrent Properties -->
+        <TextBlock Text="Properties" Classes="sectionHeader"/>
+
+        <!-- Two-column layout -->
+        <Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <!-- Left Column -->
+            <!-- Format -->
+            <StackPanel Grid.Row="0" Grid.Column="0" Spacing="4" Margin="0,0,0,10">
+                <TextBlock Text="Format" Classes="label"/>
+                <ComboBox Classes="dropdown"
+                          ItemsSource="{Binding FormatOptions}"
+                          SelectedIndex="{Binding SelectedFormatIndex}"
+                          HorizontalAlignment="Stretch"/>
+            </StackPanel>
+
+            <!-- Piece Size -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Spacing="4" Margin="0,0,0,10">
+                <TextBlock Text="Piece Size" Classes="label"/>
+                <ComboBox Classes="dropdown"
+                          ItemsSource="{Binding PieceSizeOptions}"
+                          SelectedIndex="{Binding SelectedPieceSizeIndex}"
+                          HorizontalAlignment="Stretch"/>
+                <TextBlock Text="{Binding CalculatedPieceSizeText}"
+                           Classes="description"/>
+            </StackPanel>
+
+            <!-- Comment -->
+            <StackPanel Grid.Row="2" Grid.Column="0" Spacing="4" Margin="0,0,0,10">
+                <TextBlock Text="Comment" Classes="label"/>
+                <TextBox Classes="inputBox"
+                         Text="{Binding Comment}"
+                         Watermark="Optional comment"/>
+            </StackPanel>
+
+            <!-- Source -->
+            <StackPanel Grid.Row="3" Grid.Column="0" Spacing="4" Margin="0,0,0,10">
+                <TextBlock Text="Source" Classes="label"/>
+                <TextBox Classes="inputBox"
+                         Text="{Binding Source}"
+                         Watermark="Optional source tag"/>
+            </StackPanel>
+
+            <!-- Private -->
+            <CheckBox Grid.Row="4" Grid.Column="0"
+                      IsChecked="{Binding IsPrivate}"
+                      Margin="0,4,0,0">
+                <TextBlock Text="Private torrent" FontSize="13" Foreground="{DynamicResource TextPrimary}"/>
+            </CheckBox>
+
+            <!-- Right Column -->
+            <!-- Trackers -->
+            <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Spacing="4" Margin="0,0,0,10">
+                <TextBlock Text="Trackers" Classes="label"/>
+                <TextBlock Text="One URL per line. Blank line = new tier." Classes="description"/>
+                <TextBox Classes="inputBox"
+                         Text="{Binding TrackersText}"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Height="130"
+                         Watermark="tracker1.example.com/announce&#x0a;&#x0a;tracker2.example.com/announce"/>
+            </StackPanel>
+
+            <!-- Web Seeds -->
+            <StackPanel Grid.Row="3" Grid.Column="2" Grid.RowSpan="2" Spacing="4">
+                <TextBlock Text="Web Seeds" Classes="label"/>
+                <TextBlock Text="One URL per line (BEP 17/19)." Classes="description"/>
+                <TextBox Classes="inputBox"
+                         Text="{Binding WebSeedsText}"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Height="80"
+                         Watermark="https://example.com/files/"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Section: Output -->
+        <TextBlock Text="Output" Classes="sectionHeader"/>
+
+        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+            <CheckBox Grid.Column="0"
+                      IsChecked="{Binding StartSeedingImmediately}">
+                <TextBlock Text="Start seeding immediately after creation"
+                           FontSize="13"
+                           Foreground="{DynamicResource TextPrimary}"/>
+            </CheckBox>
+
+            <Button Grid.Column="1"
+                    Classes="primaryButton"
+                    Command="{Binding CreateTorrentCommand}"
+                    MinWidth="100">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="13"
+                           Content="&#xE3D4;"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"
+                           Padding="0"/>
+                    <TextBlock Text="Create" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <!-- Progress -->
+        <StackPanel IsVisible="{Binding IsCreating}" Spacing="4">
+            <ProgressBar Minimum="0" Maximum="100"
+                         Value="{Binding ProgressPercent}"
+                         Classes="torrentProgressBar"/>
+            <TextBlock Text="{Binding ProgressText}"
+                       FontSize="11"
+                       Foreground="{DynamicResource TextTertiary}"/>
+        </StackPanel>
+
+        <!-- Status text when not creating -->
+        <TextBlock Text="{Binding ProgressText}"
+                   FontSize="11"
+                   Foreground="{DynamicResource TextTertiary}"
+                   IsVisible="{Binding !IsCreating}"
+                   Margin="0,0,0,8"/>
+    </StackPanel>
+</UserControl>

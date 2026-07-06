@@ -1,0 +1,121 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:vTorrent.Desktop.ViewModels"
+             xmlns:svg="clr-namespace:Avalonia.Svg.Skia;assembly=Svg.Controls.Skia.Avalonia"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="48"
+             x:Class="vTorrent.Desktop.Views.HeaderView"
+             x:DataType="vm:HeaderViewModel">
+
+    <UserControl.Styles>
+        <!-- Logo Text -->
+        <Style Selector="TextBlock.logoText">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Window Control Button -->
+        <Style Selector="Button.windowControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <!-- Explicit Label foreground for window control buttons -->
+        <Style Selector="Button.windowControl Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.windowControl /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.windowControl:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.windowControl:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+        </Style>
+
+        <Style Selector="Button.windowControl:pointerover Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Close button - red on hover -->
+        <Style Selector="Button.windowControlClose:pointerover">
+            <Setter Property="Background" Value="#E81123"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="Button.windowControlClose:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E81123"/>
+        </Style>
+
+        <Style Selector="Button.windowControlClose:pointerover Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="Button.windowControlClose:pressed">
+            <Setter Property="Background" Value="#F1707A"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="Button.windowControlClose:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+
+        <Style Selector="Button.windowControlClose:pressed Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Background="{DynamicResource PrimaryBackground}"
+            BorderThickness="0"
+            Padding="16,10"
+            x:Name="TitleBar"
+            PointerPressed="TitleBar_PointerPressed">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <!-- Logo -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <svg:Svg Path="{Binding LogoPath}"
+                         Height="28"
+                         VerticalAlignment="Center"/>
+                <TextBlock Classes="logoText" Text="vTORRENT" Margin="8,0,0,0"/>
+            </StackPanel>
+
+            <!-- Draggable Area (empty, fills space) -->
+            <Panel Grid.Column="1" Background="Transparent"/>
+
+            <!-- Window Controls -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <Button Classes="windowControl" x:Name="MinimizeButton">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           Content="&#xE32A;"
+                           FontSize="16"/>
+                </Button>
+                <Button Classes="windowControl" x:Name="MaximizeButton">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           Content="&#xE3F0;"
+                           FontSize="16"/>
+                </Button>
+                <Button Classes="windowControl windowControlClose" x:Name="CloseButton">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           Content="&#xE4F6;"
+                           FontSize="16"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

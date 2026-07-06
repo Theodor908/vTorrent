@@ -1,0 +1,180 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:vTorrent.Desktop.ViewModels"
+             xmlns:local="using:vTorrent.Desktop.Views"
+             mc:Ignorable="d"
+             d:DesignWidth="500"
+             d:DesignHeight="250"
+             x:Class="vTorrent.Desktop.Views.TransferChartView"
+             x:DataType="vm:TransferStatsViewModel">
+
+    <UserControl.Resources>
+        <!-- Custom ControlTheme for Download toggle (Gold/Cyan) -->
+        <ControlTheme x:Key="DownloadToggleTheme" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="PART_Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            </Style>
+            <Style Selector="^:pressed /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+            <Style Selector="^:checked /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+            <Style Selector="^:checked:pointerover /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+            <Style Selector="^:checked:pressed /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+        </ControlTheme>
+
+        <!-- Custom ControlTheme for Upload toggle (Silver/Purple) -->
+        <ControlTheme x:Key="UploadToggleTheme" TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="6,3"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="MinHeight" Value="24"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="PART_Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter x:Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+
+            <Style Selector="^:pointerover /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            </Style>
+            <Style Selector="^:pressed /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+            <Style Selector="^:checked /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+            <Style Selector="^:checked:pointerover /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+            <Style Selector="^:checked:pressed /template/ Border#PART_Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+            </Style>
+        </ControlTheme>
+    </UserControl.Resources>
+
+    <UserControl.Styles>
+        <!-- Section Title -->
+        <Style Selector="TextBlock.chartTitle">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <!-- Legend Item -->
+        <Style Selector="Border.legendDot">
+            <Setter Property="Width" Value="6"/>
+            <Setter Property="Height" Value="6"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Margin" Value="0,0,4,0"/>
+        </Style>
+
+        <Style Selector="TextBlock.legendText">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Background="{DynamicResource PrimaryBackground}"
+            CornerRadius="8"
+            Padding="16">
+        <Grid RowDefinitions="Auto,*">
+            <!-- Header with Title and Legend -->
+            <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" Margin="0,0,0,16">
+                <TextBlock Grid.Column="0" Classes="chartTitle" Text="TRANSFER SPEED"/>
+
+                <!-- Legend Toggles -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4">
+                    <ToggleButton Theme="{StaticResource DownloadToggleTheme}"
+                                  IsChecked="{Binding ShowDownloadLine}">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Border Classes="legendDot" Background="{DynamicResource AccentGold}"/>
+                            <TextBlock Classes="legendText" Text="DOWNLOAD"/>
+                        </StackPanel>
+                    </ToggleButton>
+
+                    <ToggleButton Theme="{StaticResource UploadToggleTheme}"
+                                  IsChecked="{Binding ShowUploadLine}">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <Border Classes="legendDot" Background="{DynamicResource AccentSilver}"/>
+                            <TextBlock Classes="legendText" Text="UPLOAD"/>
+                        </StackPanel>
+                    </ToggleButton>
+                </StackPanel>
+            </Grid>
+
+            <!-- Chart Area -->
+            <Border Grid.Row="1"
+                    Background="{DynamicResource PrimaryBackground}"
+                    CornerRadius="8"
+                    ClipToBounds="True">
+                <local:SpeedChartControl x:Name="SpeedChart"
+                                         DownloadData="{Binding DownloadHistory}"
+                                         UploadData="{Binding UploadHistory}"
+                                         ShowDownload="{Binding ShowDownloadLine}"
+                                         ShowUpload="{Binding ShowUploadLine}"
+                                         IsDarkTheme="{Binding IsDarkTheme}"/>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

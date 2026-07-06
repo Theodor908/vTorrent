@@ -1,0 +1,73 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="vTorrent.Desktop.Views.TrayMenuPopup"
+        ShowInTaskbar="False"
+        CanResize="False"
+        SystemDecorations="None"
+        Topmost="True"
+        WindowStartupLocation="Manual"
+        Background="Transparent"
+        TransparencyLevelHint="Transparent"
+        Focusable="True">
+
+    <Window.Styles>
+        <Style Selector="Button.trayItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="MinHeight" Value="0"/>
+        </Style>
+        <Style Selector="Button.trayItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="Button.trayItem:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+        <Style Selector="Separator.trayDivider">
+            <Setter Property="Background" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Margin" Value="4,2"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource BorderHover}"
+            BorderThickness="1"
+            Padding="3,2"
+            Width="200"
+            Background="{DynamicResource SecondaryBackground}"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            CornerRadius="6">
+        <StackPanel>
+            <Button Classes="trayItem" Click="OnShowClick">
+                <TextBlock Text="Show vTorrent" Foreground="{DynamicResource AccentCyan}" FontSize="12"/>
+            </Button>
+            <Separator Classes="trayDivider"/>
+            <Button Classes="trayItem" Click="OnAddTorrentClick">
+                <TextBlock Text="Add Torrent File..." FontSize="12"/>
+            </Button>
+            <Button Classes="trayItem" Click="OnAddMagnetClick">
+                <TextBlock Text="Add Magnet Link..." FontSize="12"/>
+            </Button>
+            <Separator Classes="trayDivider"/>
+            <Button Classes="trayItem" Click="OnSpeedLimitsClick">
+                <TextBlock Text="Set Global Speed Limits..." FontSize="12"/>
+            </Button>
+            <Button Classes="trayItem" Click="OnPauseResumeClick">
+                <TextBlock x:Name="PauseResumeText" Text="Pause Session" FontSize="12"/>
+            </Button>
+            <Separator Classes="trayDivider"/>
+            <Button Classes="trayItem" Click="OnQuitClick">
+                <TextBlock Text="Quit" Foreground="{DynamicResource AccentRed}" FontSize="12"/>
+            </Button>
+        </StackPanel>
+    </Border>
+</Window>

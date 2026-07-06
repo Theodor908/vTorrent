@@ -1,0 +1,2580 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:vTorrent.Desktop.ViewModels.Settings"
+        xmlns:views="using:vTorrent.Desktop.Views"
+        xmlns:conv="using:vTorrent.Desktop.Views.Converters"
+        mc:Ignorable="d"
+        d:DesignWidth="850"
+        d:DesignHeight="600"
+        x:Class="vTorrent.Desktop.Views.SettingsWindow"
+        x:DataType="vm:SettingsWindowViewModel"
+        Title="Settings"
+        Width="850"
+        Height="600"
+        MinWidth="700"
+        MinHeight="500"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Section Header -->
+        <Style Selector="TextBlock.sectionHeader">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,12,0,12"/>
+        </Style>
+
+        <!-- First section header (no top margin) -->
+        <Style Selector="TextBlock.sectionHeaderFirst">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <!-- Label Text -->
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Description Text -->
+        <Style Selector="TextBlock.description">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,2,0,0"/>
+        </Style>
+
+        <!-- Input TextBox -->
+        <Style Selector="TextBox.inputBox">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="SelectionBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- NumericUpDown Style -->
+        <Style Selector="NumericUpDown.numericInput">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="MinWidth" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style Selector="NumericUpDown.numericInput:focus /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style Selector="ComboBox.dropdown">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+
+        <!-- Browse Button -->
+        <Style Selector="Button.browseButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- Primary Button -->
+        <Style Selector="Button.primaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+        </Style>
+
+        <!-- Secondary Button -->
+        <Style Selector="Button.secondaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Tab Button -->
+        <Style Selector="Button.tabButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,1"/>
+        </Style>
+
+        <Style Selector="Button.tabButton TextBlock">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover Label.tabIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Tab Icon -->
+        <Style Selector="Label.tabIcon">
+            <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected Label.tabIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- Settings Row -->
+        <Style Selector="Grid.settingRow">
+            <Setter Property="Margin" Value="0,0,0,14"/>
+        </Style>
+
+        <!-- Toggle Switch Styling -->
+        <Style Selector="ToggleSwitch.settingToggle">
+            <Setter Property="OnContent" Value=""/>
+            <Setter Property="OffContent" Value=""/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="MinWidth" Value="40"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle /template/ Border#SwitchKnobBounds">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ToggleOff}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource ToggleOff}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle /template/ Ellipse#SwitchKnobOn">
+            <Setter Property="Fill" Value="{DynamicResource ToggleOff}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle /template/ Ellipse#SwitchKnobOff">
+            <Setter Property="Fill" Value="{DynamicResource ToggleOff}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle /template/ Ellipse">
+            <Setter Property="Fill" Value="{DynamicResource ToggleOff}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle:checked /template/ Border#SwitchKnobBounds">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ToggleOn}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle:checked /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource ToggleOn}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle:checked /template/ Ellipse#SwitchKnobOn">
+            <Setter Property="Fill" Value="{DynamicResource ToggleOn}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle:checked /template/ Ellipse#SwitchKnobOff">
+            <Setter Property="Fill" Value="{DynamicResource ToggleOn}"/>
+        </Style>
+
+        <Style Selector="ToggleSwitch.settingToggle:checked /template/ Ellipse">
+            <Setter Property="Fill" Value="{DynamicResource ToggleOn}"/>
+        </Style>
+
+        <!-- ComboBox Popup Styling for Theme Consistency -->
+        <Style Selector="ComboBox">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        </Style>
+
+        <Style Selector="ComboBox /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="ComboBox /template/ Popup > Border">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="4"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="Padding" Value="12,8"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected">
+            <Setter Property="Background" Value="{DynamicResource AccentBlue}"/>
+            <Setter Property="Foreground" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <!-- Expander styling for Advanced accordion -->
+        <Style Selector="Expander">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style Selector="Expander /template/ ToggleButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="Padding" Value="12,8"/>
+        </Style>
+
+        <!-- Profile color dot -->
+        <Style Selector="Ellipse.profileDot">
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Title Bar -->
+        <Border x:Name="TitleBar"
+                Grid.Row="0"
+                Background="{DynamicResource PrimaryBackground}"
+                Padding="16,10">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="18"
+                           Content="&#xE270;"
+                           Foreground="{DynamicResource AccentGold}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+                    <TextBlock Text="Settings"
+                               FontSize="15"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimary}"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Classes="dialogCloseButton"
+                        Padding="6,4"
+                        Command="{Binding CloseCommand}">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="14"
+                           Content="&#xE4F6;"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" ColumnDefinitions="180,*" Margin="0">
+            <!-- Sidebar - Tab Navigation -->
+            <Border Grid.Column="0"
+                    Background="{DynamicResource PrimaryBackground}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="0,0,1,0"
+                    Padding="8">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <!-- General (0) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=0}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE270;"/>
+                                <TextBlock Text="General" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Connection (1) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=1}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE408;"/>
+                                <TextBlock Text="Connection" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Speed (2) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=2}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="2">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xEE74;"/>
+                                <TextBlock Text="Speed" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- BitTorrent (3) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=3}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="3">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE582;"/>
+                                <TextBlock Text="BitTorrent" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Server (4) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=4}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="4">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE1AA;"/>
+                                <TextBlock Text="Server" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Advanced (5) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=5}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="5">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE87C;"/>
+                                <TextBlock Text="Advanced" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Profiles (6) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=6}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="6">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE0F8;"/>
+                                <TextBlock Text="Profiles" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Content Area -->
+            <ScrollViewer Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="24,16,24,16">
+                <StackPanel Margin="0,0,0,40">
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- General Settings (Tab 0) — Appearance + Storage -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=0}"
+                                Margin="0,0,0,24">
+                        <TextBlock Classes="sectionHeaderFirst" Text="THEME"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Application theme"/>
+                                <TextBlock Classes="description" Text="Choose your preferred color scheme"/>
+                            </StackPanel>
+                            <ComboBox Grid.Column="1"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding GeneralTab.ThemeOptions}"
+                                      SelectedItem="{Binding GeneralTab.SelectedTheme}"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="NOTIFICATIONS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Enable notifications"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.NotificationsEnabled}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto" IsVisible="{Binding GeneralTab.NotificationsEnabled}">
+                            <TextBlock Classes="label" Text="Notify when download completes"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.NotifyOnDownloadComplete}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto" IsVisible="{Binding GeneralTab.NotificationsEnabled}">
+                            <TextBlock Classes="label" Text="Notify when download fails"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.NotifyOnDownloadFailed}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto" IsVisible="{Binding GeneralTab.NotificationsEnabled}">
+                            <TextBlock Classes="label" Text="Notify when torrent added"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.NotifyOnTorrentAdded}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto" IsVisible="{Binding GeneralTab.NotificationsEnabled}">
+                            <TextBlock Classes="label" Text="Play notification sound"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.PlayNotificationSound}"/>
+                        </Grid>
+
+                        <!-- System Tray section -->
+                        <TextBlock Classes="sectionHeader" Text="SYSTEM TRAY"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Close to system tray"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.CloseToTray}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Minimize to system tray"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.MinimizeToTray}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Start minimized to tray"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.StartMinimizedToTray}"/>
+                        </Grid>
+
+                        <!-- Storage section -->
+                        <TextBlock Classes="sectionHeader" Text="SAVE LOCATIONS"/>
+
+                        <StackPanel Margin="0,0,0,14">
+                            <TextBlock Classes="label" Text="Default download location" Margin="0,0,0,6"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox Grid.Column="0"
+                                         Classes="inputBox"
+                                         Text="{Binding GeneralTab.DefaultSavePath}"
+                                         IsReadOnly="True"/>
+                                <Button Grid.Column="1"
+                                        Classes="browseButton"
+                                        Margin="8,0,0,0"
+                                        Command="{Binding BrowseDefaultSavePathCommand}">
+                                    <Label FontFamily="{DynamicResource Phosphor}"
+                                           FontSize="14"
+                                           Content="&#xE236;"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <TextBlock Classes="sectionHeader" Text="INCOMPLETE DOWNLOADS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Keep incomplete torrents in separate folder"/>
+                                <TextBlock Classes="description" Text="Files are moved to the default location when download completes"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.UseIncompleteSavePath}"/>
+                        </Grid>
+
+                        <StackPanel Margin="0,0,0,14" IsVisible="{Binding GeneralTab.UseIncompleteSavePath}">
+                            <TextBlock Classes="label" Text="Incomplete downloads folder" Margin="0,0,0,6"/>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBox Grid.Column="0"
+                                         Classes="inputBox"
+                                         Text="{Binding GeneralTab.IncompleteSavePath}"
+                                         Watermark="Select incomplete downloads folder..."
+                                         IsReadOnly="True"/>
+                                <Button Grid.Column="1"
+                                        Classes="browseButton"
+                                        Margin="8,0,0,0"
+                                        Command="{Binding BrowseIncompleteSavePathCommand}">
+                                    <Label FontFamily="{DynamicResource Phosphor}"
+                                           FontSize="14"
+                                           Content="&#xE236;"/>
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+
+                        <TextBlock Classes="sectionHeader" Text="DISK ALLOCATION"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Pre-allocate disk space for all files"/>
+                                <TextBlock Classes="description" Text="Reduces fragmentation on HDDs but takes longer to start"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding GeneralTab.PreallocateFiles}"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="WRITE BUFFER"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Write buffer size"/>
+                                <TextBlock Classes="description" Text="Memory for assembling pieces before writing to disk"/>
+                            </StackPanel>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding GeneralTab.WriteBufferSizeMb, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=64}"
+                                           Minimum="8" Maximum="512" Increment="8"
+                                           FormatString="0"/>
+                            <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- Connection Settings (Tab 1)                     -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=1}"
+                                Margin="0,0,0,24">
+                        <TextBlock Classes="sectionHeaderFirst" Text="CONNECTION LIMITS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Maximum global connections"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ConnectionTab.MaxGlobalConnections, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=500}"
+                                           Minimum="1"
+                                           Maximum="2000"
+                                           Increment="10"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Maximum connections per torrent"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ConnectionTab.MaxConnectionsPerTorrent, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=50}"
+                                           Minimum="1"
+                                           Maximum="500"
+                                           Increment="5"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Upload slots per torrent"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ConnectionTab.MaxUploadsPerTorrent, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=4}"
+                                           Minimum="1"
+                                           Maximum="50"
+                                           Increment="1"/>
+                        </Grid>
+
+                        <!-- Save button for per-torrent connection limits -->
+                        <Grid Margin="0,12,0,0">
+                            <Button Content="Save Per-Torrent Limits"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding SavePerTorrentConnectionCommand}"
+                                    IsEnabled="{Binding HasDirtyConnection}"
+                                    Classes="primaryButton"
+                                    Padding="16,8"
+                                    FontSize="12"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="LISTENING PORT"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Port for incoming connections"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ConnectionTab.ListenPort, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=6881}"
+                                           Minimum="1024"
+                                           Maximum="65535"
+                                           Increment="1"/>
+                        </Grid>
+
+                        <TextBlock IsVisible="{Binding ConnectionTab.PortChangeRequiresRestart}"
+                                   Text="Port change requires application restart"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource AccentOrange}"
+                                   Margin="0,4,0,8"/>
+
+                        <TextBlock Classes="sectionHeader" Text="PORT MAPPING"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Use UPnP / NAT-PMP port mapping"/>
+                                <TextBlock Classes="description" Text="Automatically configure your router to allow incoming connections"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding ConnectionTab.EnablePortMapping}"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="NETWORK INTERFACE"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Network interface"/>
+                                <TextBlock Classes="description" Text="Bind to a specific network adapter (useful for VPN)"/>
+                            </StackPanel>
+                            <ComboBox Grid.Column="1"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding ConnectionTab.NetworkInterfaces}"
+                                      SelectedItem="{Binding ConnectionTab.SelectedNetworkInterface}"
+                                      MinWidth="200"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- Speed Settings (Tab 2) — Bandwidth + Queue + Seeding -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=2}"
+                                Margin="0,0,0,24">
+                        <TextBlock Classes="sectionHeaderFirst" Text="GLOBAL LIMITS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <TextBlock Classes="label" Text="Global download limit (0 = unlimited)"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.GlobalDownloadLimitDisplay, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                                           Minimum="0"
+                                           Maximum="1000000"
+                                           Increment="1"
+                                           FormatString="0.##"/>
+                            <ComboBox Grid.Column="2"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding SpeedTab.BandwidthUnitOptions}"
+                                      SelectedItem="{Binding SpeedTab.GlobalBandwidthUnit}"
+                                      MinWidth="80"
+                                      Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <TextBlock Classes="label" Text="Global upload limit (0 = unlimited)"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.GlobalUploadLimitDisplay, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                                           Minimum="0"
+                                           Maximum="1000000"
+                                           Increment="1"
+                                           FormatString="0.##"/>
+                            <ComboBox Grid.Column="2"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding SpeedTab.BandwidthUnitOptions}"
+                                      SelectedItem="{Binding SpeedTab.GlobalBandwidthUnit}"
+                                      MinWidth="80"
+                                      Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="PER-TORRENT LIMITS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <TextBlock Classes="label" Text="Per-torrent download limit"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.PerTorrentDownloadLimitDisplay, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                                           Minimum="0"
+                                           Maximum="1000000"
+                                           Increment="1"
+                                           FormatString="0.##"/>
+                            <ComboBox Grid.Column="2"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding SpeedTab.BandwidthUnitOptions}"
+                                      SelectedItem="{Binding SpeedTab.PerTorrentBandwidthUnit}"
+                                      MinWidth="80"
+                                      Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <TextBlock Classes="label" Text="Per-torrent upload limit"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.PerTorrentUploadLimitDisplay, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                                           Minimum="0"
+                                           Maximum="1000000"
+                                           Increment="1"
+                                           FormatString="0.##"/>
+                            <ComboBox Grid.Column="2"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding SpeedTab.BandwidthUnitOptions}"
+                                      SelectedItem="{Binding SpeedTab.PerTorrentBandwidthUnit}"
+                                      MinWidth="80"
+                                      Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <!-- Save button for per-torrent bandwidth limits -->
+                        <Grid Margin="0,12,0,0">
+                            <Button Content="Save Per-Torrent Limits"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding SavePerTorrentBandwidthCommand}"
+                                    IsEnabled="{Binding HasDirtyBandwidth}"
+                                    Classes="primaryButton"
+                                    Padding="16,8"
+                                    FontSize="12"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="ACTIVE LIMITS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Maximum active downloads"/>
+                                <TextBlock Classes="description" Text="Number of torrents downloading simultaneously"/>
+                            </StackPanel>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.MaxActiveDownloads, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=5}"
+                                           Minimum="1"
+                                           Maximum="50"
+                                           Increment="1"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Maximum active seeds"/>
+                                <TextBlock Classes="description" Text="-1 = unlimited"/>
+                            </StackPanel>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.MaxActiveSeeds, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=-1}"
+                                           Minimum="-1"
+                                           Maximum="100"
+                                           Increment="1"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Maximum active torrents"/>
+                                <TextBlock Classes="description" Text="Total active torrents (downloads + seeds)"/>
+                            </StackPanel>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.MaxActiveTorrents, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=10}"
+                                           Minimum="1"
+                                           Maximum="100"
+                                           Increment="1"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Don't count slow torrents against limits"/>
+                                <TextBlock Classes="description" Text="Slow torrents bypass per-type slot limits (downloads/seeds)"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding SpeedTab.DontCountSlowTorrents}"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="SEEDING LIMITS"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Share ratio limit"/>
+                                <TextBlock Classes="description" Text="0 = unlimited"/>
+                            </StackPanel>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.SeedRatioLimit, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                                           Minimum="0"
+                                           Maximum="100"
+                                           Increment="0.1"
+                                           FormatString="0.0"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Seeding time limit"/>
+                                <TextBlock Classes="description" Text="0 = unlimited"/>
+                            </StackPanel>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding SpeedTab.SeedTimeLimitMinutes, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                                           Minimum="0"
+                                           Maximum="10080"
+                                           Increment="60"/>
+                            <TextBlock Grid.Column="2" Text="min" Classes="label" Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="WHEN LIMIT IS REACHED"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Pause torrent"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding SpeedTab.PauseOnSeedComplete}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Remove torrent from list"/>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding SpeedTab.RemoveOnSeedComplete}"/>
+                        </Grid>
+
+                        <!-- Save button for seeding rules -->
+                        <Grid Margin="0,12,0,0">
+                            <Button Content="Save Seeding Rules"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding SaveSeedingRulesCommand}"
+                                    IsEnabled="{Binding HasDirtySeedingRules}"
+                                    Classes="primaryButton"
+                                    Padding="16,8"
+                                    FontSize="12"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- BitTorrent Settings (Tab 3) — Protocol + Encryption + Privacy -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=3}"
+                                Margin="0,0,0,24">
+                        <TextBlock Classes="sectionHeaderFirst" Text="PEER DISCOVERY"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable DHT"/>
+                                <TextBlock Classes="description" Text="Distributed Hash Table for trackerless torrents"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding BitTorrentTab.EnableDht}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable Peer Exchange"/>
+                                <TextBlock Classes="description" Text="Share peer lists with connected peers"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding BitTorrentTab.EnablePex}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable Local Service Discovery"/>
+                                <TextBlock Classes="description" Text="Find peers on your local network downloading the same torrent"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding BitTorrentTab.EnableLsd}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable Holepunch"/>
+                                <TextBlock Classes="description" Text="NAT traversal via uTP holepunching for better connectivity"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding BitTorrentTab.EnableHolepunch}"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="SECURITY"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable DHT DoS protection"/>
+                                <TextBlock Classes="description" Text="Rate-limit incoming DHT packets to prevent abuse"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding BitTorrentTab.EnableDhtDosBlocker}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Anonymous mode"/>
+                                <TextBlock Classes="description" Text="Prevents client from sending identifying information to trackers and peers"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding BitTorrentTab.AnonymousMode}"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="ENCRYPTION (MSE/PE)"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Outgoing connections"/>
+                            <ComboBox Grid.Column="1" Width="180"
+                                      ItemsSource="{Binding BitTorrentTab.EncryptionPolicies}"
+                                      SelectedItem="{Binding BitTorrentTab.OutEncryptionPolicy}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Incoming connections"/>
+                            <ComboBox Grid.Column="1" Width="180"
+                                      ItemsSource="{Binding BitTorrentTab.EncryptionPolicies}"
+                                      SelectedItem="{Binding BitTorrentTab.InEncryptionPolicy}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Allowed encryption level"/>
+                            <ComboBox Grid.Column="1" Width="180"
+                                      ItemsSource="{Binding BitTorrentTab.EncryptionLevels}"
+                                      SelectedItem="{Binding BitTorrentTab.AllowedEncryptionLevel}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- Server Settings (Tab 4) — unchanged             -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=4}"
+                                Margin="0,0,0,48">
+
+                        <TextBlock Classes="sectionHeaderFirst" Text="SERVER"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable embedded server"/>
+                                <TextBlock Classes="description" Text="Hosts a local web API and optional WebUI for remote control"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding ServerTab.IsEnabled}"/>
+                        </Grid>
+
+                        <!-- Status indicator bar -->
+                        <Border Background="{DynamicResource SecondaryBackground}"
+                                BorderBrush="{DynamicResource BorderColor}"
+                                BorderThickness="1"
+                                Padding="12,8"
+                                Margin="0,0,0,14"
+                                IsVisible="{Binding ServerTab.IsEnabled}">
+                            <Grid ColumnDefinitions="Auto,Auto,*,Auto">
+                                <Ellipse Grid.Column="0"
+                                         Width="10" Height="10"
+                                         VerticalAlignment="Center"
+                                         Fill="{Binding ServerTab.ServerStatus, Converter={x:Static conv:ServerStatusBrushConverter.Instance}}"/>
+                                <TextBlock Grid.Column="1"
+                                           Classes="label"
+                                           Text="{Binding ServerTab.ServerStatus}"
+                                           Margin="8,0,0,0"/>
+                                <TextBlock Grid.Column="2"
+                                           Classes="description"
+                                           Text="{Binding ServerTab.ListeningUrl}"
+                                           IsVisible="{Binding ServerTab.ListeningUrl, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0,0,0"/>
+                                <Button Grid.Column="3"
+                                        Classes="secondaryButton"
+                                        Content="Open WebUI"
+                                        HorizontalAlignment="Right"
+                                        Command="{Binding ServerTab.OpenWebUICommand}"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Error message -->
+                        <TextBlock Classes="description"
+                                   Foreground="#EF5350"
+                                   Text="{Binding ServerTab.ServerErrorMessage}"
+                                   IsVisible="{Binding ServerTab.ServerErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                                   Margin="0,0,0,14"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Listen address"/>
+                            <TextBox Grid.Column="1"
+                                     Classes="inputBox"
+                                     Text="{Binding ServerTab.ListenAddress}"
+                                     MinWidth="160"
+                                     Watermark="127.0.0.1"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Listen port"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ServerTab.ListenPort, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=8080}"
+                                           Minimum="1" Maximum="65535" Increment="1"
+                                           FormatString="0"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="SECURITY"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Enable HTTPS"/>
+                                <TextBlock Classes="description" Text="Use TLS for all server connections"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding ServerTab.EnableHttps}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Certificate path"/>
+                            <TextBox Grid.Column="1"
+                                     Classes="inputBox"
+                                     Text="{Binding ServerTab.HttpsCertPath}"
+                                     MinWidth="220"
+                                     Watermark="e.g. C:\certs\server.pfx"
+                                     ToolTip.Tip="Absolute path to a PFX certificate file.&#10;Leave blank to fall back to a system-installed ASP.NET Core dev certificate (only present on machines with the .NET SDK)."/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Certificate password"/>
+                            <TextBox Grid.Column="1"
+                                     Classes="inputBox"
+                                     Text="{Binding ServerTab.HttpsCertPassword}"
+                                     PasswordChar="*"
+                                     MinWidth="220"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="AUTHENTICATION"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Username"/>
+                            <TextBox Grid.Column="1"
+                                     Classes="inputBox"
+                                     Text="{Binding ServerTab.LocalUsername}"
+                                     MinWidth="160"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Password"/>
+                            <Button x:Name="ChangePasswordButton"
+                                    Grid.Column="1"
+                                    Classes="secondaryButton"
+                                    Content="Change Password..."
+                                    HorizontalAlignment="Right"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <TextBlock Classes="label" Text="Access token lifetime"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ServerTab.JwtAccessTokenLifetimeMinutes, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=15}"
+                                           Minimum="1" Maximum="1440" Increment="5"
+                                           FormatString="0"/>
+                            <TextBlock Grid.Column="2" Text="minutes" Classes="label" Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                            <TextBlock Classes="label" Text="Refresh token lifetime"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Classes="compactSpinner"
+                                           Value="{Binding ServerTab.JwtRefreshTokenLifetimeDays, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=30}"
+                                           Minimum="1" Maximum="365" Increment="1"
+                                           FormatString="0"/>
+                            <TextBlock Grid.Column="2" Text="days" Classes="label" Margin="8,0,0,0"/>
+                        </Grid>
+
+                        <!-- OIDC section (collapsible) -->
+                        <Border BorderThickness="0,1,0,0"
+                                BorderBrush="{DynamicResource BorderColor}"
+                                Margin="0,12,0,0"
+                                Padding="0,0,0,0">
+                            <StackPanel>
+                                <Button Classes="secondaryButton"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,12,0,0"
+                                        Command="{Binding ServerTab.ToggleOidcCommand}">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <Path Data="M 0 0 L 4 4 L 0 8 Z"
+                                              Width="8" Height="8"
+                                              Stretch="Uniform"
+                                              Fill="{DynamicResource TextTertiary}"
+                                              VerticalAlignment="Center"
+                                              IsVisible="{Binding !ServerTab.IsOidcExpanded}"/>
+                                        <Path Data="M 0 0 L 4 4 L 8 0 Z"
+                                              Width="8" Height="8"
+                                              Stretch="Uniform"
+                                              Fill="{DynamicResource TextTertiary}"
+                                              VerticalAlignment="Center"
+                                              IsVisible="{Binding ServerTab.IsOidcExpanded}"/>
+                                        <TextBlock Text="OIDC (OpenID Connect)" FontSize="13"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource TextSecondary}"/>
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel IsVisible="{Binding ServerTab.IsOidcExpanded}"
+                                            Margin="0,8,0,0">
+                                    <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                        <TextBlock Classes="label" Text="Authority URL"/>
+                                        <TextBox Grid.Column="1"
+                                                 Classes="inputBox"
+                                                 Text="{Binding ServerTab.OidcAuthority}"
+                                                 MinWidth="280"
+                                                 Watermark="https://accounts.google.com"/>
+                                    </Grid>
+
+                                    <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                        <TextBlock Classes="label" Text="Client ID"/>
+                                        <TextBox Grid.Column="1"
+                                                 Classes="inputBox"
+                                                 Text="{Binding ServerTab.OidcClientId}"
+                                                 MinWidth="280"/>
+                                    </Grid>
+
+                                    <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                        <TextBlock Classes="label" Text="Client secret"/>
+                                        <TextBox Grid.Column="1"
+                                                 Classes="inputBox"
+                                                 Text="{Binding ServerTab.OidcClientSecret}"
+                                                 PasswordChar="*"
+                                                 MinWidth="280"/>
+                                    </Grid>
+
+                                    <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                        <StackPanel>
+                                            <TextBlock Classes="label" Text="Allowed email"/>
+                                            <TextBlock Classes="description" Text="Only this email can authenticate via OIDC"/>
+                                        </StackPanel>
+                                        <TextBox Grid.Column="1"
+                                                 Classes="inputBox"
+                                                 Text="{Binding ServerTab.OidcAllowedEmail}"
+                                                 MinWidth="280"
+                                                 Watermark="user@example.com"/>
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Classes="sectionHeader" Text="WEBUI"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="WebUI bundle"/>
+                            <ComboBox Grid.Column="1"
+                                      Classes="dropdown"
+                                      ItemsSource="{Binding ServerTab.AvailableBundles}"
+                                      SelectedValue="{Binding ServerTab.SelectedBundlePath}"
+                                      SelectedValueBinding="{Binding Path}"
+                                      DisplayMemberBinding="{Binding Name}"
+                                      MinWidth="200"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="CORS allowed origins"/>
+                                <TextBlock Classes="description" Text="Comma-separated origins, or * for all"/>
+                            </StackPanel>
+                            <TextBox Grid.Column="1"
+                                     Classes="inputBox"
+                                     Text="{Binding ServerTab.AllowedOrigins}"
+                                     MinWidth="220"
+                                     Watermark="*"/>
+                        </Grid>
+
+                        <TextBlock Classes="sectionHeader" Text="STARTUP"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="Open browser when server starts"/>
+                                <TextBlock Classes="description" Text="Automatically launch the WebUI in your default browser"/>
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="1"
+                                          Classes="settingToggle"
+                                          IsChecked="{Binding ServerTab.OpenBrowserOnServerStart}"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- Advanced Settings (Tab 5) — Accordion with Expanders -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=5}"
+                                Margin="0,0,0,24">
+
+                        <TextBlock Classes="sectionHeaderFirst" Text="ADVANCED SETTINGS"/>
+                        <TextBlock Classes="description" Text="Fine-tuned engine parameters. Defaults work well for most users." Margin="0,0,0,12"/>
+
+                        <!-- Section 1: Connection -->
+                        <Expander Header="Connection" IsExpanded="{Binding AdvancedTab.IsConnectionSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Half-open connections, transport protocols, port mapping" Margin="0,0,0,8"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max half-open connections"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxHalfOpenConnections}" Minimum="1" Maximum="200" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Connection speed"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.ConnectionSpeed}" Minimum="1" Maximum="500" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Announce port"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AnnouncePort}" Minimum="0" Maximum="65535" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable outgoing uTP"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.EnableOutgoingUtp}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable incoming uTP"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.EnableIncomingUtp}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable outgoing TCP"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.EnableOutgoingTcp}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable incoming TCP"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.EnableIncomingTcp}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Listen system port fallback"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ListenSystemPortFallback}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable IP notifier"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.EnableIpNotifier}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Allow multiple connections per IP"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AllowMultipleConnectionsPerIp}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="No connect privileged ports"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.NoConnectPrivilegedPorts}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Smooth connects"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.SmoothConnects}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Allow IDNA"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AllowIdna}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="LSD announce interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.LsdAnnounceInterval}" Minimum="30" Maximum="3600" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Outgoing interface"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.OutgoingInterface}" Width="250"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="IP filter file path"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.IpFilterFilePath}" Width="250"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="UPnP lease duration"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UpnpLeaseSeconds}" Minimum="0" Maximum="86400" Increment="60"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="NAT-PMP lease duration"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.NatPmpLeaseSeconds}" Minimum="0" Maximum="86400" Increment="60"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="UPnP ignore non-routers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.UpnpIgnoreNonRouters}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 2: Bandwidth -->
+                        <Expander Header="Bandwidth" IsExpanded="{Binding AdvancedTab.IsBandwidthSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Mixed mode algorithm, rate limit overhead, auto-management" Margin="0,0,0,8"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Rate limit IP overhead"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.RateLimitIpOverhead}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Mixed mode algorithm"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.MixedModeAlgorithmValues}" SelectedItem="{Binding AdvancedTab.MixedModeAlgorithm}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Inactive download rate"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.InactiveDownRate}" Minimum="0" Maximum="102400" Increment="256"/>
+                                    <TextBlock Grid.Column="2" Text="B/s" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Inactive upload rate"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.InactiveUpRate}" Minimum="0" Maximum="102400" Increment="256"/>
+                                    <TextBlock Grid.Column="2" Text="B/s" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Auto-manage interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AutoManageInterval}" Minimum="5" Maximum="600" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Auto-manage startup"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AutoManageStartup}" Minimum="0" Maximum="600" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Connect seed every N download"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.ConnectSeedEveryNDownload}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 3: Disk I/O -->
+                        <Expander Header="Disk I/O" IsExpanded="{Binding AdvancedTab.IsDiskSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Backend type, cache, outstanding requests, hashing" Margin="0,0,0,8"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Backend type"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.BackendTypeValues}" SelectedItem="{Binding AdvancedTab.BackendType}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Read mode"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.DiskIoModeValues}" SelectedItem="{Binding AdvancedTab.ReadMode}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Write mode"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.DiskIoModeValues}" SelectedItem="{Binding AdvancedTab.WriteMode}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Mmap file size cutoff"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MmapFileSizeCutoff}" Minimum="0" Maximum="1024" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Mmap memory ceiling"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MmapMemoryCeilingMb}" Minimum="0" Maximum="65536" Increment="256"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="File pool size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.FilePoolSize}" Minimum="5" Maximum="10000" Increment="5"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Cache size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.CacheSizeMb}" Minimum="0" Maximum="4096" Increment="16"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max outstanding disk requests"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxOutstandingDiskRequests}" Minimum="1" Maximum="1024" Increment="8"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max queued disk bytes"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxQueuedDiskBytes}" Minimum="0" Maximum="104857600" Increment="65536"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Checking memory usage"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.CheckingMemUsage}" Minimum="1" Maximum="2048" Increment="16"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Hash threads"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.HashThreads}" Minimum="1" Maximum="8" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="No atime storage"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.NoAtimeStorage}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Disable hash checks"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.DisableHashChecks}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="No recheck incomplete resume"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.NoRecheckIncompleteResume}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Piece extent affinity"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.PieceExtentAffinity}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Piece extent size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.PieceExtentSize}" Minimum="0" Maximum="67108864" Increment="1048576"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Close file interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.CloseFileInterval}" Minimum="-1" Maximum="86400" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Optimistic disk retry"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.OptimisticDiskRetry}" Minimum="0" Maximum="3600" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max disk retries"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxDiskRetries}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Disk space warning"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.DiskSpaceWarningMb}" Minimum="0" Maximum="102400" Increment="256"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Disk space critical"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.DiskSpaceCriticalMb}" Minimum="0" Maximum="102400" Increment="64"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 4: Peer Engine -->
+                        <Expander Header="Peer Engine" IsExpanded="{Binding AdvancedTab.IsPeerSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Pipeline depth, choking, unchoke timing, peer turnover" Margin="0,0,0,8"/>
+
+                                <TextBlock Classes="sectionHeaderFirst" Text="TIMEOUTS"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Connect timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.ConnectTimeout}" Minimum="2" Maximum="60" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Handshake timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.HandshakeTimeout}" Minimum="2" Maximum="60" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Request timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.RequestTimeout}" Minimum="5" Maximum="300" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Piece timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.PieceTimeout}" Minimum="5" Maximum="120" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Inactivity timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.InactivityTimeout}" Minimum="30" Maximum="3600" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Metadata download timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MetadataDownloadTimeoutMinutes}" Minimum="0" Maximum="60" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="min" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="CHOKING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Choking algorithm"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.ChokingAlgorithmValues}" SelectedItem="{Binding AdvancedTab.ChokingAlgorithm}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Seed choking algorithm"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.SeedChokingAlgorithmValues}" SelectedItem="{Binding AdvancedTab.SeedChokingAlgorithm}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Unchoke slots"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UnchokeSlots}" Minimum="1" Maximum="1000" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Unchoke interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UnchokeInterval}" Minimum="5" Maximum="120" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Optimistic unchoke interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.OptimisticUnchokeInterval}" Minimum="10" Maximum="300" Increment="10"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Num optimistic unchoke slots"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.NumOptimisticUnchokeSlots}" Minimum="0" Maximum="50" Increment="1"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="BEHAVIOR"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Send redundant have"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.SendRedundantHave}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Use parole mode"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.UseParoleMode}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Seeding outgoing connections"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.SeedingOutgoingConnections}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Report redundant bytes"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ReportRedundantBytes}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Report true downloaded"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ReportTrueDownloaded}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="PIECE PICKING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Initial picker threshold"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.InitialPickerThreshold}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Whole pieces threshold"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.WholePiecesThreshold}" Minimum="1" Maximum="120" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max pending blocks per peer"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxPendingBlocksPerPeer}" Minimum="1" Maximum="2000" Increment="10"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Auto sequential ratio"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AutoSequentialRatio}" Minimum="0" Maximum="1" Increment="0.1" FormatString="F1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Auto sequential in seeder swarm"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AutoSequentialInSeederSwarm}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Prioritize partial pieces"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.PrioritizePartialPieces}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Strict endgame mode"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.StrictEndgameMode}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="PEER TURNOVER"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Peer turnover"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.PeerTurnover}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Peer turnover cutoff"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.PeerTurnoverCutoff}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Peer turnover interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.PeerTurnoverInterval}" Minimum="30" Maximum="3600" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Close redundant connections"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.CloseRedundantConnections}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="PROTOCOL"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Allowed fast set size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AllowedFastSetSize}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max rejects"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxRejects}" Minimum="1" Maximum="1000" Increment="10"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Request queue time"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.RequestQueueTime}" Minimum="1" Maximum="30" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Max metadata size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxMetadataSizeMb}" Minimum="1" Maximum="1024" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max peer list size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxPeerlistSize}" Minimum="100" Maximum="100000" Increment="100"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Peer DSCP"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.PeerDscp}" Minimum="0" Maximum="63" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Send buffer watermark"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.SendBufferWatermark}" Minimum="0" Maximum="1048576" Increment="1024"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Send buffer low watermark"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.SendBufferLowWatermark}" Minimum="0" Maximum="1048576" Increment="1024"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Send buffer watermark factor"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.SendBufferWatermarkFactor}" Minimum="0" Maximum="100" Increment="5"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 5: uTP -->
+                        <Expander Header="uTP (Micro Transport Protocol)" IsExpanded="{Binding AdvancedTab.IsUtpSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="LEDBAT congestion control, target delay, timeouts" Margin="0,0,0,8"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Target delay"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpTargetDelay}" Minimum="10" Maximum="1000" Increment="10"/>
+                                    <TextBlock Grid.Column="2" Text="ms" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Gain factor"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpGainFactor}" Minimum="100" Maximum="10000" Increment="100"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Min timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpMinTimeout}" Minimum="100" Maximum="5000" Increment="50"/>
+                                    <TextBlock Grid.Column="2" Text="ms" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="SYN resends"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpSynResends}" Minimum="0" Maximum="10" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="FIN resends"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpFinResends}" Minimum="0" Maximum="10" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Num resends"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpNumResends}" Minimum="0" Maximum="10" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Loss multiplier"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpLossMultiplier}" Minimum="1" Maximum="200" Increment="5"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="CWND reduce timer"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpCwndReduceTimer}" Minimum="10" Maximum="1000" Increment="10"/>
+                                    <TextBlock Grid.Column="2" Text="ms" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Connect timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UtpConnectTimeoutMs}" Minimum="500" Maximum="30000" Increment="500"/>
+                                    <TextBlock Grid.Column="2" Text="ms" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 6: Tracker -->
+                        <Expander Header="Tracker" IsExpanded="{Binding AdvancedTab.IsTrackerSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Announce behavior, timeouts, retries, num_want" Margin="0,0,0,8"/>
+
+                                <TextBlock Classes="sectionHeaderFirst" Text="PROTOCOL"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Prefer UDP trackers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.PreferUdpTrackers}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Announce crypto support"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AnnounceCryptoSupport}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Apply IP filter to trackers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ApplyIpFilterToTrackers}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Validate HTTPS trackers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ValidateHttpsTrackers}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="SSRF mitigation"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.SsrfMitigation}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="ANNOUNCE"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Announce to all trackers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AnnounceToAllTrackers}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Announce to all tiers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AnnounceToAllTiers}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Parallel announce across tiers"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ParallelAnnounceAcrossTiers}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Report redundant bytes to tracker"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.TrackerReportRedundantBytes}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Report true downloaded to tracker"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.TrackerReportTrueDownloaded}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Announce IP"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.AnnounceIp}" Width="180"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="TIMING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Min announce interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MinAnnounceInterval}" Minimum="30" Maximum="7200" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Auto scrape interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AutoScrapeInterval}" Minimum="60" Maximum="7200" Increment="60"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Auto scrape min interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AutoScrapeMinInterval}" Minimum="30" Maximum="3600" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Tracker backoff"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.TrackerBackoff}" Minimum="100" Maximum="1000" Increment="50"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Retry delay"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.RetryDelaySeconds}" Minimum="1" Maximum="60" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max concurrent announces"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxConcurrentAnnounces}" Minimum="1" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max parallel announces"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxParallelAnnounces}" Minimum="1" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Stop tracker timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.StopTrackerTimeout}" Minimum="1" Maximum="30" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="HTTP timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.HttpTimeoutSeconds}" Minimum="5" Maximum="120" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="UDP timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UdpTimeoutSeconds}" Minimum="5" Maximum="120" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max retries"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxRetries}" Minimum="0" Maximum="20" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Num want"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.NumWant}" Minimum="0" Maximum="1000" Increment="10"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 7: DHT -->
+                        <Expander Header="DHT" IsExpanded="{Binding AdvancedTab.IsDhtSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Routing table, search parameters, rate limits" Margin="0,0,0,8"/>
+
+                                <TextBlock Classes="sectionHeaderFirst" Text="NETWORK"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="DHT port"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.DhtPort}" Minimum="1024" Maximum="65535" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Search branching"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.SearchBranching}" Minimum="1" Maximum="20" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Query timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.QueryTimeoutMs}" Minimum="1000" Maximum="30000" Increment="500"/>
+                                    <TextBlock Grid.Column="2" Text="ms" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="LIMITS"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max peers reply"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxPeersReply}" Minimum="1" Maximum="1000" Increment="10"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max peers per info hash"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxPeersPerInfoHash}" Minimum="10" Maximum="10000" Increment="50"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max info hashes"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxInfoHashes}" Minimum="100" Maximum="100000" Increment="100"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max total peers"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxTotalPeers}" Minimum="1000" Maximum="1000000" Increment="10000"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Announce interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.AnnounceIntervalMs}" Minimum="60000" Maximum="3600000" Increment="60000"/>
+                                    <TextBlock Grid.Column="2" Text="ms" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max fail count"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxFailCount}" Minimum="1" Maximum="50" Increment="1"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="ROUTING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enforce node ID"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.EnforceNodeId}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Restrict routing IPs"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.RestrictRoutingIps}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Extended routing table"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ExtendedRoutingTable}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Prefer verified node IDs"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.PreferVerifiedNodeIds}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="DHT read only"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.DhtReadOnly}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="BOOTSTRAP &amp; SAMPLING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Bootstrap nodes"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.BootstrapNodes}" Width="350"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max sample count"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxSampleCount}" Minimum="1" Maximum="100" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Sample infohashes interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.SampleInfohashesIntervalSeconds}" Minimum="60" Maximum="7200" Increment="60"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Block timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.BlockTimeoutSeconds}" Minimum="30" Maximum="3600" Increment="30"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="RATE LIMITING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Upload rate limit"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.UploadRateLimitBytesPerSec}" Minimum="0" Maximum="1048576" Increment="1000"/>
+                                    <TextBlock Grid.Column="2" Text="B/s" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Block rate limit"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.BlockRateLimitPacketsPerSec}" Minimum="1" Maximum="100" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="pkt/s" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max blocked IPs"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxBlockedIps}" Minimum="0" Maximum="10000" Increment="10"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 8: Privacy & Proxy -->
+                        <Expander Header="Privacy &amp; Proxy" IsExpanded="{Binding AdvancedTab.IsPrivacySectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Proxy, VPN kill switch, secure deletion, I2P" Margin="0,0,0,8"/>
+
+                                <TextBlock Classes="sectionHeaderFirst" Text="PROXY"/>
+                                <TextBlock Classes="description"
+                                           Text="Proxy changes take effect after restarting vTorrent."
+                                           Margin="0,0,0,8"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy type"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.ProxyTypeValues}" SelectedItem="{Binding AdvancedTab.ProxyType}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy hostname"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.ProxyHostname}" Width="250"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy port"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.ProxyPort}" Minimum="0" Maximum="65535" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy username"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.ProxyUsername}" Width="250"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy password"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.ProxyPassword}" PasswordChar="*" Width="250"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy peer connections"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ProxyPeerConnections}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy tracker connections"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ProxyTrackerConnections}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy DHT"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ProxyDht}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Proxy hostnames"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.ProxyHostnames}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="VPN"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Kill switch enabled"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.KillSwitchEnabled}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Network interface"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown"
+                                              ItemsSource="{Binding AdvancedTab.AvailableInterfaces}"
+                                              SelectedItem="{Binding AdvancedTab.SelectedInterface}"
+                                              Width="300"/>
+                                </Grid>
+                                <TextBlock Classes="description"
+                                           Text="{Binding AdvancedTab.KillSwitchStatusText}"
+                                           Foreground="{Binding AdvancedTab.KillSwitchStatusBrush}"
+                                           Margin="0,4,0,0"/>
+
+                                <TextBlock Classes="sectionHeader" Text="PRIVACY"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Secure deletion"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.SecureDeletion}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Secure deletion include metadata"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.SecureDeletionIncludeMetadata}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="I2P"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="I2P enabled"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.I2pEnabled}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="SAM hostname"/>
+                                    <TextBox Grid.Column="1" Classes="inputBox" Text="{Binding AdvancedTab.SamHostname}" Width="250"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="SAM port"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.SamPort}" Minimum="1" Maximum="65535" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Inbound tunnel quantity"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.InboundTunnelQuantity}" Minimum="1" Maximum="10" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Outbound tunnel quantity"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.OutboundTunnelQuantity}" Minimum="1" Maximum="10" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Inbound tunnel length"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.InboundTunnelLength}" Minimum="0" Maximum="7" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Outbound tunnel length"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.OutboundTunnelLength}" Minimum="0" Maximum="7" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Destination mode"/>
+                                    <ComboBox Grid.Column="1" Classes="dropdown" ItemsSource="{Binding AdvancedTab.DestinationModeValues}" SelectedItem="{Binding AdvancedTab.DestinationMode}" Width="180"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Rotation interval"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.RotationIntervalDays}" Minimum="1" Maximum="90" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="days" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="I2P allow mixed mode"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.I2pAllowMixedMode}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="I2P max active torrents"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.MaxActiveI2pTorrents}" Minimum="0" Maximum="100" Increment="1"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 9: Web Seeds -->
+                        <Expander Header="Web Seeds (BEP 17/19)" IsExpanded="{Binding AdvancedTab.IsWebSeedSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="description" Text="Max connections, timeouts, retry, request size" Margin="0,0,0,8"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Max connections"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.WebSeedMaxConnections}" Minimum="1" Maximum="10" Increment="1"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Timeout"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.WebSeedTimeout}" Minimum="5" Maximum="120" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Retry wait"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.WebSeedRetryWait}" Minimum="5" Maximum="300" Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="sec" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Max request size"/>
+                                    <NumericUpDown Grid.Column="1" Classes="compactSpinner" Value="{Binding AdvancedTab.WebSeedMaxRequestMb}" Minimum="1" Maximum="64" Increment="1"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Always send user agent"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.AlwaysSendUserAgent}"/>
+                                </Grid>
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Ban web seeds on error"/>
+                                    <ToggleSwitch Grid.Column="1" Classes="settingToggle" IsChecked="{Binding AdvancedTab.BanWebSeeds}"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Section 10: Auto-Save & Logging (fully wired) -->
+                        <Expander Header="Auto-Save &amp; Logging" IsExpanded="{Binding AdvancedTab.IsAutoSaveLoggingSectionExpanded}">
+                            <StackPanel Margin="12,8">
+                                <TextBlock Classes="sectionHeaderFirst" Text="AUTO-SAVE"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable automatic save"/>
+                                    <ToggleSwitch Grid.Column="1"
+                                                  Classes="settingToggle"
+                                                  IsChecked="{Binding AdvancedTab.AutoSaveEnabled}"/>
+                                </Grid>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <TextBlock Classes="label" Text="Auto-save interval"/>
+                                    <NumericUpDown Grid.Column="1"
+                                                   Classes="compactSpinner"
+                                                   Value="{Binding AdvancedTab.AutoSaveIntervalMinutes, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=15}"
+                                                   Minimum="1"
+                                                   Maximum="120"
+                                                   Increment="5"/>
+                                    <TextBlock Grid.Column="2" Text="min" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Save on torrent complete"/>
+                                    <ToggleSwitch Grid.Column="1"
+                                                  Classes="settingToggle"
+                                                  IsChecked="{Binding AdvancedTab.SaveOnTorrentComplete}"/>
+                                </Grid>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Save on pause"/>
+                                    <ToggleSwitch Grid.Column="1"
+                                                  Classes="settingToggle"
+                                                  IsChecked="{Binding AdvancedTab.SaveOnPause}"/>
+                                </Grid>
+
+                                <TextBlock Classes="sectionHeader" Text="LOGGING"/>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Log level"/>
+                                    <ComboBox Grid.Column="1"
+                                              Classes="dropdown"
+                                              ItemsSource="{Binding AdvancedTab.LogLevels}"
+                                              SelectedItem="{Binding AdvancedTab.SelectedLogLevel}"/>
+                                </Grid>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <TextBlock Classes="label" Text="Enable file logging"/>
+                                    <ToggleSwitch Grid.Column="1"
+                                                  Classes="settingToggle"
+                                                  IsChecked="{Binding AdvancedTab.LogToFile}"/>
+                                </Grid>
+
+                                <StackPanel Margin="0,0,0,14" IsVisible="{Binding AdvancedTab.LogToFile}">
+                                    <TextBlock Classes="label" Text="Log file location" Margin="0,0,0,6"/>
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBox Grid.Column="0"
+                                                 Classes="inputBox"
+                                                 Text="{Binding AdvancedTab.LogFilePath}"
+                                                 Watermark="Select log file location..."/>
+                                        <Button Grid.Column="1"
+                                                Classes="browseButton"
+                                                Margin="8,0,0,0"
+                                                Command="{Binding BrowseLogFilePathCommand}">
+                                            <Label FontFamily="{DynamicResource Phosphor}"
+                                                   FontSize="14"
+                                                   Content="&#xE236;"/>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto,Auto">
+                                    <StackPanel>
+                                        <TextBlock Classes="label" Text="Maximum log file size"/>
+                                        <TextBlock Classes="description" Text="Requires file logging to be enabled"/>
+                                    </StackPanel>
+                                    <NumericUpDown Grid.Column="1"
+                                                   Classes="compactSpinner"
+                                                   Value="{Binding AdvancedTab.MaxLogFileSizeMb, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=10}"
+                                                   Minimum="1" Maximum="100" Increment="1"
+                                                   FormatString="0"/>
+                                    <TextBlock Grid.Column="2" Text="MB" Classes="label" Margin="8,0,0,0"/>
+                                </Grid>
+
+                                <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                                    <StackPanel>
+                                        <TextBlock Classes="label" Text="Maximum log files to keep"/>
+                                    </StackPanel>
+                                    <NumericUpDown Grid.Column="1"
+                                                   Classes="compactSpinner"
+                                                   Value="{Binding AdvancedTab.MaxLogFiles, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=5}"
+                                                   Minimum="1" Maximum="20" Increment="1"
+                                                   FormatString="0"/>
+                                </Grid>
+                            </StackPanel>
+                        </Expander>
+
+                        <!-- Reset -->
+                        <Button Classes="secondaryButton"
+                                Content="Reset All Settings to Defaults"
+                                HorizontalAlignment="Left"
+                                Margin="0,24,0,24"
+                                Command="{Binding ResetToDefaultsCommand}"/>
+                    </StackPanel>
+
+                    <!-- ════════════════════════════════════════════════ -->
+                    <!-- Profiles Settings (Tab 6)                       -->
+                    <!-- ════════════════════════════════════════════════ -->
+                    <StackPanel IsVisible="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=6}"
+                                Margin="0,0,0,24">
+                        <TextBlock Classes="sectionHeaderFirst" Text="PROFILES"/>
+                        <TextBlock Classes="description" Text="Profiles let you quickly switch between different settings configurations." Margin="0,0,0,12"/>
+
+                        <Grid ColumnDefinitions="*,*" MinHeight="300">
+                            <!-- Left panel: Profile list -->
+                            <Border Grid.Column="0"
+                                    BorderBrush="{DynamicResource BorderColor}"
+                                    BorderThickness="1"
+                                    Margin="0,0,8,0"
+                                    Padding="0">
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Bottom"
+                                            Classes="secondaryButton"
+                                            Click="OnImportProfile"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="8,6,8,8">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Label FontFamily="{DynamicResource Phosphor}"
+                                                   FontSize="14"
+                                                   Content="&#xE3D4;"
+                                                   VerticalAlignment="Center"
+                                                   Padding="0"
+                                                   Margin="0,0,6,0"/>
+                                            <TextBlock Text="Import Profile..."
+                                                       VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <ListBox ItemsSource="{Binding ProfilesTab.Profiles}"
+                                             SelectedItem="{Binding ProfilesTab.SelectedProfile}"
+                                             Background="Transparent">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="8,6">
+                                                    <Ellipse Classes="profileDot"
+                                                             Fill="{Binding Color}"/>
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontSize="13"
+                                                               Foreground="{DynamicResource TextPrimary}"
+                                                               VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </DockPanel>
+                            </Border>
+
+                            <!-- Right panel: Selected profile details -->
+                            <Border Grid.Column="1"
+                                    BorderBrush="{DynamicResource BorderColor}"
+                                    BorderThickness="1"
+                                    Margin="8,0,0,0"
+                                    Padding="16,12">
+                                <StackPanel IsVisible="{Binding ProfilesTab.SelectedProfile, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                        <Ellipse Width="16" Height="16"
+                                                 Fill="{Binding ProfilesTab.SelectedProfile.Color}"
+                                                 Margin="0,0,10,0"
+                                                 VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding ProfilesTab.SelectedProfile.Name}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource TextPrimary}"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <TextBlock Text="{Binding ProfilesTab.SelectedProfile.Scope}"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource TextTertiary}"
+                                               Margin="0,0,0,16"/>
+
+                                    <!-- Action buttons -->
+                                    <StackPanel Spacing="6">
+                                        <Button Classes="primaryButton"
+                                                Content="Activate"
+                                                HorizontalAlignment="Stretch"
+                                                Command="{Binding ProfilesTab.ActivateProfileCommand}"/>
+                                        <Button Classes="secondaryButton"
+                                                Content="Duplicate"
+                                                Command="{Binding ProfilesTab.DuplicateProfileCommand}"/>
+                                        <Button Classes="secondaryButton"
+                                                Content="Export Profile..."
+                                                Click="OnExportProfile"/>
+                                        <Button Classes="secondaryButton"
+                                                Content="Delete"
+                                                Command="{Binding ProfilesTab.DeleteProfileCommand}"
+                                                IsEnabled="{Binding ProfilesTab.CanDeleteSelected}"/>
+                                    </StackPanel>
+
+                                    <!-- Status message -->
+                                    <TextBlock Text="{Binding ProfilesTab.ProfileStatusMessage}"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource TextTertiary}"
+                                               Margin="0,12,0,0"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- ── Schedule Section ── -->
+                        <TextBlock Classes="sectionHeader" Text="SCHEDULE" Margin="0,24,0,0"/>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="label" Text="Enable Schedule"/>
+                            <ToggleSwitch Grid.Column="1" Classes="settingToggle"
+                                          IsChecked="{Binding ProfilesTab.ScheduleEnabled}"/>
+                        </Grid>
+
+                        <Grid Classes="settingRow" ColumnDefinitions="*,*" Margin="0,0,0,8">
+                            <Button Classes="secondaryButton"
+                                    Content="Export Schedule..."
+                                    Click="OnExportSchedule"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="0,0,4,0"/>
+                            <Button Grid.Column="1"
+                                    Classes="secondaryButton"
+                                    Content="Import Schedule..."
+                                    Click="OnImportSchedule"
+                                    HorizontalAlignment="Stretch"
+                                    Margin="4,0,0,0"/>
+                        </Grid>
+
+                        <!-- Schedule Grid (visible when enabled) -->
+                        <StackPanel IsVisible="{Binding ProfilesTab.ScheduleEnabled}" Margin="0,12,0,0">
+
+                            <!-- Paint Mode Selector -->
+                            <TextBlock Classes="description" Text="Click or drag cells to paint. Use buttons to fill entire rows." Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12" Spacing="8">
+                                <TextBlock Text="Paint:" VerticalAlignment="Center" Foreground="{DynamicResource TextSecondary}" FontSize="12"/>
+                                <ComboBox ItemsSource="{Binding ProfilesTab.PaintOptions}"
+                                          SelectedItem="{Binding ProfilesTab.SelectedPaintOption}"
+                                          Width="180"
+                                          x:Name="SchedulePaintCombo">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal"
+                                                        IsEnabled="{Binding !IsSeparator}">
+                                                <Ellipse Width="10" Height="10"
+                                                         Fill="{Binding Color}"
+                                                         Margin="0,0,8,0"
+                                                         VerticalAlignment="Center"
+                                                         IsVisible="{Binding !IsSeparator}"/>
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                           Foreground="{DynamicResource TextPrimary}"
+                                                           FontSize="12"
+                                                           VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <Border Width="1" Height="16" Background="{DynamicResource BorderColor}" Margin="4,0"
+                                        VerticalAlignment="Center"/>
+
+                                <Button Classes="secondaryButton" Content="Fill All Days"
+                                        Click="OnPaintAllDays" Padding="8,4" FontSize="11"/>
+                                <ComboBox x:Name="PaintDayCombo" Width="90" FontSize="11"
+                                          ItemsSource="{x:Static vm:ProfilesSettingsTabViewModel.DayLabels}"
+                                          SelectedIndex="0" Padding="6,3"/>
+                                <Button Classes="secondaryButton" Content="Fill Day"
+                                        Click="OnPaintDay" Padding="8,4" FontSize="11"/>
+                            </StackPanel>
+
+                            <!-- Grid: 24 columns × 7 rows -->
+                            <Grid Margin="0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="36"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Hour labels row -->
+                                <ItemsControl Grid.Column="1" Grid.Row="0"
+                                              ItemsSource="{x:Static vm:ProfilesSettingsTabViewModel.HourLabels}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="24" Rows="1"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontSize="9" Height="14"
+                                                       Foreground="{DynamicResource TextTertiary}"
+                                                       HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- Day labels column -->
+                                <ItemsControl Grid.Column="0" Grid.Row="1"
+                                              ItemsSource="{x:Static vm:ProfilesSettingsTabViewModel.DayLabels}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontSize="11" Height="20"
+                                                       Foreground="{DynamicResource TextSecondary}"
+                                                       VerticalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <!-- Grid cells -->
+                                <ItemsControl Grid.Column="1" Grid.Row="1"
+                                              x:Name="ScheduleGridCells"
+                                              ItemsSource="{Binding ProfilesTab.GridCells}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Columns="24" Rows="7"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{Binding CellColor}"
+                                                    BorderBrush="#2A2A2A"
+                                                    BorderThickness="0.5"
+                                                    Height="20"
+                                                    ToolTip.Tip="{Binding Tooltip}"
+                                                    Cursor="Hand"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+
+                            <!-- Legend -->
+                            <WrapPanel Margin="36,8,0,0">
+                                <ItemsControl ItemsSource="{Binding ProfilesTab.Profiles}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
+                                                <Ellipse Width="8" Height="8" Fill="{Binding Color}" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Name}" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
+                                    <Ellipse Width="8" Height="8" Fill="#FFC107" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Seed Only" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="8" Height="8" Fill="#3C3C3C" Margin="0,0,4,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="Paused" FontSize="11" Foreground="{DynamicResource TextSecondary}"/>
+                                </StackPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Bottom Bar -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource PrimaryBackground}"
+                Padding="16,10">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+                <TextBlock Text="{Binding StatusMessage}"
+                           Foreground="{DynamicResource TextTertiary}"
+                           FontSize="12"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="1"
+                        Classes="secondaryButton"
+                        Content="Save as Profile..."
+                        Command="{Binding SaveAsProfileCommand}"
+                        Margin="0,0,8,0"/>
+
+                <Button Grid.Column="2"
+                        Classes="primaryButton"
+                        Content="Done"
+                        Command="{Binding CloseCommand}"/>
+            </Grid>
+        </Border>
+
+        <!-- Loading Overlay -->
+        <Border Grid.RowSpan="3"
+                Background="#80000000"
+                IsVisible="{Binding IsLoading}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ProgressBar IsIndeterminate="True"
+                             Width="200"
+                             Height="4"/>
+                <TextBlock Text="Loading settings..."
+                           Foreground="{DynamicResource TextPrimary}"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+    </Border>
+</Window>

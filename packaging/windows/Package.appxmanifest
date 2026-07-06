@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  vTorrent MSIX Package Manifest
+
+  Icon Assets:
+  The visual assets referenced in this manifest should be generated from the existing
+  icons in the Assets/Images folder using the copy-assets.ps1 script.
+
+  Source icons available:
+  - Assets/Images/dark_logo.svg (main logo, scalable source)
+  - Assets/Images/logo256x256.ico (256x256 icon)
+  - Assets/Images/dark_logo16x16.ico, dark_logo32x32.ico, dark_logo128x128.ico
+  - Assets/Images/mutate_logo256x256.ico (alternative variant)
+
+  Run: .\packaging\windows\copy-assets.ps1 to generate required PNG assets.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  IgnorableNamespaces="uap uap3 rescap desktop mp">
+
+  <Identity
+    Name="vTorrent"
+    Publisher="CN=vTorrent"
+    Version="1.0.0.0"
+    ProcessorArchitecture="x64" />
+
+  <mp:PhoneIdentity PhoneProductId="a1b2c3d4-e5f6-7890-abcd-ef1234567890" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+  <Properties>
+    <DisplayName>vTorrent</DisplayName>
+    <PublisherDisplayName>vTorrent</PublisherDisplayName>
+    <!-- Generated from Assets/Images/logo256x256.ico via copy-assets.ps1 -->
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>A modern BitTorrent client</Description>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22621.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-us"/>
+  </Resources>
+
+  <Applications>
+    <Application
+      Id="vTorrent"
+      Executable="vTorrent.exe"
+      EntryPoint="Windows.FullTrustApplication">
+
+      <!-- Visual assets generated from Assets/Images/dark_logo.svg via copy-assets.ps1 -->
+      <uap:VisualElements
+        DisplayName="vTorrent"
+        Description="A modern BitTorrent client"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile
+          Wide310x150Logo="Assets\Wide310x150Logo.png"
+          Square310x310Logo="Assets\Square310x310Logo.png"
+          Square71x71Logo="Assets\Square71x71Logo.png"
+          ShortName="vTorrent">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+            <uap:ShowOn Tile="square310x310Logo"/>
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#1a1a2e"/>
+      </uap:VisualElements>
+
+      <Extensions>
+        <!-- File Type Association for .torrent files -->
+        <!-- TorrentFileIcon.png generated from Assets/Images/mutate_logo256x256.ico -->
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="torrent">
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="application/x-bittorrent">.torrent</uap:FileType>
+            </uap:SupportedFileTypes>
+            <uap:DisplayName>BitTorrent File</uap:DisplayName>
+            <uap:Logo>Assets\TorrentFileIcon.png</uap:Logo>
+            <uap:InfoTip>BitTorrent metainfo file</uap:InfoTip>
+            <uap:EditFlags OpenIsSafe="true"/>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+
+        <!-- Protocol Handler for magnet: URIs -->
+        <!-- MagnetLinkIcon.png generated from Assets/Images/dark_logo128x128.ico -->
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="magnet">
+            <uap:DisplayName>Magnet Link</uap:DisplayName>
+            <uap:Logo>Assets\MagnetLinkIcon.png</uap:Logo>
+          </uap:Protocol>
+        </uap:Extension>
+
+        <!-- App Execution Alias for command line access -->
+        <uap3:Extension Category="windows.appExecutionAlias">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="vtorrent.exe"/>
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+      </Extensions>
+
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- Required for desktop (Win32) applications -->
+    <rescap:Capability Name="runFullTrust" />
+
+    <!-- Internet access for downloading torrents and communicating with trackers -->
+    <Capability Name="internetClient" />
+
+    <!-- Private network access for local peer discovery and DHT -->
+    <Capability Name="privateNetworkClientServer" />
+
+    <!-- Internet access as a server for seeding -->
+    <Capability Name="internetClientServer" />
+  </Capabilities>
+
+</Package>

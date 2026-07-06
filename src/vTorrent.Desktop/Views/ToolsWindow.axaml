@@ -1,0 +1,165 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:vTorrent.Desktop.Views"
+        xmlns:vm="clr-namespace:vTorrent.Desktop.ViewModels.Tools"
+        mc:Ignorable="d"
+        x:Class="vTorrent.Desktop.Views.ToolsWindow"
+        x:DataType="vm:ToolsWindowViewModel"
+        Title="Tools"
+        Width="900"
+        Height="650"
+        MinWidth="750"
+        MinHeight="550"
+        WindowStartupLocation="CenterOwner"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Tab Button -->
+        <Style Selector="Button.tabButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,1"/>
+        </Style>
+
+        <Style Selector="Button.tabButton TextBlock">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton:pointerover Label.tabIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Tab Icon -->
+        <Style Selector="Label.tabIcon">
+            <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.tabButton.selected Label.tabIcon">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+        <Grid RowDefinitions="Auto,*">
+            <!-- Title Bar -->
+            <Border x:Name="TitleBar"
+                    Grid.Row="0"
+                    Background="{DynamicResource PrimaryBackground}"
+                    Padding="16,10">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="18"
+                               Content="&#xECA0;"
+                               Foreground="{DynamicResource AccentGold}"
+                               VerticalAlignment="Center"
+                               Margin="0,0,10,0"/>
+                        <TextBlock Text="Tools"
+                                   FontSize="15"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextPrimary}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                            Classes="dialogCloseButton"
+                            Padding="6,4"
+                            Command="{Binding CloseCommand}">
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE4F6;"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Main Content: Sidebar + Content Area -->
+            <Grid Grid.Row="1" ColumnDefinitions="180,*">
+                <!-- Sidebar -->
+                <Border Grid.Column="0"
+                        Background="{DynamicResource PrimaryBackground}"
+                        BorderBrush="{DynamicResource BorderColor}"
+                        BorderThickness="0,0,1,0"
+                        Padding="8">
+                    <StackPanel>
+                        <!-- Torrent Creator (0) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=0}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="0">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE236;"/>
+                                <TextBlock Text="Torrent Creator" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+
+                        <!-- Torrent Editor (1) -->
+                        <Button Classes="tabButton"
+                                Classes.selected="{Binding SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=1}"
+                                Command="{Binding SelectTabCommand}"
+                                CommandParameter="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Classes="tabIcon" Content="&#xE3AE;"/>
+                                <TextBlock Text="Torrent Editor" FontSize="13"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <!-- Content Area -->
+                <ScrollViewer Grid.Column="1"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="24,16,24,16">
+                    <StackPanel Margin="0,0,0,24">
+                        <!-- Creator Tab (0) -->
+                        <views:TorrentCreatorView DataContext="{Binding Creator}"
+                            IsVisible="{Binding $parent[Window].((vm:ToolsWindowViewModel)DataContext).SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=0}"/>
+
+                        <!-- Editor Tab (1) -->
+                        <views:TorrentEditorView DataContext="{Binding Editor}"
+                            IsVisible="{Binding $parent[Window].((vm:ToolsWindowViewModel)DataContext).SelectedTabIndex, Converter={x:Static views:IntEqualConverter.Instance}, ConverterParameter=1}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

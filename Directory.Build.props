@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Allow restoring/building Windows-targeted TFMs (net*-windows) on Linux/macOS
+         CI runners. No-op on Windows; required for cross-platform CI of vTorrent.Desktop. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+</Project>

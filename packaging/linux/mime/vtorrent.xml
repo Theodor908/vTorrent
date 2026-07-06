@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-bittorrent">
+    <comment>BitTorrent file</comment>
+    <glob pattern="*.torrent"/>
+    <magic priority="50">
+      <match type="string" value="d8:announce" offset="0"/>
+    </magic>
+  </mime-type>
+</mime-info>

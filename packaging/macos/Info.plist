@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  vTorrent macOS Application Info.plist
+
+  Icon Configuration:
+  The icon files (AppIcon.icns, TorrentIcon.icns) should be generated from
+  the existing SVG source files in Assets/Images/ using the generate-icns.sh script.
+
+  Source icons:
+  - Assets/Images/dark_logo.svg (main application icon source)
+  - Assets/Images/light_logo.svg (light variant, for optional use)
+  - Assets/Images/mutate_logo256x256.ico (for torrent file icon variant)
+
+  To generate icons, run: ./packaging/macos/generate-icns.sh
+-->
+<plist version="1.0">
+<dict>
+    <!-- Bundle Identification -->
+    <key>CFBundleIdentifier</key>
+    <string>com.vtorrent.app</string>
+    <key>CFBundleName</key>
+    <string>vTorrent</string>
+    <key>CFBundleDisplayName</key>
+    <string>vTorrent</string>
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+
+    <!-- Executable Configuration -->
+    <key>CFBundleExecutable</key>
+    <string>vTorrent</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+
+    <!-- Icon Configuration -->
+    <!-- AppIcon.icns is generated from Assets/Images/dark_logo.svg using generate-icns.sh -->
+    <key>CFBundleIconFile</key>
+    <string>AppIcon.icns</string>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
+
+    <!-- macOS Requirements -->
+    <key>LSMinimumSystemVersion</key>
+    <string>10.15</string>
+    <key>NSHighResolutionCapable</key>
+    <true/>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.utilities</string>
+
+    <!-- Appearance Support -->
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    <key>NSRequiresAquaSystemAppearance</key>
+    <false/>
+
+    <!-- Copyright and Info -->
+    <key>CFBundleGetInfoString</key>
+    <string>vTorrent 1.0.0 - BitTorrent Client</string>
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright (c) 2024 vTorrent. All rights reserved.</string>
+
+    <!-- Document Types - .torrent files -->
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Torrent File</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <!-- TorrentIcon.icns is generated from Assets/Images/dark_logo.svg (or mutate variant) -->
+            <key>CFBundleTypeIconFile</key>
+            <string>TorrentIcon.icns</string>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>torrent</string>
+            </array>
+            <key>LSTypeIsPackage</key>
+            <false/>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>org.bittorrent.torrent</string>
+            </array>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+        </dict>
+    </array>
+
+    <!-- Imported UTI Declarations -->
+    <key>UTImportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeIdentifier</key>
+            <string>org.bittorrent.torrent</string>
+            <key>UTTypeDescription</key>
+            <string>BitTorrent File</string>
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.data</string>
+            </array>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>torrent</string>
+                </array>
+                <key>public.mime-type</key>
+                <array>
+                    <string>application/x-bittorrent</string>
+                </array>
+            </dict>
+        </dict>
+    </array>
+
+    <!-- URL Schemes - magnet: protocol -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>Magnet Link</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>magnet</string>
+            </array>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+        </dict>
+    </array>
+
+    <!-- App Transport Security -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        <key>NSAllowsArbitraryLoadsForMedia</key>
+        <true/>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
+
+    <!-- Privacy Descriptions -->
+    <key>NSNetworkVolumesUsageDescription</key>
+    <string>vTorrent needs access to network volumes to save downloaded files.</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>vTorrent needs access to your Documents folder to save downloaded files.</string>
+    <key>NSDownloadsFolderUsageDescription</key>
+    <string>vTorrent needs access to your Downloads folder to save downloaded files.</string>
+    <key>NSDesktopFolderUsageDescription</key>
+    <string>vTorrent needs access to your Desktop folder to save downloaded files.</string>
+    <key>NSRemovableVolumesUsageDescription</key>
+    <string>vTorrent needs access to removable volumes to save downloaded files.</string>
+
+    <!-- Localization -->
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleAllowMixedLocalizations</key>
+    <true/>
+    <key>LSHasLocalizedDisplayName</key>
+    <false/>
+
+    <!-- Launch Configuration -->
+    <key>LSBackgroundOnly</key>
+    <false/>
+    <key>LSUIElement</key>
+    <false/>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    <key>NSMainNibFile</key>
+    <string></string>
+
+    <!-- Supported Platforms -->
+    <key>CFBundleSupportedPlatforms</key>
+    <array>
+        <string>MacOSX</string>
+    </array>
+
+    <!-- Environment for .NET Runtime -->
+    <key>LSEnvironment</key>
+    <dict>
+        <key>DOTNET_SYSTEM_GLOBALIZATION_INVARIANT</key>
+        <string>1</string>
+    </dict>
+</dict>
+</plist>

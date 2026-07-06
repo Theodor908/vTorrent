@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- .NET Runtime Requirements -->
+    <!-- Required for JIT compilation in .NET runtime -->
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+
+    <!-- Required for .NET runtime memory management -->
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+
+    <!-- Required for loading native libraries (e.g., MonoTorrent native dependencies) -->
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+
+    <!-- Allow execution of dynamically generated code -->
+    <key>com.apple.security.cs.allow-dyld-environment-variables</key>
+    <true/>
+
+    <!-- Network Permissions -->
+    <!-- Required for downloading torrents (outbound connections) -->
+    <key>com.apple.security.network.client</key>
+    <true/>
+
+    <!-- Required for seeding torrents (inbound connections) -->
+    <key>com.apple.security.network.server</key>
+    <true/>
+
+    <!-- File System Permissions -->
+    <!-- Required for reading/writing torrent data and downloads -->
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+
+    <!-- Allow access to Downloads folder -->
+    <key>com.apple.security.files.downloads.read-write</key>
+    <true/>
+
+    <!-- Application Groups (for potential future features) -->
+    <!-- <key>com.apple.security.application-groups</key>
+    <array>
+        <string>group.com.vtorrent.app</string>
+    </array> -->
+
+    <!-- Hardened Runtime -->
+    <!-- Indicates this app opts into hardened runtime -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+
+    <!-- Allow access to user-selected files (required for opening .torrent files) -->
+    <key>com.apple.security.files.user-selected.executable</key>
+    <true/>
+
+    <!-- Temporary exception for absolute file paths (needed for torrent downloads) -->
+    <key>com.apple.security.temporary-exception.files.absolute-path.read-write</key>
+    <array>
+        <string>/</string>
+    </array>
+</dict>
+</plist>

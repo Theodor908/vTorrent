@@ -1,0 +1,714 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:vTorrent.Desktop.ViewModels.Dialogs"
+        xmlns:vmbase="using:vTorrent.Desktop.ViewModels"
+        xmlns:views="using:vTorrent.Desktop.Views"
+        xmlns:session="using:vTorrent.Abstractions.Enums"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="500"
+        x:Class="vTorrent.Desktop.Views.AddTorrentDialog"
+        x:DataType="vm:AddTorrentViewModel"
+        Title="Add Torrent"
+        Width="800"
+        Height="500"
+        MinWidth="600"
+        MinHeight="400"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Section Header -->
+        <Style Selector="TextBlock.sectionHeader">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,16,0,10"/>
+        </Style>
+
+        <Style Selector="TextBlock.sectionHeaderFirst">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <!-- Label Text -->
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <!-- Value Text -->
+        <Style Selector="TextBlock.value">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <!-- Input TextBox -->
+        <Style Selector="TextBox.inputBox">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="SelectionBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style Selector="ComboBox.dropdown">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style Selector="ComboBox /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="ComboBox /template/ Popup > Border">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="4"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="Padding" Value="10,8"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:pointerover">
+            <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="ComboBoxItem:selected">
+            <Setter Property="Background" Value="{DynamicResource AccentBlue}"/>
+            <Setter Property="Foreground" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <!-- CheckBox Style -->
+        <Style Selector="CheckBox.option">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,6,0,0"/>
+        </Style>
+
+        <!-- Browse Button -->
+        <Style Selector="Button.browseButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.browseButton TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Primary Button -->
+        <Style Selector="Button.primaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Secondary Button -->
+        <Style Selector="Button.secondaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Tag Button -->
+        <Style Selector="Button.tagButton">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="Margin" Value="0,0,6,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <Style Selector="Button.tagButton TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.tagButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+        </Style>
+
+        <Style Selector="Button.tagButton:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.tagButton:pointerover TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.tagButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+
+        <Style Selector="Button.tagButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.tagButton.selected">
+            <Setter Property="Background" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.tagButton.selected TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"/>
+        </Style>
+
+        <Style Selector="Button.tagButton.selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"/>
+        </Style>
+
+        <!-- DataGrid Styles -->
+        <Style Selector="DataGrid">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource BorderColor}"/>
+        </Style>
+
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="12,8"/>
+        </Style>
+
+        <Style Selector="DataGridCell">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="Padding" Value="12,8"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Title Bar -->
+        <Border x:Name="TitleBar"
+                Grid.Row="0"
+                Background="{DynamicResource PrimaryBackground}"
+                Padding="16,10">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Text="Add Torrent"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"/>
+                <Button Grid.Column="1"
+                        Classes="dialogCloseButton"
+                        Padding="6,4"
+                        Command="{Binding CancelCommand}">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="14"
+                           Content="&#xE4F6;"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1" ColumnDefinitions="300,*" Margin="16">
+            <!-- Left Panel - Settings -->
+            <ScrollViewer Grid.Column="0" Margin="0,0,16,0">
+                <StackPanel>
+                    <!-- Save Location -->
+                    <TextBlock Classes="sectionHeaderFirst" Text="SAVE LOCATION"/>
+                    <TextBlock Classes="label" Text="Save at"/>
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,6">
+                        <TextBox Grid.Column="0"
+                                 Classes="inputBox"
+                                 Text="{Binding SavePath, Mode=TwoWay}"
+                                 Watermark="Select download folder..."
+                                 IsReadOnly="True"/>
+                        <Button Grid.Column="1"
+                                Classes="browseButton"
+                                Margin="8,0,0,0"
+                                Command="{Binding BrowseFolderCommand}">
+                            <Label FontFamily="{DynamicResource Phosphor}"
+                                   FontSize="14"
+                                   Content="&#xE236;"/>
+                        </Button>
+                    </Grid>
+
+                    <!-- Torrent Settings -->
+                    <TextBlock Classes="sectionHeader" Text="SETTINGS"/>
+
+                    <TextBlock Classes="label" Text="Category"/>
+                    <ComboBox Classes="dropdown"
+                              ItemsSource="{Binding Categories}"
+                              SelectedItem="{Binding SelectedCategory}"
+                              Margin="0,0,0,10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="vm:CategoryItemViewModel">
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Classes="label" Text="Tags"/>
+                    <ItemsControl ItemsSource="{Binding Tags}" Margin="0,0,0,8"
+                                  IsVisible="{Binding HasTags}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:TagItemViewModel">
+                                <Button Classes="tagButton"
+                                        Classes.selected="{Binding IsSelected}"
+                                        Command="{Binding $parent[Window].((vm:AddTorrentViewModel)DataContext).ToggleTagCommand}"
+                                        CommandParameter="{Binding}">
+                                    <TextBlock Text="{Binding Name}"/>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <TextBlock Text="No tags available. Create tags in the sidebar."
+                               FontSize="11"
+                               Foreground="{DynamicResource TextTertiary}"
+                               IsVisible="{Binding !HasTags}"
+                               Margin="0,0,0,8"/>
+
+                    <CheckBox Classes="option"
+                              IsChecked="{Binding StartTorrent}"
+                              Content="Start torrent"/>
+                    <CheckBox Classes="option"
+                              IsChecked="{Binding AddToTopOfQueue}"
+                              Content="Add to top of queue"/>
+                    <CheckBox Classes="option"
+                              IsChecked="{Binding SequentialDownload}"
+                              Content="Download in sequential order"/>
+                    <CheckBox Classes="option"
+                              IsChecked="{Binding FirstLastPiecePriority}"
+                              Content="Download first and last pieces first"/>
+
+                    <!-- Torrent Information -->
+                    <TextBlock Classes="sectionHeader" Text="TORRENT INFO"/>
+
+                    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="80,*" Margin="0,0,0,4">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Classes="label" Text="Size:"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Classes="value" Text="{Binding TotalSize}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Classes="label" Text="Date:" Margin="0,6,0,0"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Classes="value" Text="{Binding CreationDate}" Margin="0,6,0,0"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Classes="label" Text="Protocol:" Margin="0,6,0,0"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Classes="value" Text="{Binding ProtocolVersion}" Margin="0,6,0,0"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Classes="label" Text="Hash v1:" Margin="0,6,0,0"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Classes="value"
+                                   Text="{Binding InfoHashV1}"
+                                   FontFamily="Consolas, Courier New"
+                                   FontSize="10"
+                                   TextTrimming="CharacterEllipsis"
+                                   Margin="0,6,0,0"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Classes="label" Text="Hash v2:" Margin="0,6,0,0"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Classes="value"
+                                   Text="{Binding InfoHashV2Display}"
+                                   FontFamily="Consolas, Courier New"
+                                   FontSize="10"
+                                   TextTrimming="CharacterEllipsis"
+                                   Margin="0,6,0,0"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Classes="label" Text="Comment:" Margin="0,6,0,0"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Classes="value"
+                                   Text="{Binding Comment}"
+                                   MaxLines="2"
+                                   TextTrimming="CharacterEllipsis"
+                                   Margin="0,6,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Right Panel - File Tree -->
+            <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*,Auto">
+                <!-- Header with Select All/None + Search -->
+                <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto,*,Auto" Margin="0,0,0,8">
+                    <Button Grid.Column="0" Classes="primaryButton"
+                            Content="Select All"
+                            Command="{Binding SelectAllFilesCommand}"
+                            Margin="0,0,6,0"/>
+                    <Button Grid.Column="1" Classes="secondaryButton"
+                            Content="Select None"
+                            Command="{Binding SelectNoFilesCommand}"/>
+                    <TextBox Grid.Column="3"
+                             Classes="inputBox"
+                             Width="180"
+                             Watermark="Filter files..."
+                             Text="{Binding FileSearchText, Mode=TwoWay}">
+                        <TextBox.InnerLeftContent>
+                            <Label FontFamily="{DynamicResource Phosphor}"
+                                   FontSize="13"
+                                   Content="&#xE30C;"
+                                   Foreground="{DynamicResource TextTertiary}"
+                                   VerticalAlignment="Center"
+                                   VerticalContentAlignment="Center"
+                                   Margin="6,0,0,0"/>
+                        </TextBox.InnerLeftContent>
+                    </TextBox>
+                </Grid>
+
+                <!-- Torrent Name -->
+                <TextBlock Grid.Row="1"
+                           Text="{Binding TorrentName}"
+                           FontSize="13"
+                           Foreground="{DynamicResource TextPrimary}"
+                           TextTrimming="CharacterEllipsis"
+                           Margin="0,0,0,6"/>
+
+                <!-- File Tree -->
+                <TreeView Grid.Row="2"
+                          ItemsSource="{Binding FileTree.Children}"
+                          Background="{DynamicResource SecondaryBackground}"
+                          BorderBrush="{DynamicResource BorderColor}"
+                          BorderThickness="1">
+                    <TreeView.Styles>
+                        <Style Selector="TreeViewItem" x:DataType="vmbase:TorrentFileTreeNodeViewModel">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                            <Setter Property="IsVisible" Value="{Binding IsVisible}"/>
+                        </Style>
+                    </TreeView.Styles>
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding Children}">
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                                <CheckBox Grid.Column="0"
+                                          IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                          Margin="0,0,6,0"/>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+                                    <!-- Folder/File icon -->
+                                    <Label FontFamily="{DynamicResource Phosphor}"
+                                           FontSize="14"
+                                           Content="{Binding IsFolder, Converter={x:Static views:FileTreeIconConverter.Instance}}"
+                                           Foreground="{DynamicResource TextSecondary}"
+                                           VerticalAlignment="Center"
+                                           VerticalContentAlignment="Center"
+                                           Padding="0"
+                                           Margin="0"/>
+                                    <TextBlock Text="{Binding Name}"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource TextPrimary}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding Size}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextSecondary}"
+                                           VerticalAlignment="Center"
+                                           Margin="12,0"
+                                           IsVisible="{Binding !IsFolder}"/>
+                                <ComboBox Grid.Column="3"
+                                          IsVisible="{Binding !IsFolder}"
+                                          SelectedItem="{Binding Priority, Mode=TwoWay}"
+                                          FontSize="11"
+                                          MinWidth="90"
+                                          Padding="6,3">
+                                    <session:FilePriority>Normal</session:FilePriority>
+                                    <session:FilePriority>High</session:FilePriority>
+                                    <session:FilePriority>Highest</session:FilePriority>
+                                    <session:FilePriority>Skip</session:FilePriority>
+                                </ComboBox>
+                            </Grid>
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+                <!-- Selected Size Footer -->
+                <TextBlock Grid.Row="3"
+                           Text="{Binding SelectedSizeText}"
+                           FontSize="11"
+                           Foreground="{DynamicResource TextSecondary}"
+                           Margin="0,6,0,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- Bottom Bar -->
+        <Border Grid.Row="2"
+                Background="{DynamicResource PrimaryBackground}"
+                Padding="16,10">
+            <Grid>
+                <!-- Error Message -->
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#EF4444"
+                           FontSize="12"
+                           VerticalAlignment="Center"
+                           IsVisible="{Binding HasError}"/>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Spacing="8">
+                    <Button Classes="secondaryButton"
+                            Content="Cancel"
+                            Command="{Binding CancelCommand}"/>
+                    <Button Classes="primaryButton"
+                            Content="Add Torrent"
+                            Command="{Binding AcceptCommand}"
+                            IsEnabled="{Binding !IsLoading}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Loading Overlay -->
+        <Border Grid.RowSpan="3"
+                Background="#80000000"
+                IsVisible="{Binding IsLoading}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ProgressBar IsIndeterminate="True"
+                             Width="200"
+                             Height="4"
+                             Foreground="{DynamicResource AccentGold}"
+                             Background="{DynamicResource BorderColor}"/>
+                <TextBlock Text="Loading..."
+                           Foreground="{DynamicResource TextPrimary}"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+    </Border>
+</Window>

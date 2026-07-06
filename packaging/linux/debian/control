@@ -1,0 +1,47 @@
+Source: vtorrent
+Section: net
+Priority: optional
+Maintainer: vTorrent Developers <developers@vtorrent.example.com>
+Build-Depends: debhelper (>= 12), dotnet-sdk-8.0
+Standards-Version: 4.6.2
+Homepage: https://vtorrent.example.com
+Vcs-Git: https://github.com/vtorrent/vtorrent.git
+Vcs-Browser: https://github.com/vtorrent/vtorrent
+Rules-Requires-Root: no
+
+Package: vtorrent
+Architecture: amd64
+Version: 1.0.0
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         libc6 (>= 2.31),
+         libstdc++6 (>= 10),
+         libicu70 | libicu71 | libicu72 | libicu74,
+         libssl3 | libssl1.1,
+         zlib1g (>= 1:1.2.11),
+         libfontconfig1 (>= 2.13),
+         libfreetype6 (>= 2.10),
+         libx11-6,
+         libxcursor1,
+         libxrandr2,
+         libxi6,
+         libgl1 | libgl1-mesa-glx,
+         libdrm2
+Recommends: xdg-utils,
+            desktop-file-utils,
+            shared-mime-info
+Suggests: ffmpeg
+Description: A modern BitTorrent client
+ vTorrent is a feature-rich, cross-platform BitTorrent client built
+ with modern technologies. It provides a clean and intuitive user
+ interface while offering powerful functionality for managing torrents.
+ .
+ Features include:
+  * Modern, responsive UI with light and dark themes
+  * DHT (Distributed Hash Table) for trackerless torrents
+  * Magnet link support
+  * Intelligent bandwidth management
+  * Sequential downloading for media files
+  * Peer exchange (PEX) support
+  * uTP protocol support
+  * IP filtering and encryption

@@ -1,0 +1,115 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:vTorrent.Desktop.ViewModels.Dialogs"
+        xmlns:conv="using:vTorrent.Desktop.Views.Converters"
+        mc:Ignorable="d"
+        d:DesignWidth="440"
+        d:DesignHeight="180"
+        x:Class="vTorrent.Desktop.Views.SpeedLimitsDialog"
+        x:DataType="vm:SpeedLimitsDialogViewModel"
+        Title="Global Speed Limits"
+        SizeToContent="Height"
+        Width="440"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource PrimaryBackground}"
+        ExtendClientAreaToDecorationsHint="False">
+
+    <Window.Styles>
+        <!-- Match TorrentOptionsDialog styles exactly -->
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="TextBlock.labelSecondary">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Grid.settingRow">
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        <Style Selector="ComboBox.dropdown">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+        <StackPanel Margin="16,12,16,14">
+            <!-- Upload row: exact TorrentOptionsDialog pattern -->
+            <Grid Classes="settingRow" ColumnDefinitions="80,*,Auto,Auto">
+                <TextBlock Grid.Column="0" Classes="label" Text="Upload:"/>
+                <Slider Grid.Column="1"
+                        Minimum="0"
+                        Maximum="10000"
+                        Value="{Binding UploadLimitDisplay}"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"/>
+                <NumericUpDown Grid.Column="2"
+                               Classes="compactSpinner"
+                               Value="{Binding UploadLimitDisplay, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                               Minimum="0"
+                               Maximum="1000000"
+                               Increment="1"
+                               FormatString="0.##"
+                               MinWidth="80"/>
+                <ComboBox Grid.Column="3"
+                          Classes="dropdown"
+                          ItemsSource="{Binding UnitOptions}"
+                          SelectedItem="{Binding SelectedUnit}"
+                          MinWidth="75"
+                          Margin="6,0,0,0"/>
+            </Grid>
+
+            <!-- Download row: exact TorrentOptionsDialog pattern -->
+            <Grid Classes="settingRow" ColumnDefinitions="80,*,Auto,Auto">
+                <TextBlock Grid.Column="0" Classes="label" Text="Download:"/>
+                <Slider Grid.Column="1"
+                        Minimum="0"
+                        Maximum="10000"
+                        Value="{Binding DownloadLimitDisplay}"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0"/>
+                <NumericUpDown Grid.Column="2"
+                               Classes="compactSpinner"
+                               Value="{Binding DownloadLimitDisplay, Converter={x:Static conv:NullableNumericConverter.Instance}, ConverterParameter=0}"
+                               Minimum="0"
+                               Maximum="1000000"
+                               Increment="1"
+                               FormatString="0.##"
+                               MinWidth="80"/>
+                <ComboBox Grid.Column="3"
+                          Classes="dropdown"
+                          ItemsSource="{Binding UnitOptions}"
+                          SelectedItem="{Binding SelectedUnit}"
+                          MinWidth="75"
+                          Margin="6,0,0,0"/>
+            </Grid>
+
+            <TextBlock Classes="labelSecondary"
+                       Text="0 = unlimited"
+                       Margin="0,0,0,8"/>
+
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button Content="OK"
+                        FontSize="12"
+                        Click="OnOkClick"
+                        MinWidth="70"
+                        Margin="0,0,8,0"/>
+                <Button Content="Cancel"
+                        FontSize="12"
+                        Click="OnCancelClick"
+                        MinWidth="70"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

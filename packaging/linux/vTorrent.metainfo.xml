@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2024 vTorrent Developers -->
+<component type="desktop-application">
+  <id>com.vtorrent.vTorrent</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-proprietary</project_license>
+
+  <name>vTorrent</name>
+  <summary>A modern BitTorrent client</summary>
+
+  <description>
+    <p>
+      vTorrent is a modern, cross-platform BitTorrent client built with performance
+      and usability in mind. It features a clean, intuitive interface while providing
+      powerful functionality for managing your torrents.
+    </p>
+    <p>Key features include:</p>
+    <ul>
+      <li>Modern, responsive user interface with light and dark themes</li>
+      <li>DHT (Distributed Hash Table) support for trackerless torrents</li>
+      <li>Magnet link support for easy torrent sharing</li>
+      <li>Intelligent bandwidth management and scheduling</li>
+      <li>Sequential downloading option for media files</li>
+      <li>Peer exchange (PEX) for improved peer discovery</li>
+      <li>uTP (Micro Transport Protocol) support for network-friendly transfers</li>
+      <li>IP filtering and encryption support</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">vTorrent.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window showing torrent list</caption>
+      <image type="source" width="1280" height="720">https://vtorrent.example.com/screenshots/main-window.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Torrent details and peer information</caption>
+      <image type="source" width="1280" height="720">https://vtorrent.example.com/screenshots/torrent-details.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Settings and preferences</caption>
+      <image type="source" width="1280" height="720">https://vtorrent.example.com/screenshots/settings.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Dark theme</caption>
+      <image type="source" width="1280" height="720">https://vtorrent.example.com/screenshots/dark-theme.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://vtorrent.example.com</url>
+  <url type="bugtracker">https://github.com/vtorrent/vtorrent/issues</url>
+  <url type="help">https://vtorrent.example.com/docs</url>
+  <url type="donation">https://vtorrent.example.com/donate</url>
+
+  <developer_name>vTorrent Developers</developer_name>
+
+  <provides>
+    <binary>vTorrent</binary>
+    <mediatype>application/x-bittorrent</mediatype>
+    <mediatype>x-scheme-handler/magnet</mediatype>
+  </provides>
+
+  <mimetypes>
+    <mimetype>application/x-bittorrent</mimetype>
+    <mimetype>x-scheme-handler/magnet</mimetype>
+  </mimetypes>
+
+  <categories>
+    <category>Network</category>
+    <category>FileTransfer</category>
+    <category>P2P</category>
+  </categories>
+
+  <keywords>
+    <keyword>torrent</keyword>
+    <keyword>bittorrent</keyword>
+    <keyword>download</keyword>
+    <keyword>p2p</keyword>
+    <keyword>magnet</keyword>
+    <keyword>file sharing</keyword>
+  </keywords>
+
+  <content_rating type="oars-1.1" />
+
+  <releases>
+    <release version="1.0.0" date="2024-01-01">
+      <description>
+        <p>Initial release of vTorrent with the following features:</p>
+        <ul>
+          <li>Full BitTorrent protocol support</li>
+          <li>DHT and peer exchange</li>
+          <li>Magnet link handling</li>
+          <li>Modern Avalonia-based UI</li>
+          <li>Light and dark themes</li>
+          <li>Cross-platform support (Windows, Linux, macOS)</li>
+        </ul>
+      </description>
+    </release>
+  </releases>
+
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+  </supports>
+
+  <requires>
+    <display_length compare="ge">768</display_length>
+  </requires>
+
+  <recommends>
+    <memory>512</memory>
+    <internet>always</internet>
+  </recommends>
+</component>

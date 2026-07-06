@@ -1,0 +1,82 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net10.0;net10.0-windows10.0.17763.0</TargetFrameworks>
+    <RootNamespace>vTorrent.Desktop</RootNamespace>
+    <AssemblyName>vTorrent</AssemblyName>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+    <RuntimeIdentifiers>win-x64;win-arm64;osx-x64;osx-arm64;linux-x64;linux-arm64</RuntimeIdentifiers>
+    <ApplicationIcon>Assets\Images\logo256x256.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!-- Windows-specific properties -->
+  <PropertyGroup Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0-windows'))">
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Clean Avalonia generated files before each build -->
+  <Target Name="CleanAvaloniaCache" BeforeTargets="BeforeBuild">
+    <RemoveDir Directories="$(IntermediateOutputPath)Avalonia" />
+  </Target>
+
+  <ItemGroup>
+    <ProjectReference Include="..\vTorrent.Core\vTorrent.Core.csproj" />
+    <ProjectReference Include="..\vTorrent.Abstractions\vTorrent.Abstractions.csproj" />
+    <ProjectReference Include="..\vTorrent.Server\vTorrent.Server.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <!-- Copy ICO/PNG files to output for notification icons -->
+  <ItemGroup>
+    <Content Include="Assets\Images\*.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Assets\Images\%(Filename)%(Extension)</Link>
+    </Content>
+    <Content Include="Assets\Images\dark_logo48x48.png" Condition="Exists('Assets\Images\dark_logo48x48.png')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Assets\Images\dark_logo48x48.png</Link>
+    </Content>
+  </ItemGroup>
+
+  <!-- Copy Phosphor font to output for notification icon rendering -->
+  <ItemGroup>
+    <Content Include="Assets\Fonts\Phosphor.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Assets\Fonts\Phosphor.ttf</Link>
+    </Content>
+  </ItemGroup>
+
+  <!-- Cross-platform packages -->
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="Avalonia.Diagnostics">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+    <PackageReference Include="ReactiveUI.Avalonia" />
+    <PackageReference Include="ReactiveUI.Avalonia.Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="ReactiveUI.Fody" />
+    <PackageReference Include="ReactiveUI.Validation" />
+    <PackageReference Include="Svg.Controls.Skia.Avalonia" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="vTorrent.Desktop.Tests" />
+  </ItemGroup>
+
+</Project>

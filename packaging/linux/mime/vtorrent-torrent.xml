@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MIME type definition for BitTorrent files
+  Following the freedesktop.org Shared MIME-info Database specification
+  https://specifications.freedesktop.org/shared-mime-info-spec/shared-mime-info-spec-latest.html
+-->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+
+  <!-- Primary .torrent file type definition -->
+  <mime-type type="application/x-bittorrent">
+    <comment>BitTorrent file</comment>
+    <comment xml:lang="de">BitTorrent-Datei</comment>
+    <comment xml:lang="es">Archivo BitTorrent</comment>
+    <comment xml:lang="fr">Fichier BitTorrent</comment>
+    <comment xml:lang="it">File BitTorrent</comment>
+    <comment xml:lang="ja">BitTorrent ファイル</comment>
+    <comment xml:lang="ko">BitTorrent 파일</comment>
+    <comment xml:lang="nl">BitTorrent-bestand</comment>
+    <comment xml:lang="pl">Plik BitTorrent</comment>
+    <comment xml:lang="pt">Arquivo BitTorrent</comment>
+    <comment xml:lang="ru">Файл BitTorrent</comment>
+    <comment xml:lang="zh_CN">BitTorrent 文件</comment>
+    <comment xml:lang="zh_TW">BitTorrent 檔案</comment>
+
+    <!-- File extension glob patterns -->
+    <glob pattern="*.torrent"/>
+    <glob pattern="*.TORRENT"/>
+
+    <!-- Magic number detection for Bencoded torrent files -->
+    <!-- Torrent files start with "d" followed by a digit (Bencoded dictionary) -->
+    <!-- Common patterns: "d8:announce" or "d13:announce-list" or "d7:comment" -->
+    <magic priority="60">
+      <!-- Match "d8:announce" - most common start for torrent files -->
+      <match type="string" offset="0" value="d8:announce"/>
+      <!-- Match "d13:announce-list" - alternative start -->
+      <match type="string" offset="0" value="d13:announce-list"/>
+      <!-- Match "d7:comment" - some torrents start with comment -->
+      <match type="string" offset="0" value="d7:comment"/>
+      <!-- Match "d4:info" - minimal torrent files -->
+      <match type="string" offset="0" value="d4:info"/>
+      <!-- Generic: starts with "d" followed by digit (bencoded dict with string key) -->
+      <match type="string" offset="0" value="d1"/>
+      <match type="string" offset="0" value="d2"/>
+      <match type="string" offset="0" value="d3"/>
+      <match type="string" offset="0" value="d4"/>
+      <match type="string" offset="0" value="d5"/>
+      <match type="string" offset="0" value="d6"/>
+      <match type="string" offset="0" value="d7"/>
+      <match type="string" offset="0" value="d8"/>
+      <match type="string" offset="0" value="d9"/>
+    </magic>
+
+    <!-- Expanded acronym -->
+    <expanded-acronym>BitTorrent</expanded-acronym>
+
+    <!-- Icon name (follows freedesktop.org icon naming spec) -->
+    <icon name="application-x-bittorrent"/>
+    <generic-icon name="application-x-executable"/>
+  </mime-type>
+
+  <!-- Magnet URI scheme handler -->
+  <!-- Note: Scheme handlers are typically registered via desktop file,
+       but we document it here for completeness -->
+  <mime-type type="x-scheme-handler/magnet">
+    <comment>Magnet link</comment>
+    <comment xml:lang="de">Magnet-Link</comment>
+    <comment xml:lang="es">Enlace magnet</comment>
+    <comment xml:lang="fr">Lien magnet</comment>
+    <comment xml:lang="it">Link magnet</comment>
+    <comment xml:lang="ja">マグネットリンク</comment>
+    <comment xml:lang="ko">마그넷 링크</comment>
+    <comment xml:lang="nl">Magnet-link</comment>
+    <comment xml:lang="pl">Link magnet</comment>
+    <comment xml:lang="pt">Link magnético</comment>
+    <comment xml:lang="ru">Magnet-ссылка</comment>
+    <comment xml:lang="zh_CN">磁力链接</comment>
+    <comment xml:lang="zh_TW">磁力連結</comment>
+
+    <!-- Icon for magnet links -->
+    <icon name="application-x-bittorrent"/>
+    <generic-icon name="text-x-uri"/>
+  </mime-type>
+
+</mime-info>

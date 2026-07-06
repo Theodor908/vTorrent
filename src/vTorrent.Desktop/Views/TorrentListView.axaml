@@ -1,0 +1,338 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:vTorrent.Desktop.ViewModels"
+             xmlns:cvm="using:vTorrent.Desktop.ViewModels"
+             xmlns:local="using:vTorrent.Desktop.Views"
+             mc:Ignorable="d"
+             d:DesignWidth="800"
+             d:DesignHeight="400"
+             x:Class="vTorrent.Desktop.Views.TorrentListView"
+             x:DataType="vm:TorrentListViewModel">
+
+    <UserControl.Styles>
+        <!-- DataGrid Styling -->
+        <Style Selector="DataGrid">
+            <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"/>
+            <Setter Property="RowBackground" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="CanUserResizeColumns" Value="True"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserSortColumns" Value="True"/>
+            <Setter Property="SelectionMode" Value="Extended"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+
+        <!-- Column Header -->
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource PrimaryBackground}"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="SeparatorBrush" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="DataGridColumnHeader:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Hide separator line between headers and content -->
+        <Style Selector="DataGrid /template/ Rectangle#PART_ColumnHeadersAndRowsSeparator">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <!-- Row with fully rounded corners using custom template -->
+        <Style Selector="DataGridRow">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="MinHeight" Value="48"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border x:Name="RowBorder"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="1.5"
+                            CornerRadius="6"
+                            Margin="8,2"
+                            ClipToBounds="True">
+                        <DataGridFrozenGrid Name="PART_Root"
+                                            ColumnDefinitions="Auto,*"
+                                            RowDefinitions="*,Auto,Auto">
+                            <Rectangle Name="BackgroundRectangle"
+                                       Grid.RowSpan="2"
+                                       Grid.ColumnSpan="2"
+                                       RadiusX="6"
+                                       RadiusY="6"/>
+                            <Rectangle Name="InvalidVisualElement"
+                                       Grid.ColumnSpan="2"
+                                       Fill="Transparent"
+                                       Opacity="0"/>
+                            <DataGridRowHeader Name="PART_RowHeader"
+                                               Grid.RowSpan="3"
+                                               DataGridFrozenGrid.IsFrozen="True"/>
+                            <DataGridCellsPresenter Name="PART_CellsPresenter"
+                                                    Grid.Column="1"
+                                                    DataGridFrozenGrid.IsFrozen="True"/>
+                            <DataGridDetailsPresenter Name="PART_DetailsPresenter"
+                                                      Grid.Row="1"
+                                                      Grid.Column="1"
+                                                      Background="Transparent"/>
+                            <Rectangle Name="PART_BottomGridLine"
+                                       Grid.Row="2"
+                                       Grid.Column="1"
+                                       Height="0"
+                                       IsVisible="False"/>
+                        </DataGridFrozenGrid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <!-- Hover effect -->
+        <Style Selector="DataGridRow:pointerover /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <!-- Selected - show selection border (cyan in dark, gold in light) -->
+        <Style Selector="DataGridRow:selected /template/ Border#RowBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SelectionBorder}"/>
+        </Style>
+
+        <Style Selector="DataGridRow:selected /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="Transparent"/>
+        </Style>
+
+        <!-- Selected + hover -->
+        <Style Selector="DataGridRow:selected:pointerover /template/ Border#RowBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SelectionBorder}"/>
+        </Style>
+
+        <Style Selector="DataGridRow:selected:pointerover /template/ Rectangle#BackgroundRectangle">
+            <Setter Property="Fill" Value="Transparent"/>
+        </Style>
+
+        <!-- Cell - remove all focus/selection indicators -->
+        <Style Selector="DataGridCell">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+
+        <!-- Remove cell selection background -->
+        <Style Selector="DataGridCell:selected /template/ Grid#CellRoot">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Remove cell focus background -->
+        <Style Selector="DataGridCell:focus /template/ Grid#CellRoot">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Remove current cell border/indicator -->
+        <Style Selector="DataGridCell:current /template/ Grid#CellRoot">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Hide the focus visual rectangle on cells -->
+        <Style Selector="DataGridCell /template/ Rectangle#FocusVisual">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="DataGridCell:focus /template/ Rectangle#FocusVisual">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <!-- Progress Bar Style -->
+        <Style Selector="ProgressBar.torrentProgress">
+            <Setter Property="Height" Value="6"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <!-- Status Icon -->
+        <Style Selector="Label.statusIcon">
+            <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <!-- Name text -->
+        <Style Selector="TextBlock.torrentName">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+        
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderThickness="0"
+                            Padding="{TemplateBinding Padding}">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <!-- Header Text - Column 0 -->
+                            <ContentPresenter Grid.Column="0"
+                                              Content="{TemplateBinding Content}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Margin="0,6,0,0"/>
+
+                            <!-- Sort Arrow - Column 1 (to the right) -->
+                            <Path Grid.Column="1"
+                                  Name="SortIcon"
+                                  Fill="{TemplateBinding Foreground}"
+                                  Margin="6,6,0,0"
+                                  HorizontalAlignment="Left"
+                                  Stretch="Uniform"
+                                  Width="8"
+                                  Height="8"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <!-- Sort arrow shapes -->
+        <Style Selector="DataGridColumnHeader:sortascending /template/ Path#SortIcon">
+            <Setter Property="Data" Value="M 0 4 L 4 0 L 8 4 Z"/>
+        </Style>
+        <Style Selector="DataGridColumnHeader:sortdescending /template/ Path#SortIcon">
+            <Setter Property="Data" Value="M 0 0 L 4 4 L 8 0 Z"/>
+        </Style>
+    </UserControl.Styles>
+
+    <DataGrid x:Name="TorrentDataGrid"
+              ItemsSource="{Binding FilteredTorrents}"
+              SelectedItem="{Binding SelectedTorrent}"
+              SelectionMode="Extended"
+              AutoGenerateColumns="False"
+              HorizontalScrollBarVisibility="Disabled"
+              VerticalScrollBarVisibility="Auto">
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <ContextMenu.Styles>
+                    <Style Selector="ContextMenu">
+                        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Padding" Value="4"/>
+                    </Style>
+                    <Style Selector="MenuItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+                        <Setter Property="Padding" Value="12,8"/>
+                        <Setter Property="FontSize" Value="13"/>
+                    </Style>
+                    <Style Selector="MenuItem:pointerover /template/ Border#PART_LayoutRoot">
+                        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+                    </Style>
+                    <Style Selector="MenuItem:disabled">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </Style>
+                    <Style Selector="Separator">
+                        <Setter Property="Background" Value="{DynamicResource BorderColor}"/>
+                        <Setter Property="Height" Value="1"/>
+                        <Setter Property="Margin" Value="8,4"/>
+                    </Style>
+                </ContextMenu.Styles>
+                <MenuItem x:Name="ResumeMenuItem" Header="Resume">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE3D0;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="PauseMenuItem" Header="Pause">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE39E;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="ForceStartMenuItem" Header="Force Resume">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE6A6;"
+                               Foreground="{DynamicResource AccentCyan}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="ForceRecheckMenuItem" Header="Force Recheck">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE182;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="SuperSeedingMenuItem" Header="Super Seeding">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE61E;"
+                               Foreground="{DynamicResource AccentCyan}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="MoveToTopMenuItem" Header="Move to Top of Queue">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE098;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="OptionsMenuItem" Header="Torrent Options...">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE270;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="EditTorrentMenuItem" Header="Edit Torrent...">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE3AE;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="DetailsMenuItem" Header="Torrent Details...">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE238;"
+                               Foreground="{DynamicResource TextPrimary}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="DeleteMenuItem" Header="Delete">
+                    <MenuItem.Icon>
+                        <Label FontFamily="{DynamicResource Phosphor}"
+                               FontSize="14"
+                               Content="&#xE4A8;"
+                               Foreground="#EF4444"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        <!-- Columns built programmatically in code-behind -->
+    </DataGrid>
+</UserControl>

@@ -1,0 +1,200 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="vTorrent.Desktop.Views.ExtraFilesDialog"
+        Title="Extra files found"
+        Width="460"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Delete All Button -->
+        <Style Selector="Button.deleteAllButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,5"/>
+            <Setter Property="MinWidth" Value="85"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.deleteAllButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.deleteAllButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}"/>
+        </Style>
+        <Style Selector="Button.deleteAllButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.deleteAllButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}"/>
+        </Style>
+        <Style Selector="Button.deleteAllButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}"/>
+        </Style>
+        <Style Selector="Button.deleteAllButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Keep Button -->
+        <Style Selector="Button.keepButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,5"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.keepButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.keepButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+        <Style Selector="Button.keepButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.keepButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+        <Style Selector="Button.keepButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+        <Style Selector="Button.keepButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Close button -->
+        <Style Selector="Button.closeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+        <Style Selector="Button.closeButton Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+        <Style Selector="Button.closeButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover">
+            <Setter Property="Background" Value="#E81123"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E81123"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+    <StackPanel>
+        <!-- Title Bar (Draggable) -->
+        <Border Background="{DynamicResource PrimaryBackground}"
+                Padding="10,6"
+                PointerPressed="OnTitleBarPointerPressed">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Label Grid.Column="0"
+                       FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE4E0;"
+                       Foreground="{DynamicResource WarningOrange}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Extra files found"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="2"
+                        Classes="closeButton"
+                        Click="OnKeepClick">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="10"
+                           Content="&#xE4F6;"
+                           Foreground="{DynamicResource TextSecondary}"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <StackPanel Margin="12,8,12,10">
+            <!-- Warning message -->
+            <StackPanel Margin="0,0,0,8">
+                <TextBlock x:Name="MessageText"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextPrimary}"
+                           TextWrapping="Wrap"
+                           MaxWidth="400"/>
+            </StackPanel>
+
+            <!-- File list -->
+            <Border Background="{DynamicResource SecondaryBackground}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="8"
+                    Margin="0,0,0,10"
+                    MaxHeight="160">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <TextBlock x:Name="FileListText"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextSecondary}"
+                               FontFamily="Consolas,Menlo,monospace"
+                               TextWrapping="NoWrap"/>
+                </ScrollViewer>
+            </Border>
+        </StackPanel>
+
+        <!-- Bottom Bar -->
+        <Border Background="{DynamicResource PrimaryBackground}"
+                Padding="12,8">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="6">
+                <Button Classes="deleteAllButton"
+                        Content="Delete All"
+                        Click="OnDeleteAllClick"/>
+                <Button Classes="keepButton"
+                        Content="Keep"
+                        Click="OnKeepClick"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+    </Border>
+</Window>

@@ -1,0 +1,1 @@
+import{a9 as u,r as e,aa as s,ab as o}from"./index-BbmkGeLl.js";const f=u("settings",()=>{const t=e(null),a=e(!1);async function n(){a.value=!0;try{t.value=await s()}finally{a.value=!1}}async function i(l){a.value=!0;try{await o(l),t.value=await s()}finally{a.value=!1}}return{globalSettings:t,isLoading:a,loadSettings:n,saveSettings:i}});export{f as u};

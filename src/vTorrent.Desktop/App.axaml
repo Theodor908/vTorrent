@@ -1,0 +1,73 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="vTorrent.Desktop.App"
+             xmlns:local="using:vTorrent.Desktop"
+             RequestedThemeVariant="Dark">
+             <!-- "Dark" ensures app always starts with dark theme. "Default" follows system, "Light" for light theme. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="Styles/AppDefaultStyles.axaml"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
+    </Application.Styles>
+
+    <!-- Tray icon is created programmatically in App.axaml.cs:
+         - Windows: Win32 Shell_NotifyIcon (custom styled popup)
+         - Linux/macOS: Avalonia TrayIcon + NativeMenu (renders natively) -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Theme colors - can be swapped at runtime for light/dark theme -->
+                <ResourceInclude Source="/Assets/Themes/DarkTheme.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Additional Colors (not theme-dependent) -->
+            <SolidColorBrush x:Key="TertiaryBackground" Color="#16213E" />
+            <SolidColorBrush x:Key="TransparentBackground" Color="#00000000" />
+            <SolidColorBrush x:Key="AccentPink" Color="#EC4899" />
+
+            <!-- Status Colors -->
+            <SolidColorBrush x:Key="SuccessGreen" Color="#10B981" />
+            <SolidColorBrush x:Key="WarningOrange" Color="#F59E0B" />
+            <SolidColorBrush x:Key="ErrorRed" Color="#EF4444" />
+            <SolidColorBrush x:Key="InfoBlue" Color="#3B82F6" />
+
+            <!-- Gradient Brushes -->
+            <LinearGradientBrush x:Key="PurpleGradient" StartPoint="0%,0%" EndPoint="100%,0%">
+                <GradientStop Color="#8B5CF6" Offset="0" />
+                <GradientStop Color="#EC4899" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="BlueGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#3B82F6" Offset="0" />
+                <GradientStop Color="#8B5CF6" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="CyanGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#06B6D4" Offset="0" />
+                <GradientStop Color="#3B82F6" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="SuccessGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#10B981" Offset="0" />
+                <GradientStop Color="#06B6D4" Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="GlassBackground" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#1A1A2E" Offset="0" />
+                <GradientStop Color="#16213E" Offset="0.5" />
+                <GradientStop Color="#1F2937" Offset="1" />
+            </LinearGradientBrush>
+
+            <!-- Fonts -->
+            <FontFamily x:Key="Anta">/Assets/Fonts/Anta-Regular.ttf#Anta</FontFamily>
+            <FontFamily x:Key="Phosphor">/Assets/Fonts/Phosphor.ttf#Phosphor</FontFamily>
+            <FontFamily x:Key="PhosphorFill">/Assets/Fonts/Phosphor-Fill.ttf#Phosphor-Fill</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

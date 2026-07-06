@@ -1,0 +1,24 @@
+[Desktop Entry]
+Name=vTorrent
+GenericName=BitTorrent Client
+Comment=A modern BitTorrent client
+Exec=vTorrent %U
+Icon=vTorrent
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;P2P;
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+StartupWMClass=vTorrent
+StartupNotify=true
+Keywords=torrent;bittorrent;download;p2p;magnet;file;sharing;
+
+# Actions for quick access
+Actions=AddTorrent;AddMagnet;
+
+[Desktop Action AddTorrent]
+Name=Add Torrent File
+Exec=vTorrent --add-torrent
+
+[Desktop Action AddMagnet]
+Name=Add Magnet Link
+Exec=vTorrent --add-magnet

@@ -1,0 +1,85 @@
+#!/bin/bash
+# AppRun - Entry point for vTorrent AppImage
+# This script is executed when the AppImage is run
+
+# Get the directory where this script (and the AppImage contents) reside
+APPDIR="$(dirname "$(readlink -f "$0")")"
+
+# Export application directory for internal use
+export VTORRENT_APPDIR="$APPDIR"
+
+# Set up library paths for bundled dependencies
+export LD_LIBRARY_PATH="$APPDIR/usr/lib:$APPDIR/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH"
+
+# Set up XDG paths for proper desktop integration
+export XDG_DATA_DIRS="$APPDIR/usr/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
+
+# Set application-specific environment variables
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+
+# Configure .NET to use bundled runtime if present
+if [ -d "$APPDIR/usr/share/dotnet" ]; then
+    export DOTNET_ROOT="$APPDIR/usr/share/dotnet"
+    export PATH="$DOTNET_ROOT:$PATH"
+fi
+
+# Set up font configuration
+if [ -d "$APPDIR/usr/share/fonts" ]; then
+    export FONTCONFIG_PATH="$APPDIR/etc/fonts"
+fi
+
+# Handle Wayland/X11 display
+if [ -z "$DISPLAY" ] && [ -z "$WAYLAND_DISPLAY" ]; then
+    echo "Warning: No display server detected. vTorrent requires a graphical environment." >&2
+fi
+
+# Check for required libraries and provide helpful error messages
+check_library() {
+    if ! ldconfig -p 2>/dev/null | grep -q "$1"; then
+        if ! [ -f "$APPDIR/usr/lib/$1"* ] && ! [ -f "$APPDIR/usr/lib/x86_64-linux-gnu/$1"* ]; then
+            return 1
+        fi
+    fi
+    return 0
+}
+
+# Verify critical dependencies
+MISSING_DEPS=""
+for lib in libGL.so libX11.so libfontconfig.so; do
+    if ! check_library "$lib"; then
+        MISSING_DEPS="$MISSING_DEPS $lib"
+    fi
+done
+
+if [ -n "$MISSING_DEPS" ]; then
+    echo "Warning: Some system libraries may be missing:$MISSING_DEPS" >&2
+    echo "The application may not start correctly." >&2
+    echo "Please install the required graphics and font libraries for your distribution." >&2
+fi
+
+# Set up GPU rendering preferences
+# Prefer software rendering if hardware acceleration causes issues
+# Uncomment the following line if you experience graphics issues:
+# export LIBGL_ALWAYS_SOFTWARE=1
+
+# Enable Avalonia-specific settings for better Linux compatibility
+export AVALONIA_SCREEN_SCALE_FACTORS=""
+
+# Handle HiDPI scaling
+if [ -n "$QT_SCALE_FACTOR" ]; then
+    export AVALONIA_SCREEN_SCALE_FACTORS="$QT_SCALE_FACTOR"
+elif [ -n "$GDK_SCALE" ]; then
+    export AVALONIA_SCREEN_SCALE_FACTORS="$GDK_SCALE"
+fi
+
+# Execute the main application
+# The binary should be at usr/bin/vTorrent within the AppDir
+BINARY="$APPDIR/usr/bin/vTorrent"
+
+if [ ! -x "$BINARY" ]; then
+    echo "Error: vTorrent binary not found or not executable at $BINARY" >&2
+    exit 1
+fi
+
+# Pass all command line arguments to the application
+exec "$BINARY" "$@"

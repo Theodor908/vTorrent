@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>vTorrent.Bencode</RootNamespace>
+    <AssemblyName>vTorrent.Bencode</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="vTorrent.Bencode.Tests" />
+    <InternalsVisibleTo Include="vTorrent" />
+    <InternalsVisibleTo Include="vTorrent.Core" />
+  </ItemGroup>
+
+</Project>

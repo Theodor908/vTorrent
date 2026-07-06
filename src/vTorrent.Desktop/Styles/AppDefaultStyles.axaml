@@ -1,0 +1,1450 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20" Background="{DynamicResource PrimaryBackgroundGradient}">
+            <Grid RowDefinitions="*, Auto">
+                <StackPanel Grid.Row="0" Spacing="12">
+                    <Button Classes="primaryButton">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Classes="iconOnly" Content="&#xE236;"></Label>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Design.PreviewWith>
+
+    <!-- Add Styles Here -->
+    
+    <Style Selector="ProgressBar.torrentProgressBar">
+        <Setter Property="Height" Value="5"/>
+        <Setter Property="Margin" Value="0, 4"/>
+        <Setter Property="CornerRadius" Value="2.5"/> <Setter Property="Background" Value="#1A1A1A"/>
+    </Style>
+
+    <Style Selector="ProgressBar.torrentProgressBar /template/ Border#PART_Indicator">
+        <Setter Property="CornerRadius" Value="2.5"/>
+    
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,0%">
+                <GradientStop Color="#00AEEF" Offset="0.0"/>
+                <GradientStop Color="#54D4F3" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    
+    <!-- =========================== -->
+    <!-- DataGrid Styles -->
+    <!-- =========================== -->
+    
+    <Style Selector="DataGrid">
+        <Setter Property="Background" Value="{DynamicResource PrimaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="RowBackground" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="SelectionMode" Value="Extended" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="GridLinesVisibility" Value="Vertical" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    
+    <!-- =========================== -->
+    <!-- BUTTON STYLES -->
+    <!-- =========================== -->
+
+    <!-- Primary modern button -->
+    <Style Selector="Button.modernButton">
+        <Setter Property="Background" Value="{DynamicResource PurpleGradient}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button.modernButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource BlueGradient}" />
+    </Style>
+
+    <Style Selector="Button.modernButton:pressed">
+        <Setter Property="Background" Value="{DynamicResource AccentPurple}" />
+    </Style>
+
+    <!-- Icon-Only button -->
+
+    <Style Selector="Button.iconOnlyButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button.iconOnlyButton:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.iconOnlyButton:pointerover Label">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Primary button - text stays same color, border changes to cyan on hover -->
+    <Style Selector="Button.primaryButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Explicit text color for primaryButton content -->
+    <Style Selector="Button.primaryButton TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.primaryButton:pressed /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Secondary button - text stays same color, border changes to silver on hover -->
+    <Style Selector="Button.secondaryButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Explicit text color for secondaryButton content -->
+    <Style Selector="Button.secondaryButton TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.secondaryButton:pressed /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Ghost button -->
+    <Style Selector="Button.ghostButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button.ghostButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.ghostButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Save button (dialog action) - text stays same color, border changes to gold on hover -->
+    <Style Selector="Button.saveButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Explicit text color for saveButton content -->
+    <Style Selector="Button.saveButton TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.saveButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.saveButton:pressed /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Delete button (dialog action) - text stays same color, border changes to red on hover -->
+    <Style Selector="Button.deleteButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Explicit text color for deleteButton content -->
+    <Style Selector="Button.deleteButton TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.deleteButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentRed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource AccentRed}" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentRed}" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentRed}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource AccentRed}" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentRed}" />
+    </Style>
+
+    <Style Selector="Button.deleteButton:pressed /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Cancel button (dialog action) - text stays same color, border changes to silver on hover -->
+    <Style Selector="Button.cancelButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <!-- Explicit text color for cancelButton content -->
+    <Style Selector="Button.cancelButton TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.cancelButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pressed TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.cancelButton:pressed /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Add button (sidebar) -->
+    <Style Selector="Button.addButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="Button.addButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.addButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+    </Style>
+
+    <Style Selector="Button.addButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.addButton:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.addButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+    </Style>
+
+    <Style Selector="Button.addButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="Button.addButton:pressed /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <!-- Sidebar button -->
+    <Style Selector="Button.sidebarButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button.sidebarButton:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.sidebarButton:pressed">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Active/Selected state for sidebar buttons -->
+    <Style Selector="Button.sidebarButton.active">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.sidebarButton.active:pointerover">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- COLUMN HEADER STYLES -->
+    <!-- =========================== -->
+
+    <!-- Column header button -->
+    <Style Selector="Button.columnHeader">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="MinWidth" Value="120" />
+    </Style>
+
+    <Style Selector="Button.columnHeader:pointerover">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="Button.columnHeader:pressed">
+        <Setter Property="Background" Value="{DynamicResource TertiaryBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Active/sorted column header -->
+    <Style Selector="Button.columnHeader.sorted">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Sort indicator styles -->
+    <Style Selector="Label.sortIndicator">
+        <Setter Property="FontFamily" Value="{DynamicResource Phosphor}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+    </Style>
+
+    <Style Selector="Button.columnHeader.sorted Label.sortIndicator">
+        <Setter Property="Foreground" Value="{DynamicResource AccentGold}" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- TORRENT LIST STYLES -->
+    <!-- =========================== -->
+
+    <!-- Torrent list item -->
+    <Style Selector="Border.torrentItem">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Border.torrentItem:pointerover">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+    </Style>
+
+    <!-- Selected torrent item -->
+    <Style Selector="Border.torrentItem.selected">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentPurple}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Border.torrentItem.selected:pointerover">
+        <Setter Property="Background" Value="{DynamicResource TertiaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentBlue}" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- EXPANDER STYLES -->
+    <!-- =========================== -->
+
+    <!-- Primary expander matching button style -->
+    <Style Selector="Expander.primaryExpander">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <!-- Expander header styling to match primary buttons -->
+    <Style Selector="Expander.primaryExpander /template/ ToggleButton#PART_Toggle">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+    </Style>
+
+    <!-- Hover effect for expander header -->
+    <Style
+        Selector="Expander.primaryExpander /template/ ToggleButton#PART_Toggle:pointerover /template/ ContentPresenter">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Expanded state styling -->
+    <Style Selector="Expander.primaryExpander:expanded /template/ ToggleButton#PART_Toggle">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Content area styling -->
+    <Style Selector="Expander.primaryExpander /template/ Border#PART_ContentBorder">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="0,0,8,8" />
+        <Setter Property="Padding" Value="16,8,16,8" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <!-- Hover animation for toggle button -->
+    <Style Selector="Expander.primaryExpander /template/ ToggleButton#PART_Toggle:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Rotate chevron when expanded -->
+    <Style Selector="Expander.primaryExpander:expanded /template/ Label#ChevronIcon">
+        <Setter Property="RenderTransform" Value="rotate(90deg)" />
+    </Style>
+
+
+    <!-- =========================== -->
+    <!-- CARD AND CONTAINER STYLES -->
+    <!-- =========================== -->
+
+    <!-- Main card style -->
+    <Style Selector="Border.mainCard">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <!-- Glass card style -->
+    <Style Selector="Border.glassCard">
+        <Setter Property="Background" Value="{DynamicResource GlassBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <!-- Sidebar card -->
+    <Style Selector="Border.sideCard">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <!-- List item card -->
+    <Style Selector="Border.listItemCard">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+    <!-- Border item container -->
+    <Style Selector="Border.borderItemContainer">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="5"/>
+    </Style>
+    
+    <Style Selector="Grid.gridItemContainer">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    
+    <!-- Column header container -->
+    <Style Selector="Border.columnHeaderContainer">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Padding" Value="16,12" />
+    </Style>
+    <!-- =========================== -->
+    <!-- INPUT STYLES -->
+    <!-- =========================== -->
+
+    <!-- Modern text box -->
+    <Style Selector="TextBox">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentGold}" />
+    </Style>
+
+    <!-- TextBox template border styling -->
+    <Style Selector="TextBox /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+    </Style>
+
+    <Style Selector="TextBox /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+    </Style>
+
+    <Style Selector="TextBox /template/ DataValidationErrors">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderHover}" />
+    </Style>
+
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+    </Style>
+
+    <Style Selector="TextBox:focus">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}" />
+    </Style>
+
+    <!-- Ensure TextBox text is always visible in all states -->
+    <Style Selector="TextBox:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <Style Selector="TextBox:focus">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+    </Style>
+
+    <!-- Watermark text color -->
+    <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+        <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark">
+        <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+    </Style>
+
+    <Style Selector="TextBox:focus /template/ TextBlock#PART_Watermark">
+        <Setter Property="Foreground" Value="{DynamicResource TextTertiary}" />
+    </Style>
+
+    <!-- Search box -->
+    <Style Selector="TextBox.searchBox">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    
+    <!-- Border selected -->
+    <Style Selector="Border.selected">
+        <Setter Property="Background" Value="{DynamicResource AccentBlue}" />
+        <!-- Add other properties like BorderBrush, BorderThickness, etc. -->
+    </Style>
+
+    <!-- =========================== -->
+    <!-- PROGRESS BAR STYLES -->
+    <!-- =========================== -->
+
+    <!-- Modern progress bar -->
+    <Style Selector="ProgressBar">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource BlueGradient}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- Success progress bar -->
+    <Style Selector="ProgressBar">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource SuccessGradient}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- Warning progress bar -->
+    <Style Selector="ProgressBar">
+        <Setter Property="Height" Value="6" />
+        <Setter Property="Background" Value="{DynamicResource CardBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource WarningOrange}" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- STATUS INDICATORS -->
+    <!-- =========================== -->
+
+    <!-- Status dot -->
+    <Style Selector="Ellipse">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+    </Style>
+
+    <!-- Large status dot -->
+    <Style Selector="Ellipse">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- TEXT STYLES -->
+    <!-- =========================== -->
+
+    <!-- Section header -->
+    <Style Selector="TextBlock.sectionHeader">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+    </Style>
+
+    <!-- Primary text -->
+    <Style Selector="TextBlock.primaryText">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- Secondary text -->
+    <Style Selector="TextBlock.secondaryText">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Accent text -->
+    <Style Selector="TextBlock.accentText">
+        <Setter Property="Foreground" Value="{DynamicResource AccentGold}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="Medium" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- SCROLLVIEWER STYLES -->
+    <!-- =========================== -->
+
+    <!-- Modern scrollviewer -->
+    <Style Selector="ScrollViewer">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- SEPARATOR STYLES -->
+    <!-- =========================== -->
+
+    <!-- Modern separator -->
+    <Style Selector="Separator">
+        <Setter Property="Background" Value="{DynamicResource BorderColor}" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="0,16" />
+    </Style>
+
+    <!-- =========================== -->
+    <!-- WINDOW STYLES -->
+    <!-- =========================== -->
+    <Style Selector="Window">
+        <Setter Property="FontFamily" Value="Anto"></Setter>
+        <Setter Property="Icon" Value="/Assets/Images/logo256x256.ico"></Setter>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- ICON STYLES -->
+    <!-- =========================== -->
+    <Style Selector="Label.icon">
+        <Setter Property="FontFamily" Value="{DynamicResource Phosphor}" />
+        <Setter Property="Margin" Value="0 4 0 0 "></Setter>
+    </Style>
+
+    <Style Selector="Label.iconOnly">
+        <Setter Property="FontFamily" Value="{DynamicResource Phosphor}" />
+        <Setter Property="Margin" Value="0 0 0 0 "></Setter>
+        <Setter Property="FontSize" Value="24"></Setter>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- Border Styles -->
+    <!-- =========================== -->
+    <Style Selector="Border">
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Width" Duration="0:0:1"></DoubleTransition>
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- TOGGLE SWITCH STYLES -->
+    <!-- =========================== -->
+
+    <!-- Modern toggle switch - minimal style -->
+    <Style Selector="ToggleSwitch">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch /template/ Border#SwitchKnobBounds">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TextTertiary}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Width" Value="44"/>
+        <Setter Property="Height" Value="24"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch /template/ Canvas#PART_SwitchKnob">
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch /template/ Ellipse#SwitchKnobOn">
+        <Setter Property="Fill" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch /template/ Ellipse#SwitchKnobOff">
+        <Setter Property="Fill" Value="{DynamicResource TextTertiary}"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="16"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch:checked /template/ Border#SwitchKnobBounds">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch:checked /template/ Ellipse#SwitchKnobOn">
+        <Setter Property="Fill" Value="{DynamicResource AccentCyan}"/>
+    </Style>
+
+    <Style Selector="ToggleSwitch:pointerover /template/ Border#SwitchKnobBounds">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- SIDEBAR STYLES -->
+    <!-- =========================== -->
+
+    <!-- Sidebar section header -->
+    <Style Selector="TextBlock.sidebarSectionHeader">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+        <Setter Property="Margin" Value="12,24,0,12"/>
+    </Style>
+
+    <!-- Sidebar menu item -->
+    <Style Selector="Button.sidebarNavItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="12,10"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Margin" Value="0,2"/>
+    </Style>
+
+    <Style Selector="Button.sidebarNavItem:pointerover">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="Button.sidebarNavItem:pointerover TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="Button.sidebarNavItem.active">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="Button.sidebarNavItem.active TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <!-- Sidebar badge -->
+    <Style Selector="Border.sidebarBadge">
+        <Setter Property="Background" Value="{DynamicResource AccentCyan}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="8,2"/>
+        <Setter Property="MinWidth" Value="28"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style Selector="Border.sidebarBadge > TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryBackground}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- COMBOBOX STYLES -->
+    <!-- =========================== -->
+
+    <!-- ComboBox base styling -->
+    <Style Selector="ComboBox">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="MinHeight" Value="36"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style Selector="ComboBox:pointerover">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderHover}"/>
+    </Style>
+
+    <Style Selector="ComboBox:focus">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+    </Style>
+
+    <!-- ComboBox dropdown button background -->
+    <Style Selector="ComboBox /template/ Border#Background">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        <Setter Property="CornerRadius" Value="6"/>
+    </Style>
+
+    <Style Selector="ComboBox:pointerover /template/ Border#Background">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderHover}"/>
+    </Style>
+
+    <!-- ComboBox dropdown arrow -->
+    <Style Selector="ComboBox /template/ PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+    </Style>
+
+    <!-- ComboBox popup (dropdown list) - multiple selectors for specificity -->
+    <Style Selector="ComboBox /template/ Popup">
+        <Setter Property="MaxHeight" Value="400"/>
+    </Style>
+
+    <Style Selector="ComboBox /template/ Popup Border">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+
+    <!-- Target the popup's inner border more specifically -->
+    <Style Selector="ComboBox Popup Border">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="6"/>
+    </Style>
+
+    <!-- ComboBoxItem styling -->
+    <Style Selector="ComboBoxItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style Selector="ComboBoxItem:pointerover">
+        <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="ComboBoxItem:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="ComboBoxItem:selected">
+        <Setter Property="Background" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CardBackground}"/>
+    </Style>
+
+    <Style Selector="ComboBoxItem:selected /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CardBackground}"/>
+    </Style>
+
+    <Style Selector="ComboBoxItem:selected:pointerover">
+        <Setter Property="Background" Value="{DynamicResource AccentBlue}"/>
+        <Setter Property="Foreground" Value="{DynamicResource CardBackground}"/>
+    </Style>
+
+    <!-- ComboBoxItem content presenter base -->
+    <Style Selector="ComboBoxItem /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <!-- ListBox inside ComboBox popup -->
+    <Style Selector="ComboBox /template/ ListBox">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+    </Style>
+
+    <!-- ScrollViewer inside popup -->
+    <Style Selector="ComboBox /template/ ScrollViewer">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- NUMERICUPDOWN STYLES -->
+    <!-- =========================== -->
+
+    <!-- NumericUpDown base styling -->
+    <Style Selector="NumericUpDown">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="MinHeight" Value="32"/>
+    </Style>
+
+    <Style Selector="NumericUpDown /template/ TextBox#PART_TextBox">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- ButtonSpinner styling for NumericUpDown -->
+    <Style Selector="ButtonSpinner">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+    </Style>
+
+    <!-- Spinner RepeatButton (up/down arrows) -->
+    <Style Selector="ButtonSpinner /template/ RepeatButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="4"/>
+    </Style>
+
+    <Style Selector="ButtonSpinner /template/ RepeatButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="ButtonSpinner /template/ RepeatButton:pressed">
+        <Setter Property="Background" Value="{DynamicResource TertiaryBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <!-- PathIcon inside RepeatButton (the arrow icons) -->
+    <Style Selector="ButtonSpinner /template/ RepeatButton PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="ButtonSpinner /template/ RepeatButton:pointerover PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <!-- NumericUpDown spinner buttons directly -->
+    <Style Selector="NumericUpDown /template/ ButtonSpinner /template/ RepeatButton">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="NumericUpDown /template/ ButtonSpinner /template/ RepeatButton PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- COMPACT SPINNER NUMERICUPDOWN -->
+    <!-- =========================== -->
+
+    <!-- Compact spinner style - vertical buttons on right, dark background -->
+    <Style Selector="NumericUpDown.compactSpinner">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Padding" Value="8,2,0,2"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="MinWidth" Value="90"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="ClipValueToMinMax" Value="True"/>
+        <Setter Property="AllowSpin" Value="True"/>
+        <Setter Property="ShowButtonSpinner" Value="True"/>
+    </Style>
+
+    <!-- Border styling for compact spinner -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ Border">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+
+    <!-- TextBox inside compact spinner -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ TextBox#PART_TextBox">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="20"/>
+        <Setter Property="FontSize" Value="13"/>
+    </Style>
+
+    <!-- Remove TextBox inner border styling -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ TextBox#PART_TextBox /template/ Border">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- ButtonSpinner container for compact spinner -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ Border">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- Spinner buttons container - make buttons compact and vertical -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ StackPanel">
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+
+    <!-- Up/Down buttons for compact spinner -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ RepeatButton">
+        <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="4,0"/>
+        <Setter Property="MinWidth" Value="18"/>
+        <Setter Property="MinHeight" Value="12"/>
+        <Setter Property="CornerRadius" Value="0"/>
+    </Style>
+
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ RepeatButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource HoverBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ RepeatButton:pressed">
+        <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource AccentCyan}"/>
+    </Style>
+
+    <!-- Arrow icons for compact spinner -->
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ RepeatButton PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        <Setter Property="Width" Value="10"/>
+        <Setter Property="Height" Value="10"/>
+    </Style>
+
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ RepeatButton:pointerover PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="NumericUpDown.compactSpinner /template/ ButtonSpinner /template/ RepeatButton:pressed PathIcon">
+        <Setter Property="Foreground" Value="{DynamicResource AccentCyan}"/>
+    </Style>
+
+    <!-- Focus state for compact spinner -->
+    <Style Selector="NumericUpDown.compactSpinner:focus /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+    </Style>
+
+    <Style Selector="NumericUpDown.compactSpinner:pointerover /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderHover}"/>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- CHECKBOX STYLES -->
+    <!-- =========================== -->
+
+    <!-- Custom CheckBox styling that works in both themes -->
+    <Style Selector="CheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+
+    <Style Selector="CheckBox:pointerover">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="CheckBox:pressed">
+        <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <!-- CheckBox content (label text) -->
+    <Style Selector="CheckBox ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <Style Selector="CheckBox:pointerover ContentPresenter">
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource TextPrimary}"/>
+    </Style>
+
+    <!-- =========================== -->
+    <!-- DIALOG CLOSE BUTTON STYLES -->
+    <!-- =========================== -->
+
+    <!-- Dialog/Window close button - turns red on hover like standard Windows close button -->
+    <Style Selector="Button.dialogCloseButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="CornerRadius" Value="4"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton Label">
+        <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton:pointerover">
+        <Setter Property="Background" Value="#E81123"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#E81123"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton:pointerover Label">
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton:pressed">
+        <Setter Property="Background" Value="#F1707A"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#F1707A"/>
+    </Style>
+
+    <Style Selector="Button.dialogCloseButton:pressed Label">
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+
+    <!-- =========================================== -->
+    <!-- TRAY ICON CONTEXT MENU (compact, dark)      -->
+    <!-- Avalonia renders TrayIcon NativeMenu via     -->
+    <!-- TrayIconMenuFlyoutPresenter, not Win32.      -->
+    <!-- =========================================== -->
+
+    <!-- Menu flyout popup container — dark bg, tight padding -->
+    <Style Selector="MenuFlyoutPresenter">
+        <Setter Property="Background" Value="#1e1e2e"/>
+        <Setter Property="BorderBrush" Value="#2a2a4a"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="MinWidth" Value="160"/>
+    </Style>
+
+    <!-- Menu items — compact height, smaller font -->
+    <Style Selector="MenuFlyoutPresenter MenuItem">
+        <Setter Property="Padding" Value="10,4,10,4"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="#e2e8f0"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="MenuFlyoutPresenter MenuItem:pointerover /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="#252542"/>
+    </Style>
+
+    <Style Selector="MenuFlyoutPresenter MenuItem:pressed /template/ Border#PART_LayoutRoot">
+        <Setter Property="Background" Value="#2a2a50"/>
+    </Style>
+
+    <!-- Separator lines inside tray menu -->
+    <Style Selector="MenuFlyoutPresenter Separator">
+        <Setter Property="Background" Value="#2a2a4a"/>
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Margin" Value="4,2"/>
+    </Style>
+
+</Styles>

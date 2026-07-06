@@ -1,0 +1,15 @@
+vtorrent (1.0.0-1) stable; urgency=medium
+
+  * Initial release
+  * Full BitTorrent protocol support
+  * DHT (Distributed Hash Table) for trackerless torrents
+  * Magnet link support with protocol handler registration
+  * Modern Avalonia-based user interface
+  * Light and dark theme support
+  * Intelligent bandwidth management and scheduling
+  * Sequential downloading option for media files
+  * Peer exchange (PEX) support
+  * uTP protocol support for network-friendly transfers
+  * IP filtering and encryption support
+
+ -- vTorrent Developers <developers@vtorrent.example.com>  Mon, 01 Jan 2024 00:00:00 +0000

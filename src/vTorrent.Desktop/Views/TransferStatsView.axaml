@@ -1,0 +1,125 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:vTorrent.Desktop.ViewModels"
+             mc:Ignorable="d"
+             d:DesignWidth="300"
+             d:DesignHeight="300"
+             x:Class="vTorrent.Desktop.Views.TransferStatsView"
+             x:DataType="vm:TransferStatsViewModel">
+
+    <UserControl.Styles>
+        <!-- Section Title -->
+        <Style Selector="TextBlock.sectionTitle">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+        </Style>
+
+        <!-- Large Speed Value -->
+        <Style Selector="TextBlock.speedValue">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="Margin" Value="0,2,0,0"></Setter>
+        </Style>
+
+        <!-- Speed Unit -->
+        <Style Selector="TextBlock.speedUnit">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="Margin" Value="4,0,0,0"/>
+        </Style>
+
+        <!-- Stat Label -->
+        <Style Selector="TextBlock.statLabel">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+        </Style>
+
+        <!-- Stat Value -->
+        <Style Selector="TextBlock.statValue">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <!-- Speed Icon -->
+        <Style Selector="Label.speedIcon">
+            <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border Background="{DynamicResource PrimaryBackground}"
+            Padding="24,20">
+        <StackPanel Spacing="24">
+            <!-- Download/Upload Speed Section -->
+            <StackPanel>
+                <TextBlock Classes="sectionTitle" Text="DOWNLOAD / UPLOAD PER SEC"/>
+
+                <Grid ColumnDefinitions="Auto,Auto">
+                    <!-- Download Speed -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" MinWidth="120" Margin="0,0,24,0">
+                        <Label Classes="speedIcon"
+                               Content="&#xE03E;"
+                               Foreground="{DynamicResource AccentGold}"/>
+                        <TextBlock Classes="speedValue" Text="{Binding DownloadSpeedFormatted}"/>
+                    </StackPanel>
+
+                    <!-- Upload Speed -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" MinWidth="120">
+                        <Label Classes="speedIcon"
+                               Content="&#xE08E;"
+                               Foreground="{DynamicResource AccentSilver}"/>
+                        <TextBlock Classes="speedValue" Text="{Binding UploadSpeedFormatted}"/>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+
+            <!-- Stats Grid - Auto sizing columns with spacing -->
+            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="16" ColumnSpacing="32">
+                <!-- Seeds -->
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <TextBlock Classes="statLabel" Text="Seeds"/>
+                    <TextBlock Classes="statValue" Text="{Binding Seeds}"/>
+                </StackPanel>
+
+                <!-- Ratio -->
+                <StackPanel Grid.Row="0" Grid.Column="1">
+                    <TextBlock Classes="statLabel" Text="Down / up ratio"/>
+                    <TextBlock Classes="statValue" Text="{Binding Ratio, StringFormat={}{0:F1}}"/>
+                </StackPanel>
+
+                <!-- Downloaded -->
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <TextBlock Classes="statLabel" Text="Downloaded"/>
+                    <TextBlock Classes="statValue" Text="{Binding TotalDownloadedFormatted}"/>
+                </StackPanel>
+
+                <!-- Uploaded -->
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <TextBlock Classes="statLabel" Text="Uploaded"/>
+                    <TextBlock Classes="statValue" Text="{Binding TotalUploadedFormatted}"/>
+                </StackPanel>
+
+                <!-- Time Elapsed -->
+                <StackPanel Grid.Row="2" Grid.Column="0">
+                    <TextBlock Classes="statLabel" Text="Time elapsed"/>
+                    <TextBlock Classes="statValue" Text="{Binding TimeElapsedFormatted}"/>
+                </StackPanel>
+
+                <!-- Time Left -->
+                <StackPanel Grid.Row="2" Grid.Column="1">
+                    <TextBlock Classes="statLabel" Text="Time left"/>
+                    <TextBlock Classes="statValue" Text="{Binding TimeRemainingFormatted}"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

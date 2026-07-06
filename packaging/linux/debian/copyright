@@ -1,0 +1,21 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: vTorrent
+Upstream-Contact: vTorrent Developers <developers@vtorrent.example.com>
+Source: https://github.com/vtorrent/vtorrent
+
+Files: *
+Copyright: 2024 vTorrent Developers
+License: Proprietary
+ This software is proprietary and confidential.
+ Unauthorized copying, modification, distribution, or use of this
+ software, via any medium, is strictly prohibited.
+ .
+ Contact: developers@vtorrent.example.com
+ .
+ [Update this section with actual license terms]
+
+Files: debian/*
+Copyright: 2024 vTorrent Developers
+License: Proprietary
+ The Debian packaging is released under the same license as the
+ upstream software.

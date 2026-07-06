@@ -1,0 +1,145 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="350"
+             d:DesignHeight="80"
+             x:Class="vTorrent.Desktop.Controls.ToastNotification"
+             x:Name="ToastRoot"
+             IsVisible="False"
+             HorizontalAlignment="Right"
+             VerticalAlignment="Top"
+             ClipToBounds="False"
+             Margin="0">
+
+    <UserControl.Styles>
+        <!-- Toast Container -->
+        <Style Selector="Border.toastContainer">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="MinWidth" Value="280"/>
+            <Setter Property="MaxWidth" Value="400"/>
+            <Setter Property="BoxShadow" Value="0 4 16 0 #40000000"/>
+        </Style>
+
+        <!-- Toast types -->
+        <Style Selector="Border.toastInfo">
+            <Setter Property="BorderBrush" Value="{DynamicResource InfoBlue}"/>
+        </Style>
+        <Style Selector="Border.toastSuccess">
+            <Setter Property="BorderBrush" Value="{DynamicResource SuccessGreen}"/>
+        </Style>
+        <Style Selector="Border.toastWarning">
+            <Setter Property="BorderBrush" Value="{DynamicResource WarningOrange}"/>
+        </Style>
+        <Style Selector="Border.toastError">
+            <Setter Property="BorderBrush" Value="{DynamicResource ErrorRed}"/>
+        </Style>
+
+        <!-- Icon styles -->
+        <Style Selector="Label.toastIcon">
+            <Setter Property="FontFamily" Value="{DynamicResource Phosphor}"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+        <Style Selector="Label.toastIconInfo">
+            <Setter Property="Foreground" Value="{DynamicResource InfoBlue}"/>
+            <Setter Property="Content" Value="&#xE20A;"/>
+        </Style>
+        <Style Selector="Label.toastIconSuccess">
+            <Setter Property="Foreground" Value="{DynamicResource SuccessGreen}"/>
+            <Setter Property="Content" Value="&#xE40C;"/>
+        </Style>
+        <Style Selector="Label.toastIconWarning">
+            <Setter Property="Foreground" Value="{DynamicResource WarningOrange}"/>
+            <Setter Property="Content" Value="&#xE4E0;"/>
+        </Style>
+        <Style Selector="Label.toastIconError">
+            <Setter Property="Foreground" Value="{DynamicResource ErrorRed}"/>
+            <Setter Property="Content" Value="&#xE4E4;"/>
+        </Style>
+
+        <!-- Close button -->
+        <Style Selector="Button.toastClose">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+        <Style Selector="Button.toastClose Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+        <Style Selector="Button.toastClose /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.toastClose:pointerover">
+            <Setter Property="Background" Value="#E81123"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.toastClose:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E81123"/>
+        </Style>
+        <Style Selector="Button.toastClose:pointerover Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.toastClose:pressed">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.toastClose:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.toastClose:pressed Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Border x:Name="ToastContainer"
+            Classes="toastContainer"
+            RenderTransformOrigin="1,0">
+        <Border.RenderTransform>
+            <TranslateTransform X="0" Y="0"/>
+        </Border.RenderTransform>
+        <Grid ColumnDefinitions="Auto,*,Auto">
+            <!-- Icon -->
+            <Label x:Name="ToastIcon"
+                   Grid.Column="0"
+                   Classes="toastIcon"/>
+
+            <!-- Content -->
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock x:Name="TitleText"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextPrimary}"
+                           TextWrapping="Wrap"
+                           TextTrimming="CharacterEllipsis"
+                           MaxLines="1"/>
+                <TextBlock x:Name="MessageText"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"
+                           TextWrapping="Wrap"
+                           TextTrimming="CharacterEllipsis"
+                           MaxLines="2"
+                           Margin="0,2,0,0"/>
+            </StackPanel>
+
+            <!-- Close Button -->
+            <Button Grid.Column="2"
+                    Classes="toastClose"
+                    Click="OnCloseClick">
+                <Label FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE4F6;"
+                       Foreground="{DynamicResource TextSecondary}"/>
+            </Button>
+        </Grid>
+    </Border>
+</UserControl>

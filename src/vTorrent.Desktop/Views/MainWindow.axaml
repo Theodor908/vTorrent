@@ -1,0 +1,181 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:vTorrent.Desktop.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:vTorrent.Desktop.Views"
+        xmlns:controls="clr-namespace:vTorrent.Desktop.Controls"
+        xmlns:settings="clr-namespace:vTorrent.Abstractions.Settings;assembly=vTorrent.Abstractions"
+        mc:Ignorable="d"
+        d:DesignWidth="1280"
+        d:DesignHeight="800"
+        x:Class="vTorrent.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="{Binding Title}"
+        Icon="/Assets/Images/logo256x256.ico"
+        Width="1280"
+        Height="800"
+        MinWidth="960"
+        MinHeight="600"
+        Background="{DynamicResource PrimaryBackground}"
+        SystemDecorations="None"
+        DragDrop.AllowDrop="True">
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+        <Grid RowDefinitions="Auto,*,Auto">
+            <!-- Toolbar (action buttons that were in header) -->
+            <views:HeaderView Grid.Row="0"
+                              DataContext="{Binding Header}"/>
+
+            <!-- Main Content -->
+            <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+                <!-- Sidebar -->
+                <views:Sidebar Grid.Column="0"
+                               DataContext="{Binding Sidebar}"/>
+
+                <!-- Content Area -->
+                <Grid Grid.Column="1" RowDefinitions="*,Auto">
+                    <!-- Torrent List -->
+                    <views:TorrentListView Grid.Row="0"
+                                           DataContext="{Binding TorrentList}"/>
+
+                    <!-- Bottom Panel - Chart and Stats -->
+                    <Border Grid.Row="1"
+                            Background="{DynamicResource PrimaryBackground}"
+                            BorderBrush="{DynamicResource BorderColor}"
+                            BorderThickness="0,1,0,0"
+                            MinHeight="280"
+                            MaxHeight="400">
+                        <Grid ColumnDefinitions="*,Auto" Height="320">
+                            <!-- Transfer Chart -->
+                            <views:TransferChartView Grid.Column="0"
+                                                     DataContext="{Binding TransferStats}"
+                                                     Margin="16"/>
+
+                            <!-- Transfer Stats -->
+                            <views:TransferStatsView Grid.Column="1"
+                                                     DataContext="{Binding TransferStats}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+
+            <!-- Status Bar with Profile Indicator -->
+            <Border Grid.Row="2"
+                    Background="{DynamicResource SecondaryBackground}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="0,1,0,0"
+                    Height="26">
+                <Grid ColumnDefinitions="Auto,*">
+                    <!-- Profile Indicator Button with Flyout -->
+                    <Button Grid.Column="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Padding="8,2"
+                            VerticalContentAlignment="Center"
+                            Cursor="Hand">
+                        <Button.Flyout>
+                            <Flyout Placement="TopEdgeAlignedLeft"
+                                    ShowMode="TransientWithDismissOnPointerMoveAway">
+                                <StackPanel MinWidth="200" MaxWidth="280">
+                                    <TextBlock Text="Schedule active &#x2014; will override in &#x2264;60s"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource TextTertiary}"
+                                               Margin="8,6"
+                                               IsVisible="{Binding IsScheduleActive}"/>
+                                    <TextBlock Text="Switch Profile"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource TextSecondary}"
+                                               Margin="8,6,8,4"/>
+                                    <Separator Background="{DynamicResource BorderColor}"
+                                               Height="1"
+                                               Margin="4,2"/>
+                                    <ItemsControl ItemsSource="{Binding AllProfiles}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="settings:ProfileSettings">
+                                                <Button Background="Transparent"
+                                                        BorderThickness="0"
+                                                        HorizontalAlignment="Stretch"
+                                                        HorizontalContentAlignment="Left"
+                                                        Padding="8,5"
+                                                        Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).SwitchProfileCommand}"
+                                                        CommandParameter="{Binding Name}"
+                                                        Cursor="Hand">
+                                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                                        <Ellipse Width="8" Height="8"
+                                                                 VerticalAlignment="Center">
+                                                            <Ellipse.Fill>
+                                                                <SolidColorBrush Color="{Binding Color}"/>
+                                                            </Ellipse.Fill>
+                                                        </Ellipse>
+                                                        <TextBlock Text="{Binding Name}"
+                                                                   FontSize="12"
+                                                                   Foreground="{DynamicResource TextPrimary}"
+                                                                   VerticalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <!-- Drift Actions (visible only when drifted) -->
+                                    <StackPanel IsVisible="{Binding IsProfileDrifted}">
+                                        <Separator Background="{DynamicResource BorderColor}"
+                                                   Height="1"
+                                                   Margin="4,2"/>
+                                        <Button Background="Transparent"
+                                                BorderThickness="0"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Left"
+                                                Padding="8,5"
+                                                Command="{Binding SaveDriftToProfileCommand}"
+                                                Cursor="Hand">
+                                            <TextBlock FontSize="12"
+                                                       Foreground="{DynamicResource TextSecondary}">
+                                                <Run Text="Save changes to "/>
+                                                <Run Text="{Binding ActiveProfileName, Mode=OneWay}"/>
+                                            </TextBlock>
+                                        </Button>
+                                        <Button Background="Transparent"
+                                                BorderThickness="0"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Left"
+                                                Padding="8,5"
+                                                Command="{Binding RevertToProfileCommand}"
+                                                Cursor="Hand">
+                                            <TextBlock FontSize="12"
+                                                       Foreground="{DynamicResource TextSecondary}">
+                                                <Run Text="Revert to "/>
+                                                <Run Text="{Binding ActiveProfileName, Mode=OneWay}"/>
+                                            </TextBlock>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Flyout>
+                        </Button.Flyout>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <Ellipse Width="8" Height="8"
+                                     VerticalAlignment="Center">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="{Binding ActiveProfileColor}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{Binding ActiveProfileDisplayName}"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource TextSecondary}"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Toast Notification (overlays everything) -->
+            <controls:ToastNotification x:Name="ToastNotification"
+                                        Grid.RowSpan="3"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Margin="0,60,24,0"
+                                        ClipToBounds="False"/>
+        </Grid>
+    </Border>
+</Window>

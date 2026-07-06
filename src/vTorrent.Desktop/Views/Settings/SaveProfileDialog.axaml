@@ -1,0 +1,269 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:vTorrent.Desktop.ViewModels.Settings"
+        mc:Ignorable="d"
+        x:Class="vTorrent.Desktop.Views.Settings.SaveProfileDialog"
+        x:DataType="vm:SaveProfileDialogViewModel"
+        Title="Save as Profile"
+        Width="400"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Input TextBox -->
+        <Style Selector="TextBox.inputBox">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- Save Button -->
+        <Style Selector="Button.saveButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,5"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.saveButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.saveButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.saveButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.saveButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.saveButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Cancel Button -->
+        <Style Selector="Button.cancelButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,5"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Close button -->
+        <Style Selector="Button.closeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+        <Style Selector="Button.closeButton Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+        <Style Selector="Button.closeButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover">
+            <Setter Property="Background" Value="#E81123"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E81123"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+
+        <!-- Color swatch button -->
+        <Style Selector="Button.colorSwatch">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.colorSwatch /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="CornerRadius" Value="14"/>
+        </Style>
+
+        <Style Selector="Button.colorSwatch:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.colorSwatch:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="CornerRadius" Value="14"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+    <StackPanel>
+        <!-- Title Bar (Draggable) -->
+        <Border Background="{DynamicResource PrimaryBackground}"
+                Padding="10,6"
+                PointerPressed="OnTitleBarPointerPressed">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Label Grid.Column="0"
+                       FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE0F8;"
+                       Foreground="{DynamicResource TextSecondary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Save as Profile"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"/>
+
+                <Button Grid.Column="2"
+                        Classes="closeButton"
+                        Click="OnCancel">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="10"
+                           Content="&#xE4F6;"
+                           Foreground="{DynamicResource TextSecondary}"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <StackPanel Margin="16,12,16,12" Spacing="10">
+            <!-- Profile Name -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Profile Name"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"/>
+                <TextBox x:Name="ProfileNameBox"
+                         Classes="inputBox"
+                         Text="{Binding ProfileName, Mode=TwoWay}"
+                         Watermark="Enter profile name"/>
+            </StackPanel>
+
+            <!-- Color Selection -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Color"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextSecondary}"/>
+                <WrapPanel x:Name="ColorSwatches">
+                    <Button Classes="colorSwatch" Background="#F44336" Click="OnColorSelected" Tag="#F44336"/>
+                    <Button Classes="colorSwatch" Background="#E91E63" Click="OnColorSelected" Tag="#E91E63"/>
+                    <Button Classes="colorSwatch" Background="#9C27B0" Click="OnColorSelected" Tag="#9C27B0"/>
+                    <Button Classes="colorSwatch" Background="#2196F3" Click="OnColorSelected" Tag="#2196F3"/>
+                    <Button Classes="colorSwatch" Background="#009688" Click="OnColorSelected" Tag="#009688"/>
+                    <Button Classes="colorSwatch" Background="#4CAF50" Click="OnColorSelected" Tag="#4CAF50"/>
+                    <Button Classes="colorSwatch" Background="#FF9800" Click="OnColorSelected" Tag="#FF9800"/>
+                    <Button Classes="colorSwatch" Background="#795548" Click="OnColorSelected" Tag="#795548"/>
+                    <Button Classes="colorSwatch" Background="#607D8B" Click="OnColorSelected" Tag="#607D8B"/>
+                    <Button Classes="colorSwatch" Background="#78909C" Click="OnColorSelected" Tag="#78909C"/>
+                </WrapPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Bottom Bar -->
+        <Border Background="{DynamicResource PrimaryBackground}"
+                Padding="16,8">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="6">
+                <Button Classes="saveButton"
+                        Content="Create"
+                        Click="OnCreate"
+                        IsEnabled="{Binding CanCreate}"/>
+                <Button Classes="cancelButton"
+                        Content="Cancel"
+                        Click="OnCancel"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+    </Border>
+</Window>

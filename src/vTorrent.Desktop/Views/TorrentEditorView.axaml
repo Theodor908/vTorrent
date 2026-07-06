@@ -1,0 +1,472 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:vTorrent.Desktop.ViewModels.Tools"
+             mc:Ignorable="d"
+             x:Class="vTorrent.Desktop.Views.TorrentEditorView"
+             x:DataType="vm:TorrentEditorViewModel">
+
+    <UserControl.Styles>
+        <!-- Section Header -->
+        <Style Selector="TextBlock.sectionHeader">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,12,0,12"/>
+        </Style>
+
+        <Style Selector="TextBlock.sectionHeaderFirst">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBlock.description">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,2,0,0"/>
+        </Style>
+
+        <!-- Input TextBox -->
+        <Style Selector="TextBox.inputBox">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="SelectionBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox /template/ Border">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="TextBox.inputBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="{DynamicResource CardBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- ComboBox Style -->
+        <Style Selector="ComboBox.dropdown">
+            <Setter Property="Background" Value="{DynamicResource SecondaryBackground}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+
+        <!-- Primary Button -->
+        <Style Selector="Button.primaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentCyan}"/>
+        </Style>
+
+        <Style Selector="Button.primaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Secondary Button -->
+        <Style Selector="Button.secondaryButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinHeight" Value="26"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.secondaryButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Browse Button -->
+        <Style Selector="Button.browseButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.browseButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <!-- Mode toggle button -->
+        <Style Selector="Button.modeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextTertiary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,6"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.modeButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.modeButton.active">
+            <Setter Property="Foreground" Value="{DynamicResource AccentGold}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.modeButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentGold}"/>
+        </Style>
+
+        <Style Selector="Button.modeButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.modeButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+
+    <StackPanel Spacing="8" Margin="0,0,0,32">
+        <!-- Header -->
+        <TextBlock Text="Torrent Editor" Classes="sectionHeaderFirst"/>
+
+        <!-- Mode Toggle -->
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+            <Button Classes="modeButton"
+                    Classes.active="{Binding IsInListMode}"
+                    Command="{Binding SwitchToInListCommand}">
+                <TextBlock Text="In-List Torrent"/>
+            </Button>
+            <Button Classes="modeButton"
+                    Classes.active="{Binding !IsInListMode}"
+                    Command="{Binding SwitchToFromFileCommand}">
+                <TextBlock Text="Load From File"/>
+            </Button>
+        </StackPanel>
+
+        <!-- ============================================ -->
+        <!-- In-List Mode                                 -->
+        <!-- ============================================ -->
+        <StackPanel IsVisible="{Binding IsInListMode}" Spacing="8">
+            <!-- Torrent Selector -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Select Torrent" Classes="label"/>
+                <ComboBox Classes="dropdown"
+                          ItemsSource="{Binding TorrentItems}"
+                          SelectedItem="{Binding SelectedTorrentItem}"
+                          HorizontalAlignment="Stretch"/>
+            </StackPanel>
+
+            <!-- Read-only Info Bar -->
+            <Border Background="{DynamicResource SecondaryBackground}"
+                    BorderBrush="{DynamicResource BorderColor}"
+                    BorderThickness="1"
+                    Padding="10,6"
+                    IsVisible="{Binding HasSelectedTorrent}">
+                <TextBlock Text="{Binding InListInfoText}"
+                           FontSize="11"
+                           Foreground="{DynamicResource TextTertiary}"
+                           TextWrapping="Wrap"/>
+            </Border>
+
+            <!-- Editable fields (only when a torrent is selected) -->
+            <StackPanel IsVisible="{Binding HasSelectedTorrent}" Spacing="8">
+                <!-- Display Name -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Display Name" Classes="label"/>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding InListDisplayName}"/>
+                </StackPanel>
+
+                <!-- Trackers -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Trackers" Classes="label"/>
+                    <TextBlock Text="One URL per line. Blank line = new tier." Classes="description"/>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding InListTrackersText}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="120"/>
+                </StackPanel>
+
+                <!-- Web Seeds -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Web Seeds" Classes="label"/>
+                    <TextBlock Text="One URL per line (BEP 17/19)." Classes="description"/>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding InListWebSeedsText}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="80"/>
+                </StackPanel>
+
+                <!-- Action buttons + status -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                    <TextBlock Text="{Binding InListStatusMessage}"
+                               Foreground="{DynamicResource TextSecondary}"
+                               FontSize="12"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap"/>
+                    <Button Grid.Column="1" Classes="primaryButton"
+                            Command="{Binding SaveInListChangesCommand}"
+                            MinWidth="100">
+                        <TextBlock Text="Save Changes"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- ============================================ -->
+        <!-- From-File Mode                               -->
+        <!-- ============================================ -->
+        <StackPanel IsVisible="{Binding !IsInListMode}" Spacing="8">
+            <!-- File Path + Browse -->
+            <StackPanel Spacing="4">
+                <TextBlock Text="Torrent File" Classes="label"/>
+                <Grid ColumnDefinitions="*,8,Auto">
+                    <TextBox Grid.Column="0"
+                             Classes="inputBox"
+                             Text="{Binding LoadedFilePath}"
+                             IsReadOnly="True"
+                             Watermark="Select a .torrent file..."/>
+                    <Button Grid.Column="2"
+                            Classes="browseButton"
+                            Command="{Binding BrowseFileCommand}">
+                        <TextBlock Text="Browse" FontSize="12"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+
+            <!-- Warning Banner -->
+            <Border Background="#1a1a2e"
+                    BorderBrush="#f59e0b"
+                    BorderThickness="1"
+                    Padding="10,8"
+                    Margin="0,4,0,4"
+                    IsVisible="{Binding HasLoadedFile}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="15"
+                           Content="&#xE88A;"
+                           Foreground="#f59e0b"
+                           VerticalAlignment="Center"
+                           Padding="0"/>
+                    <TextBlock Text="Editing fields marked with an orange label will change the info hash. Peers with the original torrent will not be able to connect."
+                               FontSize="11"
+                               Foreground="#f59e0b"
+                               TextWrapping="Wrap"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Loaded file content (only when file is loaded) -->
+            <StackPanel IsVisible="{Binding HasLoadedFile}" Spacing="8">
+                <!-- Read-only info -->
+                <Border Background="{DynamicResource SecondaryBackground}"
+                        BorderBrush="{DynamicResource BorderColor}"
+                        BorderThickness="1"
+                        Padding="10,6">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="{Binding FileReadOnlyInfo}"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource TextTertiary}"
+                                   TextWrapping="Wrap"/>
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <TextBlock Text="V1:"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource TextTertiary}"/>
+                            <TextBlock Text="{Binding FileInfoHashV1}"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource AccentCyan}"
+                                       FontFamily="Consolas,Courier New,monospace"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="4"
+                                    IsVisible="{Binding FileInfoHashV2, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <TextBlock Text="V2:"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource TextTertiary}"/>
+                            <TextBlock Text="{Binding FileInfoHashV2}"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource AccentCyan}"
+                                       FontFamily="Consolas,Courier New,monospace"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Editable fields -->
+                <!-- File Name (info hash affecting) -->
+                <StackPanel Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Name" Classes="label"/>
+                        <TextBlock Text="&#x26A0; info hash"
+                                   FontSize="10"
+                                   Foreground="#f59e0b"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding FileName}"/>
+                </StackPanel>
+
+                <!-- Comment -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Comment" Classes="label"/>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding FileComment}"
+                             Watermark="Optional comment"/>
+                </StackPanel>
+
+                <!-- Source (info hash affecting) -->
+                <StackPanel Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="Source" Classes="label"/>
+                        <TextBlock Text="&#x26A0; info hash"
+                                   FontSize="10"
+                                   Foreground="#f59e0b"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding FileSource}"
+                             Watermark="Optional source tag"/>
+                </StackPanel>
+
+                <!-- Private (info hash affecting) -->
+                <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
+                    <CheckBox IsChecked="{Binding FileIsPrivate}">
+                        <TextBlock Text="Private torrent" FontSize="13" Foreground="{DynamicResource TextPrimary}"/>
+                    </CheckBox>
+                    <TextBlock Text="&#x26A0; info hash"
+                               FontSize="10"
+                               Foreground="#f59e0b"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Trackers -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Trackers" Classes="label"/>
+                    <TextBlock Text="One URL per line. Blank line = new tier." Classes="description"/>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding FileTrackersText}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="120"/>
+                </StackPanel>
+
+                <!-- Web Seeds -->
+                <StackPanel Spacing="4">
+                    <TextBlock Text="Web Seeds" Classes="label"/>
+                    <TextBlock Text="One URL per line (BEP 17/19)." Classes="description"/>
+                    <TextBox Classes="inputBox"
+                             Text="{Binding FileWebSeedsText}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Height="80"/>
+                </StackPanel>
+
+                <!-- Action buttons -->
+                <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Margin="0,8,0,0">
+                    <Button Classes="primaryButton"
+                            Command="{Binding SaveFileCommand}"
+                            MinWidth="80">
+                        <TextBlock Text="Save"/>
+                    </Button>
+                    <Button Classes="primaryButton"
+                            Command="{Binding SaveFileAsCommand}"
+                            MinWidth="80">
+                        <TextBlock Text="Save As"/>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>vTorrent.Bench</RootNamespace>
+    <AssemblyName>vtorrent-bench</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\vTorrent.Core\vTorrent.Core.csproj" />
+    <ProjectReference Include="..\vTorrent.Abstractions\vTorrent.Abstractions.csproj" />
+    <ProjectReference Include="..\vTorrent.Bencode\vTorrent.Bencode.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" />
+    <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+</Project>

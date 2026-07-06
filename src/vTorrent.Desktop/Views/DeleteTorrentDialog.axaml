@@ -1,0 +1,254 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="vTorrent.Desktop.Views.DeleteTorrentDialog"
+        Title="Remove torrent(s)"
+        Width="420"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SystemDecorations="None"
+        CornerRadius="0"
+        Background="{DynamicResource PrimaryBackground}">
+
+    <Window.Styles>
+        <!-- Remove Button - uses theme accent colors -->
+        <Style Selector="Button.removeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,5"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.removeButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.removeButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.removeButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.removeButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}"/>
+        </Style>
+
+        <Style Selector="Button.removeButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentRed}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.removeButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Cancel Button - uses theme colors -->
+        <Style Selector="Button.cancelButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderColor}"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="14,5"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pointerover /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentSilver}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Button.cancelButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <!-- Close button -->
+        <Style Selector="Button.closeButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="6"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="CornerRadius" Value="4"/>
+        </Style>
+        <Style Selector="Button.closeButton Label">
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondary}"/>
+        </Style>
+        <Style Selector="Button.closeButton /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover">
+            <Setter Property="Background" Value="#E81123"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E81123"/>
+        </Style>
+        <Style Selector="Button.closeButton:pointerover Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#F1707A"/>
+        </Style>
+        <Style Selector="Button.closeButton:pressed Label">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+    </Window.Styles>
+
+    <Border BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1">
+    <StackPanel>
+        <!-- Title Bar (Draggable) -->
+        <Border Background="{DynamicResource PrimaryBackground}"
+                Padding="10,6"
+                PointerPressed="OnTitleBarPointerPressed">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <!-- Icon -->
+                <Label Grid.Column="0"
+                       FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE25C;"
+                       Foreground="{DynamicResource TextSecondary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Remove torrent(s)"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextPrimary}"
+                           VerticalAlignment="Center"/>
+
+                <!-- Close button -->
+                <Button Grid.Column="2"
+                        Classes="closeButton"
+                        Click="OnCancelClick">
+                    <Label FontFamily="{DynamicResource Phosphor}"
+                           FontSize="10"
+                           Content="&#xE4F6;"
+                           Foreground="{DynamicResource TextSecondary}"/>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <StackPanel Margin="12,8,12,10">
+            <!-- Warning message -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Label FontFamily="{DynamicResource Phosphor}"
+                       FontSize="18"
+                       Content="&#xE4E0;"
+                       Foreground="{DynamicResource WarningOrange}"
+                       VerticalAlignment="Top"
+                       Margin="0,0,8,0"/>
+                <TextBlock x:Name="MessageText"
+                           Text="Are you sure you want to remove this torrent from the transfer list?"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextPrimary}"
+                           TextWrapping="Wrap"
+                           MaxWidth="340"/>
+            </StackPanel>
+
+            <!-- Delete files checkbox -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Label FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE4A8;"
+                       Foreground="{DynamicResource TextSecondary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"/>
+                <CheckBox x:Name="DeleteFilesCheckBox"
+                          Content="Also remove the content files"
+                          Foreground="{DynamicResource TextPrimary}"
+                          FontSize="12"
+                          VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Secure wipe checkbox (only visible when delete files is checked) -->
+            <StackPanel Orientation="Horizontal" Margin="16,0,0,4"
+                        IsVisible="{Binding #DeleteFilesCheckBox.IsChecked}">
+                <Label FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE25A;"
+                       Foreground="{DynamicResource TextSecondary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"/>
+                <CheckBox x:Name="SecureWipeCheckBox"
+                          Content="Securely wipe files"
+                          Foreground="{DynamicResource TextPrimary}"
+                          FontSize="12"
+                          VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Wipe metadata checkbox (independent option) -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Label FontFamily="{DynamicResource Phosphor}"
+                       FontSize="14"
+                       Content="&#xE230;"
+                       Foreground="{DynamicResource TextSecondary}"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"/>
+                <CheckBox x:Name="WipeMetadataCheckBox"
+                          Content="Also wipe torrent metadata"
+                          Foreground="{DynamicResource TextPrimary}"
+                          FontSize="12"
+                          VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Bottom Bar -->
+        <Border Background="{DynamicResource PrimaryBackground}"
+                Padding="12,8">
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Spacing="6">
+                <Button Classes="removeButton"
+                        Content="Remove"
+                        Click="OnDeleteClick"/>
+                <Button Classes="cancelButton"
+                        Content="Cancel"
+                        Click="OnCancelClick"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+    </Border>
+</Window>

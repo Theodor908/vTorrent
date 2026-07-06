@@ -1,0 +1,66 @@
+#!/usr/bin/make -f
+# Debian rules file for vTorrent
+
+# Uncomment for verbose build output
+#export DH_VERBOSE = 1
+
+# Enable all hardening flags
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# .NET specific settings
+DOTNET_CLI_TELEMETRY_OPTOUT = 1
+DOTNET_NOLOGO = 1
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	dotnet clean -c Release || true
+	rm -rf bin obj publish
+
+override_dh_auto_build:
+	dotnet publish -c Release \
+		--self-contained true \
+		-r linux-x64 \
+		-p:PublishSingleFile=true \
+		-p:PublishTrimmed=true \
+		-p:EnableCompressionInSingleFile=true \
+		-o publish/
+
+override_dh_auto_install:
+	# Install main binary
+	install -D -m 755 publish/vTorrent debian/vtorrent/usr/bin/vTorrent
+
+	# Install desktop file
+	install -D -m 644 packaging/linux/vTorrent.desktop \
+		debian/vtorrent/usr/share/applications/vTorrent.desktop
+
+	# Install AppStream metadata
+	install -D -m 644 packaging/linux/vTorrent.metainfo.xml \
+		debian/vtorrent/usr/share/metainfo/com.vtorrent.vTorrent.metainfo.xml
+
+	# Install MIME type definition
+	install -D -m 644 packaging/linux/mime/vtorrent-torrent.xml \
+		debian/vtorrent/usr/share/mime/packages/vtorrent-torrent.xml
+
+	# Install icons (all standard sizes)
+	for size in 16 32 48 64 128 256 512; do \
+		if [ -f packaging/linux/icons/vtorrent-$${size}x$${size}.png ]; then \
+			install -D -m 644 packaging/linux/icons/vtorrent-$${size}x$${size}.png \
+				debian/vtorrent/usr/share/icons/hicolor/$${size}x$${size}/apps/vTorrent.png; \
+		fi; \
+	done
+
+	# Install scalable icon if available
+	if [ -f packaging/linux/icons/vtorrent.svg ]; then \
+		install -D -m 644 packaging/linux/icons/vtorrent.svg \
+			debian/vtorrent/usr/share/icons/hicolor/scalable/apps/vTorrent.svg; \
+	fi
+
+override_dh_strip:
+	# Skip stripping for .NET self-contained applications
+	:
+
+override_dh_shlibdeps:
+	# Use relaxed library dependency checking for .NET apps
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info || true

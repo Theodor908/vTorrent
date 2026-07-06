@@ -1,0 +1,64 @@
+#!/bin/bash
+# vTorrent post-removal script
+# This script is executed after the package is removed
+
+set -e
+
+case "$1" in
+    remove)
+        # Update desktop database after removal
+        if command -v update-desktop-database >/dev/null 2>&1; then
+            echo "Updating desktop database..."
+            update-desktop-database -q /usr/share/applications 2>/dev/null || true
+        fi
+
+        # Update MIME database after removal
+        if command -v update-mime-database >/dev/null 2>&1; then
+            echo "Updating MIME database..."
+            update-mime-database /usr/share/mime 2>/dev/null || true
+        fi
+
+        # Update icon cache after removal
+        if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+            for theme_dir in /usr/share/icons/hicolor; do
+                if [ -d "$theme_dir" ]; then
+                    gtk-update-icon-cache -f -t "$theme_dir" 2>/dev/null || true
+                fi
+            done
+        fi
+
+        # Refresh AppStream cache
+        if command -v appstreamcli >/dev/null 2>&1; then
+            appstreamcli refresh-cache 2>/dev/null || true
+        fi
+        ;;
+
+    purge)
+        # Remove user configuration and cache directories
+        echo "Purging vTorrent configuration and cache..."
+
+        # Remove system-wide config if any
+        rm -rf /etc/vtorrent 2>/dev/null || true
+
+        # Note: User-specific data in ~/.config/vTorrent and ~/.local/share/vTorrent
+        # is intentionally NOT removed automatically to preserve user data.
+        # Users can manually remove these directories if desired:
+        echo "Note: User configuration and data directories are preserved."
+        echo "To completely remove all data, manually delete:"
+        echo "  ~/.config/vTorrent"
+        echo "  ~/.local/share/vTorrent"
+        echo "  ~/.cache/vTorrent"
+        ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+        ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0
